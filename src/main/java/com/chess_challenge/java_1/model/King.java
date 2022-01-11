@@ -40,7 +40,11 @@ public class King implements Piece {
 
     @Override
     public King moveTo(Square square) throws IllegalMovementException {
-        return null;
+        if (!this.moves().contains(square)){
+            throw new IllegalMovementException(this, square);
+        }
+
+        return new King(this.color(), square);
     }
 
     @Override

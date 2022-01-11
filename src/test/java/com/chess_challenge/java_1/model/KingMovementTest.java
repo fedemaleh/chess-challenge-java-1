@@ -24,10 +24,12 @@ class KingMovementTest {
     @Test
     @Timeout(value = 5)
     void king_in_d4_has_8_possible_moves() throws IllegalSquareException {
+        // Given a white king in square D4.
         Square d4 = new Square('d', 4);
 
         King king = new King(Color.WHITE, d4);
 
+        // When the king is asked for his moves
         List<Square> moves = king.moves();
 
         List<Square> expectedMoves = Lists.newArrayList(
@@ -50,10 +52,12 @@ class KingMovementTest {
     @Test
     @Timeout(value = 5)
     void king_in_a1_has_3_possible_moves() throws IllegalSquareException {
-        Square d4 = new Square('a', 1);
+        // Given a white king in square A1.
+        Square a1 = new Square('a', 1);
 
-        King king = new King(Color.WHITE, d4);
+        King king = new King(Color.WHITE, a1);
 
+        // When the king is asked for his moves
         List<Square> moves = king.moves();
 
         List<Square> expectedMoves = Lists.newArrayList(
@@ -76,10 +80,12 @@ class KingMovementTest {
     @Test
     @Timeout(value = 5)
     void king_in_h1_has_3_possible_moves() throws IllegalSquareException {
-        Square d4 = new Square('h', 1);
+        // Given a white king in square H1.
+        Square h1 = new Square('h', 1);
 
-        King king = new King(Color.WHITE, d4);
+        King king = new King(Color.WHITE, h1);
 
+        // When the king is asked for his moves
         List<Square> moves = king.moves();
 
         List<Square> expectedMoves = Lists.newArrayList(
@@ -102,10 +108,12 @@ class KingMovementTest {
     @Test
     @Timeout(value = 5)
     void king_in_a8_has_3_possible_moves() throws IllegalSquareException {
-        Square d4 = new Square('a', 8);
+        // Given a white king in square A8.
+        Square a8 = new Square('a', 8);
 
-        King king = new King(Color.WHITE, d4);
+        King king = new King(Color.WHITE, a8);
 
+        // When the king is asked for his moves
         List<Square> moves = king.moves();
 
         List<Square> expectedMoves = Lists.newArrayList(
@@ -128,10 +136,12 @@ class KingMovementTest {
     @Test
     @Timeout(value = 5)
     void king_in_h8_has_3_possible_moves() throws IllegalSquareException {
-        Square d4 = new Square('h', 8);
+        // Given a white king in square H8.
+        Square d8 = new Square('h', 8);
 
-        King king = new King(Color.WHITE, d4);
+        King king = new King(Color.WHITE, d8);
 
+        // When the king is asked for his moves
         List<Square> moves = king.moves();
 
         List<Square> expectedMoves = Lists.newArrayList(
@@ -155,15 +165,49 @@ class KingMovementTest {
     @MethodSource("squares")
     @Timeout(value = 5)
     void king_moves_are_equal_to_attacks_for_all_squares(char col, int row) throws IllegalSquareException {
+        // Given a King
         Square square = new Square(col, row);
 
         King king = new King(Color.WHITE, square);
 
+        // It's moves should be the same as it's attacks
         List<Square> moves = king.moves();
 
         List<Square> attacks = king.attacks();
 
         assertEquals(moves, attacks);
+    }
+
+    @Test
+    @Timeout(value = 5)
+    void king_in_d4_can_move_to_e4() throws IllegalSquareException {
+        // Given a white king in square D4.
+        Square d4 = new Square('d', 4);
+
+        King king = new King(Color.WHITE, d4);
+
+        // When it's asked to move to E4
+        Square e4 = new Square('e', 4);
+
+        // Then a new King is created in the E4 square.
+        King movedKing = assertDoesNotThrow(() -> king.moveTo(e4));
+
+        assertEquals(e4, movedKing.position());
+    }
+
+    @Test
+    @Timeout(value = 5)
+    void king_in_d4_cannot_move_to_d1() throws IllegalSquareException {
+        // Given a white king in square D4.
+        Square d4 = new Square('d', 4);
+
+        King king = new King(Color.WHITE, d4);
+
+        // When it's asked to move to D1
+        Square d1 = new Square('d', 1);
+
+        // Then an IllegalMovementException is thrown
+        assertThrows(IllegalMovementException.class, () -> king.moveTo(d1));
     }
 
     private static Stream<Arguments> squares() {
