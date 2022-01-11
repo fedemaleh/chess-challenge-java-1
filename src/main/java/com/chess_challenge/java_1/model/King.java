@@ -1,13 +1,8 @@
 package com.chess_challenge.java_1.model;
 
-import com.google.common.collect.Lists;
-
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class King implements Piece {
     private final Color color;
@@ -31,6 +26,31 @@ public class King implements Piece {
         moves.remove(this.position());
 
         return moves;
+    }
+
+    @Override
+    public List<Square> attacks() {
+        return moves();
+    }
+
+    @Override
+    public Square position() {
+        return this.square;
+    }
+
+    @Override
+    public King moveTo(Square square) throws IllegalMovementException {
+        return null;
+    }
+
+    @Override
+    public Color color() {
+        return this.color;
+    }
+
+    @Override
+    public Type type() {
+        return Type.KING;
     }
 
     private List<Square> backwardMoves() {
@@ -72,30 +92,5 @@ public class King implements Piece {
             e.printStackTrace();
             return Collections.emptyList();
         }
-    }
-
-    @Override
-    public List<Square> attacks() {
-        return null;
-    }
-
-    @Override
-    public Square position() {
-        return this.square;
-    }
-
-    @Override
-    public King moveTo(Square square) throws IllegalMovementException {
-        return null;
-    }
-
-    @Override
-    public Color color() {
-        return this.color;
-    }
-
-    @Override
-    public Type type() {
-        return Type.KING;
     }
 }

@@ -4,8 +4,14 @@ package com.chess_challenge.java_1.model;
 import com.google.common.collect.Lists;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -143,5 +149,28 @@ class KingMovementTest {
         assertAll(
                 moves.stream().map((square) -> () -> assertTrue(expectedMoves.contains(square), () -> String.format("Move: %s is not expected", square)))
         );
+    }
+
+    @ParameterizedTest
+    @MethodSource("squares")
+    @Timeout(value = 5)
+    void king_moves_are_equal_to_attacks_for_all_squares(char col, int row) throws IllegalSquareException {
+        Square square = new Square(col, row);
+
+        King king = new King(Color.WHITE, square);
+
+        List<Square> moves = king.moves();
+
+        List<Square> attacks = king.attacks();
+
+        assertEquals(moves, attacks);
+    }
+
+    private static Stream<Arguments> squares() {
+        List<Character> columns = Lists.newArrayList('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
+
+        return IntStream.rangeClosed(1, 8)
+                .mapToObj(row -> columns.stream().map(col -> Arguments.of(col, row)))
+                .flatMap(Function.identity());
     }
 }
