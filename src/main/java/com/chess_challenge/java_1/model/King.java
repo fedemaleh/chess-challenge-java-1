@@ -66,7 +66,7 @@ public class King implements Piece {
     }
 
     private List<Square> movesInRow(int row) {
-        if (row < 1 || row > 8){
+        if (row < 1 || row > 8) {
             return Collections.emptyList();
         }
 
@@ -74,23 +74,18 @@ public class King implements Piece {
         char leftColumn = (char) (this.square.getColumn() - 1);
         char rightColumn = (char) (this.square.getColumn() + 1);
 
-        try {
-            List<Square> moves = new ArrayList<>();
+        List<Square> moves = new ArrayList<>();
 
-            if (leftColumn >= 'a'){
-                moves.add(new Square(leftColumn, row));
-            }
-
-            moves.add(new Square(currentColumn, row));
-
-            if (rightColumn <= 'h'){
-                moves.add(new Square(rightColumn, row));
-            }
-
-            return moves;
-        } catch (IllegalSquareException e) {
-            e.printStackTrace();
-            return Collections.emptyList();
+        if (leftColumn >= 'a') {
+            moves.add(new Square(leftColumn, row));
         }
+
+        moves.add(new Square(currentColumn, row));
+
+        if (rightColumn <= 'h') {
+            moves.add(new Square(rightColumn, row));
+        }
+
+        return moves;
     }
 }
