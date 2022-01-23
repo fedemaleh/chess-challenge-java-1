@@ -41,7 +41,7 @@ public class Rook implements Piece {
 
     @Override
     public List<Square> attacks() {
-        return null;
+        return this.moves();
     }
 
     @Override
@@ -50,7 +50,7 @@ public class Rook implements Piece {
     }
 
     @Override
-    public Piece moveTo(Square square) throws IllegalMovementException {
+    public Rook moveTo(Square square) throws IllegalMovementException {
         return null;
     }
 
