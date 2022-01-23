@@ -188,7 +188,7 @@ public class BishopMovementTest {
         // When it's asked to move to E5
         Square e5 = new Square('e', 5);
 
-        // Then a new King is created in the E4 square.
+        // Then a new Bishop is created in the E5 square.
         Bishop movedBishop = assertDoesNotThrow(() -> bishop.moveTo(e5));
 
         assertEquals(e5, movedBishop.position());

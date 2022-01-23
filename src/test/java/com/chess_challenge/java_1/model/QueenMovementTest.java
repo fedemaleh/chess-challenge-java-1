@@ -1,6 +1,7 @@
 package com.chess_challenge.java_1.model;
 
 import com.google.common.collect.Lists;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -12,7 +13,7 @@ import java.util.function.Function;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class QueenMovementTest {
     @ParameterizedTest
@@ -52,6 +53,38 @@ public class QueenMovementTest {
         List<Square> attacks = queen.attacks();
 
         assertEquals(moves, attacks);
+    }
+
+    @Test
+    @Timeout(value = 5)
+    void queen_in_d4_can_move_to_e4() throws IllegalSquareException {
+        // Given a white Queen in square D4.
+        Square d4 = new Square('d', 4);
+
+        Queen queen = new Queen(Color.WHITE, d4);
+
+        // When it's asked to move to E4
+        Square e4 = new Square('e', 4);
+
+        // Then a new Queen is created in the E4 square.
+        Queen movedQueen = assertDoesNotThrow(() -> queen.moveTo(e4));
+
+        assertEquals(e4, movedQueen.position());
+    }
+
+    @Test
+    @Timeout(value = 5)
+    void queen_in_d4_cannot_move_to_e6() throws IllegalSquareException {
+        // Given a white queen in square D4.
+        Square d4 = new Square('d', 4);
+
+        Queen queen = new Queen(Color.WHITE, d4);
+
+        // When it's asked to move to E6
+        Square e6 = new Square('e', 6);
+
+        // Then an IllegalMovementException is thrown
+        assertThrows(IllegalMovementException.class, () -> queen.moveTo(e6));
     }
 
     private static Stream<Arguments> squares() {

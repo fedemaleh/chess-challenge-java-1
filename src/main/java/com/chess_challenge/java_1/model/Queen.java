@@ -33,8 +33,12 @@ public class Queen implements Piece {
     }
 
     @Override
-    public Piece moveTo(Square square) throws IllegalMovementException {
-        return null;
+    public Queen moveTo(Square square) throws IllegalMovementException {
+        if (!this.moves().contains(square)){
+            throw new IllegalMovementException(this, square);
+        }
+
+        return new Queen(this.color(), square);
     }
 
     @Override
