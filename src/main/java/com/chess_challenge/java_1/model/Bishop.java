@@ -83,7 +83,11 @@ public class Bishop implements Piece {
 
     @Override
     public Bishop moveTo(Square square) throws IllegalMovementException {
-        return null;
+        if (!this.moves().contains(square)){
+            throw new IllegalMovementException(this, square);
+        }
+
+        return new Bishop(this.color(), square);
     }
 
     @Override

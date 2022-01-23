@@ -195,7 +195,7 @@ public class RookMovementTest {
         // When it's asked to move to E4
         Square e4 = new Square('e', 4);
 
-        // Then a new King is created in the E4 square.
+        // Then a new Rook is created in the E4 square.
         Rook movedRook = assertDoesNotThrow(() -> rook.moveTo(e4));
 
         assertEquals(e4, movedRook.position());
@@ -210,10 +210,10 @@ public class RookMovementTest {
         Rook rook = new Rook(Color.WHITE, d4);
 
         // When it's asked to move to E1
-        Square d1 = new Square('e', 1);
+        Square e1 = new Square('e', 1);
 
         // Then an IllegalMovementException is thrown
-        assertThrows(IllegalMovementException.class, () -> rook.moveTo(d1));
+        assertThrows(IllegalMovementException.class, () -> rook.moveTo(e1));
     }
 
     private static Stream<Arguments> squares() {

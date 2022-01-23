@@ -177,6 +177,38 @@ public class BishopMovementTest {
         assertEquals(moves, attacks);
     }
 
+    @Test
+    @Timeout(value = 5)
+    void bishop_in_d4_can_move_to_e5() throws IllegalSquareException {
+        // Given a white bishop in square D4.
+        Square d4 = new Square('d', 4);
+
+        Bishop bishop = new Bishop(Color.WHITE, d4);
+
+        // When it's asked to move to E5
+        Square e5 = new Square('e', 5);
+
+        // Then a new King is created in the E4 square.
+        Bishop movedBishop = assertDoesNotThrow(() -> bishop.moveTo(e5));
+
+        assertEquals(e5, movedBishop.position());
+    }
+
+    @Test
+    @Timeout(value = 5)
+    void bishop_in_d4_cannot_move_to_e4() throws IllegalSquareException {
+        // Given a white bishop in square D4.
+        Square d4 = new Square('d', 4);
+
+        Bishop bishop = new Bishop(Color.WHITE, d4);
+
+        // When it's asked to move to E4
+        Square e4 = new Square('e', 4);
+
+        // Then an IllegalMovementException is thrown
+        assertThrows(IllegalMovementException.class, () -> bishop.moveTo(e4));
+    }
+
     private static Stream<Arguments> squares() {
         List<Character> columns = Lists.newArrayList('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
 
