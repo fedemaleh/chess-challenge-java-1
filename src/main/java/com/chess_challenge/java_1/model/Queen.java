@@ -24,7 +24,7 @@ public class Queen implements Piece {
 
     @Override
     public List<Square> attacks() {
-        return null;
+        return this.moves();
     }
 
     @Override

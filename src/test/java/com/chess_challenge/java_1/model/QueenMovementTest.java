@@ -37,6 +37,23 @@ public class QueenMovementTest {
         assertEquals(expectedQueenMoves, queenMoves);
     }
 
+    @ParameterizedTest
+    @MethodSource("squares")
+    @Timeout(value = 5)
+    void queen_moves_are_equal_to_attacks_for_all_squares(char col, int row) throws IllegalSquareException {
+        // Given a Queen
+        Square square = new Square(col, row);
+
+        Queen queen = new Queen(Color.WHITE, square);
+
+        // It's moves should be the same as it's attacks
+        List<Square> moves = queen.moves();
+
+        List<Square> attacks = queen.attacks();
+
+        assertEquals(moves, attacks);
+    }
+
     private static Stream<Arguments> squares() {
         List<Character> columns = Lists.newArrayList('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
 
