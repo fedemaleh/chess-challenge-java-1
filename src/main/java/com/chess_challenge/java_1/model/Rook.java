@@ -51,7 +51,11 @@ public class Rook implements Piece {
 
     @Override
     public Rook moveTo(Square square) throws IllegalMovementException {
-        return null;
+        if (!this.moves().contains(square)){
+            throw new IllegalMovementException(this, square);
+        }
+
+        return new Rook(this.color(), square);
     }
 
     @Override

@@ -201,6 +201,21 @@ public class RookMovementTest {
         assertEquals(e4, movedRook.position());
     }
 
+    @Test
+    @Timeout(value = 5)
+    void rook_in_d4_cannot_move_to_e1() throws IllegalSquareException {
+        // Given a white rook in square D4.
+        Square d4 = new Square('d', 4);
+
+        Rook rook = new Rook(Color.WHITE, d4);
+
+        // When it's asked to move to E1
+        Square d1 = new Square('e', 1);
+
+        // Then an IllegalMovementException is thrown
+        assertThrows(IllegalMovementException.class, () -> rook.moveTo(d1));
+    }
+
     private static Stream<Arguments> squares() {
         List<Character> columns = Lists.newArrayList('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
 
