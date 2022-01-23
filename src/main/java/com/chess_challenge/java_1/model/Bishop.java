@@ -15,12 +15,6 @@ public class Bishop implements Piece {
 
     @Override
     public List<Square> moves() {
-//        return StreamUtils.zip(IntStream.rangeClosed('a', 'h').boxed(), IntStream.rangeClosed(1, 8).boxed(), (col, row) -> {
-//            int column = col;
-//
-//            return new Square((char) column, row);
-//        }).filter(square -> !square.equals(this.position()))
-//                .collect(Collectors.toList());
         List<Square> moves = new ArrayList<>();
 
         moves.addAll(this.backwardMoves());
@@ -79,7 +73,7 @@ public class Bishop implements Piece {
 
     @Override
     public List<Square> attacks() {
-        return null;
+        return this.moves();
     }
 
     @Override

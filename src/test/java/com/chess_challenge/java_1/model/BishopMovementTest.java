@@ -159,4 +159,29 @@ public class BishopMovementTest {
                 moves.stream().map((square) -> () -> assertTrue(expectedMoves.contains(square), () -> String.format("Move: %s is not expected", square)))
         );
     }
+
+    @ParameterizedTest
+    @MethodSource("squares")
+    @Timeout(value = 5)
+    void bishop_moves_are_equal_to_attacks_for_all_squares(char col, int row) throws IllegalSquareException {
+        // Given a Bishop
+        Square square = new Square(col, row);
+
+        Bishop bishop = new Bishop(Color.WHITE, square);
+
+        // It's moves should be the same as it's attacks
+        List<Square> moves = bishop.moves();
+
+        List<Square> attacks = bishop.attacks();
+
+        assertEquals(moves, attacks);
+    }
+
+    private static Stream<Arguments> squares() {
+        List<Character> columns = Lists.newArrayList('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
+
+        return IntStream.rangeClosed(1, 8)
+                .mapToObj(row -> columns.stream().map(col -> Arguments.of(col, row)))
+                .flatMap(Function.identity());
+    }
 }
