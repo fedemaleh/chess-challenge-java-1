@@ -54,7 +54,7 @@ public class Knight implements Piece {
 
     @Override
     public List<Square> attacks() {
-        return null;
+        return this.moves();
     }
 
     @Override

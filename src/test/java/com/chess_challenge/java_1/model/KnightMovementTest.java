@@ -171,4 +171,29 @@ public class KnightMovementTest {
                 moves.stream().map((square) -> () -> assertTrue(expectedMoves.contains(square), () -> String.format("Move: %s is not expected", square)))
         );
     }
+
+    @ParameterizedTest
+    @MethodSource("squares")
+    @Timeout(value = 5)
+    void knight_moves_are_equal_to_attacks_for_all_squares(char col, int row) throws IllegalSquareException {
+        // Given a Knight
+        Square square = new Square(col, row);
+
+        Knight knight = new Knight(Color.WHITE, square);
+
+        // It's moves should be the same as it's attacks
+        List<Square> moves = knight.moves();
+
+        List<Square> attacks = knight.attacks();
+
+        assertEquals(moves, attacks);
+    }
+
+    private static Stream<Arguments> squares() {
+        List<Character> columns = Lists.newArrayList('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
+
+        return IntStream.rangeClosed(1, 8)
+                .mapToObj(row -> columns.stream().map(col -> Arguments.of(col, row)))
+                .flatMap(Function.identity());
+    }
 }
