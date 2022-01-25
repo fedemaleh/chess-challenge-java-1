@@ -64,7 +64,11 @@ public class Knight implements Piece {
 
     @Override
     public Knight moveTo(Square square) throws IllegalMovementException {
-        return null;
+        if (!this.moves().contains(square)){
+            throw new IllegalMovementException(this, square);
+        }
+
+        return new Knight(this.color(), square);
     }
 
     @Override
