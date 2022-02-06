@@ -3,6 +3,7 @@ package com.chess_challenge.java_1.model;
 import com.google.common.collect.Lists;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Pawn implements Piece {
@@ -42,7 +43,21 @@ public class Pawn implements Piece {
 
     @Override
     public List<Square> attacks() {
-        return null;
+        if (this.position().getRow() == this.color().finalPawnRow()) {
+            return Collections.emptyList();
+        }
+
+        List<Square> attacks = new ArrayList<>();
+
+        if (this.position().getColumn() != 'a') {
+            attacks.add(new Square((char) (this.position().getColumn() - 1), this.nextRow(1)));
+        }
+
+        if (this.position().getColumn() != 'h') {
+            attacks.add(new Square((char) (this.position().getColumn() + 1), this.nextRow(1)));
+        }
+
+        return attacks;
     }
 
     @Override
