@@ -164,7 +164,7 @@ public class PawnMovementTest {
 
     @Test
     @Timeout(value = 5)
-    void white_pawn_in_square_d2_has_2_attacks() {
+    void white_pawn_in_square_d2_has_2_attacks(){
         // Given a white Pawn in square d2.
         Square position = new Square('d', 2);
 
@@ -191,7 +191,7 @@ public class PawnMovementTest {
 
     @Test
     @Timeout(value = 5)
-    void white_pawn_in_square_a2_has_1_attack() {
+    void white_pawn_in_square_a2_has_1_attack(){
         // Given a white Pawn in square a2.
         Square position = new Square('a', 2);
 
@@ -217,7 +217,7 @@ public class PawnMovementTest {
 
     @Test
     @Timeout(value = 5)
-    void white_pawn_in_square_h2_has_1_attack() {
+    void white_pawn_in_square_h2_has_1_attack(){
         // Given a white Pawn in square h2.
         Square position = new Square('h', 2);
 
@@ -260,7 +260,7 @@ public class PawnMovementTest {
 
     @Test
     @Timeout(value = 5)
-    void black_pawn_in_square_d2_has_2_attacks() {
+    void black_pawn_in_square_d2_has_2_attacks(){
         // Given a black Pawn in square d2.
         Square position = new Square('d', 2);
 
@@ -287,7 +287,7 @@ public class PawnMovementTest {
 
     @Test
     @Timeout(value = 5)
-    void black_pawn_in_square_a2_has_1_attack() {
+    void black_pawn_in_square_a2_has_1_attack(){
         // Given a black Pawn in square a2.
         Square position = new Square('a', 2);
 
@@ -313,7 +313,7 @@ public class PawnMovementTest {
 
     @Test
     @Timeout(value = 5)
-    void black_pawn_in_square_h2_has_1_attack() {
+    void black_pawn_in_square_h2_has_1_attack(){
         // Given a black Pawn in square h2.
         Square position = new Square('h', 2);
 
@@ -352,6 +352,70 @@ public class PawnMovementTest {
 
         // there are no attacks
         assertTrue(attacks.isEmpty());
+    }
+
+    @Test
+    @Timeout(value = 5)
+    void white_pawn_in_d4_can_move_to_d5() throws IllegalSquareException {
+        // Given a white pawn in square D4.
+        Square d4 = new Square('d', 4);
+
+        Pawn pawn = new Pawn(Color.WHITE, d4);
+
+        // When it's asked to move to D5
+        Square d5 = new Square('d', 5);
+
+        // Then a new Pawn is created in the D5 square.
+        Pawn movedPawn = assertDoesNotThrow(() -> pawn.moveTo(d5));
+
+        assertEquals(d5, movedPawn.position());
+    }
+
+    @Test
+    @Timeout(value = 5)
+    void black_pawn_in_d4_can_move_to_d3() throws IllegalSquareException {
+        // Given a black pawn in square D4.
+        Square d4 = new Square('d', 4);
+
+        Pawn pawn = new Pawn(Color.BLACK, d4);
+
+        // When it's asked to move to D3
+        Square d3 = new Square('d', 3);
+
+        // Then a new Pawn is created in the D3 square.
+        Pawn movedPawn = assertDoesNotThrow(() -> pawn.moveTo(d3));
+
+        assertEquals(d3, movedPawn.position());
+    }
+
+    @Test
+    @Timeout(value = 5)
+    void white_pawn_in_d4_cannot_move_to_d3() throws IllegalSquareException {
+        // Given a white pawn in square D4.
+        Square d4 = new Square('d', 4);
+
+        Pawn pawn = new Pawn(Color.WHITE, d4);
+
+        // When it's asked to move to D3
+        Square d3 = new Square('d', 3);
+
+        // Then an IllegalMovementException is thrown
+        assertThrows(IllegalMovementException.class, () -> pawn.moveTo(d3));
+    }
+
+    @Test
+    @Timeout(value = 5)
+    void black_pawn_in_d4_cannot_move_to_d5() throws IllegalSquareException {
+        // Given a white pawn in square D4.
+        Square d4 = new Square('d', 4);
+
+        Pawn pawn = new Pawn(Color.BLACK, d4);
+
+        // When it's asked to move to D5
+        Square d5 = new Square('d', 5);
+
+        // Then an IllegalMovementException is thrown
+        assertThrows(IllegalMovementException.class, () -> pawn.moveTo(d5));
     }
 
     private static IntStream columns() {

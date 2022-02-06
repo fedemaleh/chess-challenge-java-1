@@ -67,7 +67,11 @@ public class Pawn implements Piece {
 
     @Override
     public Pawn moveTo(Square square) throws IllegalMovementException {
-        return null;
+        if (!this.moves().contains(square)){
+            throw new IllegalMovementException(this, square);
+        }
+
+        return new Pawn(this.color(), square);
     }
 
     @Override
