@@ -216,6 +216,94 @@ public class RookMovementTest {
         assertThrows(IllegalMovementException.class, () -> rook.moveTo(e1));
     }
 
+    @Test
+    @Timeout(value = 5)
+    void white_rook_can_move_up_to_the_first_white_piece_in_each_direction_not_included() {
+        // Given a white rook in square D4 and a Board with white pieces in D2, D6, B4, F4
+        Square d4 = new Square('d', 4);
+        Square d2 = new Square('d', 2);
+        Square d6 = new Square('d', 6);
+        Square b4 = new Square('b', 4);
+        Square f4 = new Square('f', 4);
+
+        Rook rook = new Rook(Color.WHITE, d4);
+
+        Piece p1 = new Pawn(Color.WHITE, d2);
+        Piece p2 = new Pawn(Color.WHITE, d6);
+        Piece p3 = new Pawn(Color.WHITE, b4);
+        Piece p4 = new Pawn(Color.WHITE, f4);
+
+        Board board = new Board(Lists.newArrayList(p1, p2, p3, p4));
+
+        // When the rook is asked for his moves
+        List<Square> moves = rook.moves(board);
+
+        List<Square> expectedMoves = Lists.newArrayList(
+                // vertical moves
+                new Square('d', 3),
+                new Square('d', 5),
+                // horizontal moves
+                new Square('c', 4),
+                new Square('e', 4)
+        );
+
+        // all the expected moves where found
+        assertAll(
+                expectedMoves.stream().map((square) -> () -> assertTrue(moves.contains(square), () -> String.format("Move: %s was not found", square)))
+        );
+
+        // no additional expected move found
+        assertAll(
+                moves.stream().map((square) -> () -> assertTrue(expectedMoves.contains(square), () -> String.format("Move: %s is not expected", square)))
+        );
+    }
+
+    @Test
+    @Timeout(value = 5)
+    void white_rook_can_move_up_to_the_first_white_piece_included() {
+        // Given a white rook in square D4 and a Board with white pieces in D2, D6, B4, F4
+        Square d4 = new Square('d', 4);
+        Square d2 = new Square('d', 2);
+        Square d6 = new Square('d', 6);
+        Square b4 = new Square('b', 4);
+        Square f4 = new Square('f', 4);
+
+        Rook rook = new Rook(Color.WHITE, d4);
+
+        Piece p1 = new Pawn(Color.BLACK, d2);
+        Piece p2 = new Pawn(Color.BLACK, d6);
+        Piece p3 = new Pawn(Color.BLACK, b4);
+        Piece p4 = new Pawn(Color.BLACK, f4);
+
+        Board board = new Board(Lists.newArrayList(p1, p2, p3, p4));
+
+        // When the rook is asked for his moves
+        List<Square> moves = rook.moves(board);
+
+        List<Square> expectedMoves = Lists.newArrayList(
+                // vertical moves
+                new Square('d', 2),
+                new Square('d', 3),
+                new Square('d', 5),
+                new Square('d', 6),
+                // horizontal moves
+                new Square('b', 4),
+                new Square('c', 4),
+                new Square('e', 4),
+                new Square('f', 4)
+        );
+
+        // all the expected moves where found
+        assertAll(
+                expectedMoves.stream().map((square) -> () -> assertTrue(moves.contains(square), () -> String.format("Move: %s was not found", square)))
+        );
+
+        // no additional expected move found
+        assertAll(
+                moves.stream().map((square) -> () -> assertTrue(expectedMoves.contains(square), () -> String.format("Move: %s is not expected", square)))
+        );
+    }
+
     private static Stream<Arguments> squares() {
         List<Character> columns = Lists.newArrayList('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
 
