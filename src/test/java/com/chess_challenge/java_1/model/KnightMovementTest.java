@@ -7,6 +7,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.IntStream;
@@ -219,6 +220,60 @@ public class KnightMovementTest {
 
         // Then an IllegalMovementException is thrown
         assertThrows(IllegalMovementException.class, () -> knight.moveTo(e4));
+    }
+
+    @Test
+    @Timeout(value = 5)
+    void white_knight_in_d4_can_move_to_e6_if_square_is_empty() {
+        // Given a white knight in square D4 and an empty Board.
+        Square d4 = new Square('d', 4);
+        Knight knight = new Knight(Color.WHITE, d4);
+
+        Board board = new Board(Collections.emptyList());
+
+        // When it's asked to move to E6
+        Square e6 = new Square('e', 6);
+
+        // Then a new Knight is created in the E6 square.
+        Knight movedKnight = assertDoesNotThrow(() -> knight.moveTo(board, e6));
+
+        assertEquals(e6, movedKnight.position());
+    }
+
+    @Test
+    @Timeout(value = 5)
+    void white_knight_in_d4_can_move_to_e6_if_square_has_black_piece() {
+        // Given a white knight in square D4 and a Board with a black Pawn in D4.
+        Square d4 = new Square('d', 4);
+        Knight knight = new Knight(Color.WHITE, d4);
+
+        Square e6 = new Square('e', 6);
+        Pawn pawn = new Pawn(Color.BLACK, e6);
+
+        Board board = new Board(Collections.singletonList(pawn));
+
+        // When it's asked to move to E6
+        // Then a new Knight is created in the E6 square.
+        Knight movedKnight = assertDoesNotThrow(() -> knight.moveTo(board, e6));
+
+        assertEquals(e6, movedKnight.position());
+    }
+
+    @Test
+    @Timeout(value = 5)
+    void white_knight_in_d4_cannot_move_to_e6_if_square_has_white_piece() {
+        // Given a white knight in square D4 and a Board with a black Pawn in D4.
+        Square d4 = new Square('d', 4);
+        Knight knight = new Knight(Color.WHITE, d4);
+
+        Square e6 = new Square('e', 6);
+        Pawn pawn = new Pawn(Color.WHITE, e6);
+
+        Board board = new Board(Collections.singletonList(pawn));
+
+        // When it's asked to move to E6
+        // Then an IllegalMovementException is thrown
+        assertThrows(IllegalMovementException.class, () -> knight.moveTo(board, e6));
     }
 
     private static Stream<Arguments> squares() {

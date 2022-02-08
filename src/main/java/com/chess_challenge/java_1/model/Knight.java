@@ -28,6 +28,17 @@ public class Knight implements Piece {
         return moves;
     }
 
+    @Override
+    public List<Square> moves(Board board) {
+        return this.moves()
+                .stream()
+                .filter(square -> !board.pieceAt(square)
+                        .filter(piece -> piece.color() == this.color())
+                        .isPresent()
+                )
+                .collect(Collectors.toList());
+    }
+
     private List<Square> verticalMoves() {
         return IntStream.of(this.position().getRow() - 2, this.position().getRow() + 2)
                 .filter(row -> row >= 1 && row <= 8)
@@ -64,7 +75,16 @@ public class Knight implements Piece {
 
     @Override
     public Knight moveTo(Square square) throws IllegalMovementException {
-        if (!this.moves().contains(square)){
+        if (!this.moves().contains(square)) {
+            throw new IllegalMovementException(this, square);
+        }
+
+        return new Knight(this.color(), square);
+    }
+
+    @Override
+    public Knight moveTo(Board board, Square square) throws IllegalMovementException {
+        if (!this.moves(board).contains(square)) {
             throw new IllegalMovementException(this, square);
         }
 
