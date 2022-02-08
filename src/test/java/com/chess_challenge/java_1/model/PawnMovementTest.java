@@ -418,6 +418,52 @@ public class PawnMovementTest {
         assertThrows(IllegalMovementException.class, () -> pawn.moveTo(d5));
     }
 
+    @Test
+    void white_pawn_in_d2_cannot_move_to_d4_if_d4_is_occupied() {
+        // Given a white pawn in square D2 and a Board with a white pawn in D4.
+        Square d2 = new Square('d', 2);
+        Square d4 = new Square('d', 4);
+
+        Pawn pawn = new Pawn(Color.WHITE, d2);
+
+        Board board = new Board(Collections.singletonList(new Pawn(Color.WHITE, d4)));
+
+        // When it's asked to move to D4
+        // Then an IllegalMovementException is thrown
+        assertThrows(IllegalMovementException.class, () -> pawn.moveTo(board, d4));
+    }
+
+    @Test
+    void white_pawn_in_d2_cannot_move_to_d3_if_d3_is_occupied() {
+        // Given a white pawn in square D2 and a Board with a white pawn in D3.
+        Square d2 = new Square('d', 2);
+        Square d3 = new Square('d', 3);
+
+        Pawn pawn = new Pawn(Color.WHITE, d2);
+
+        Board board = new Board(Collections.singletonList(new Pawn(Color.WHITE, d3)));
+
+        // When it's asked to move to D3
+        // Then an IllegalMovementException is thrown
+        assertThrows(IllegalMovementException.class, () -> pawn.moveTo(board, d3));
+    }
+
+    @Test
+    void white_pawn_in_d2_cannot_move_to_d4_if_d3_is_occupied() {
+        // Given a white pawn in square D2 and a Board with a white pawn in D3.
+        Square d2 = new Square('d', 2);
+        Square d3 = new Square('d', 3);
+        Square d4 = new Square('d', 4);
+
+        Pawn pawn = new Pawn(Color.WHITE, d2);
+
+        Board board = new Board(Collections.singletonList(new Pawn(Color.WHITE, d3)));
+
+        // When it's asked to move to D4
+        // Then an IllegalMovementException is thrown
+        assertThrows(IllegalMovementException.class, () -> pawn.moveTo(board, d4));
+    }
+
     private static IntStream columns() {
         return IntStream.rangeClosed('a', 'h');
     }

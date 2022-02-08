@@ -33,6 +33,34 @@ public class Pawn implements Piece {
         return squares;
     }
 
+    @Override
+    public List<Square> moves(Board board) {
+        List<Square> squares = new ArrayList<>();
+
+        char column = this.position().getColumn();
+        int row = this.position().getRow();
+
+        if (row != this.color().finalPawnRow()) {
+            Square move = new Square(column, this.nextRow(1));
+
+            if (board.pieceAt(move).isPresent()) {
+                return Collections.emptyList();
+            }
+
+            squares.add(move);
+        }
+
+        if (row == this.color().initialPawnRow()) {
+            Square move = new Square(column, this.nextRow(2));
+
+            if (!board.pieceAt(move).isPresent()) {
+                squares.add(move);
+            }
+        }
+
+        return squares;
+    }
+
     private int nextRow(int squares) {
         if (this.color() == Color.WHITE) {
             return this.position().getRow() + squares;
@@ -67,7 +95,16 @@ public class Pawn implements Piece {
 
     @Override
     public Pawn moveTo(Square square) throws IllegalMovementException {
-        if (!this.moves().contains(square)){
+        if (!this.moves().contains(square)) {
+            throw new IllegalMovementException(this, square);
+        }
+
+        return new Pawn(this.color(), square);
+    }
+
+    @Override
+    public Piece moveTo(Board board, Square square) throws IllegalMovementException {
+        if (!this.moves(board).contains(square)) {
             throw new IllegalMovementException(this, square);
         }
 

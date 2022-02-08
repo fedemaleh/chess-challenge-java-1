@@ -262,7 +262,7 @@ public class KnightMovementTest {
     @Test
     @Timeout(value = 5)
     void white_knight_in_d4_cannot_move_to_e6_if_square_has_white_piece() {
-        // Given a white knight in square D4 and a Board with a black Pawn in D4.
+        // Given a white knight in square D4 and a Board with a white Pawn in D4.
         Square d4 = new Square('d', 4);
         Knight knight = new Knight(Color.WHITE, d4);
 
