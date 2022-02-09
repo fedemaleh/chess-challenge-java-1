@@ -209,6 +209,94 @@ public class BishopMovementTest {
         assertThrows(IllegalMovementException.class, () -> bishop.moveTo(e4));
     }
 
+    @Test
+    @Timeout(value = 5)
+    void white_bishop_can_move_up_to_the_first_white_piece_in_each_direction_not_included() {
+        // Given a white bishop in square D4 and a Board with white pieces in B2, B6, F2, F6
+        Square d4 = new Square('d', 4);
+        Square b2 = new Square('b', 2);
+        Square b6 = new Square('b', 6);
+        Square f2 = new Square('f', 2);
+        Square f6 = new Square('f', 6);
+
+        Bishop bishop = new Bishop(Color.WHITE, d4);
+
+        Piece p1 = new Pawn(Color.WHITE, b2);
+        Piece p2 = new Pawn(Color.WHITE, b6);
+        Piece p3 = new Pawn(Color.WHITE, f2);
+        Piece p4 = new Pawn(Color.WHITE, f6);
+
+        Board board = new Board(Lists.newArrayList(p1, p2, p3, p4));
+
+        // When the rook is asked for his moves
+        List<Square> moves = bishop.moves(board);
+
+        List<Square> expectedMoves = Lists.newArrayList(
+                // vertical moves
+                new Square('c', 3),
+                new Square('c', 5),
+                // horizontal moves
+                new Square('e', 3),
+                new Square('e', 5)
+        );
+
+        // all the expected moves where found
+        assertAll(
+                expectedMoves.stream().map((square) -> () -> assertTrue(moves.contains(square), () -> String.format("Move: %s was not found", square)))
+        );
+
+        // no additional expected move found
+        assertAll(
+                moves.stream().map((square) -> () -> assertTrue(expectedMoves.contains(square), () -> String.format("Move: %s is not expected", square)))
+        );
+    }
+
+    @Test
+    @Timeout(value = 5)
+    void white_rook_can_move_up_to_the_first_white_piece_included() {
+        // Given a white bishop in square D4 and a Board with black pieces in B2, B6, F2, F6
+        Square d4 = new Square('d', 4);
+        Square b2 = new Square('b', 2);
+        Square b6 = new Square('b', 6);
+        Square f2 = new Square('f', 2);
+        Square f6 = new Square('f', 6);
+
+        Bishop bishop = new Bishop(Color.WHITE, d4);
+
+        Piece p1 = new Pawn(Color.BLACK, b2);
+        Piece p2 = new Pawn(Color.BLACK, b6);
+        Piece p3 = new Pawn(Color.BLACK, f2);
+        Piece p4 = new Pawn(Color.BLACK, f6);
+
+        Board board = new Board(Lists.newArrayList(p1, p2, p3, p4));
+
+        // When the rook is asked for his moves
+        List<Square> moves = bishop.moves(board);
+
+        List<Square> expectedMoves = Lists.newArrayList(
+                // vertical moves
+                new Square('b', 2),
+                new Square('c', 3),
+                new Square('c', 5),
+                new Square('b', 6),
+                // horizontal moves
+                new Square('f', 2),
+                new Square('e', 3),
+                new Square('e', 5),
+                new Square('f', 6)
+        );
+
+        // all the expected moves where found
+        assertAll(
+                expectedMoves.stream().map((square) -> () -> assertTrue(moves.contains(square), () -> String.format("Move: %s was not found", square)))
+        );
+
+        // no additional expected move found
+        assertAll(
+                moves.stream().map((square) -> () -> assertTrue(expectedMoves.contains(square), () -> String.format("Move: %s is not expected", square)))
+        );
+    }
+
     private static Stream<Arguments> squares() {
         List<Character> columns = Lists.newArrayList('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
 
