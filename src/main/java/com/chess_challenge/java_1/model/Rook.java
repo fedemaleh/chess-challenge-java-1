@@ -1,5 +1,7 @@
 package com.chess_challenge.java_1.model;
 
+import com.chess_challenge.java_1.utils.MovementUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -52,54 +54,28 @@ public class Rook implements Piece {
                 .collect(Collectors.toList());
     }
 
-    private List<Square> generateMovesUntilCondition(Board board,
-                                                     int initialValue,
-                                                     Predicate<Integer> loopCondition,
-                                                     Function<Integer, Integer> updateIndex,
-                                                     Function<Integer, Square> moveGenerator) {
-        List<Square> moves = new ArrayList<>();
-
-        for (int index = initialValue; loopCondition.test(index); index = updateIndex.apply(index)) {
-            Square possibleMove = moveGenerator.apply(index);
-
-            Optional<Piece> piece = board.pieceAt(possibleMove);
-
-            if (piece.isPresent()) {
-                if (piece.filter(p -> p.color() != this.color()).isPresent()) {
-                    moves.add(possibleMove);
-                }
-
-                break;
-            } else {
-                moves.add(possibleMove);
-            }
-        }
-
-        return moves;
-    }
-
     private List<Square> horizontalMoves(Board board) {
         List<Square> moves = new ArrayList<>();
 
         // Moves to left
         moves.addAll(
-                generateMovesUntilCondition(
+                MovementUtils.generateMovesUntilCondition(
                         board,
-                        this.position().getColumn() - 1,
-                        (col) -> col >= 'a',
-                        (col) -> col - 1,
-                        (col) -> new Square((char) (int) col, this.position().getRow())
+                        this,
+                        new Square((char) (this.position().getColumn() - 1), this.position().getRow()),
+                        (square) -> square.getColumn() >= 'a',
+                        (square) -> new Square((char) (square.getColumn() - 1), this.position().getRow())
                 )
         );
 
         // Moves to right
         moves.addAll(
-                generateMovesUntilCondition(
+                MovementUtils.generateMovesUntilCondition(
                         board,
-                        this.position().getColumn() + 1,
-                        (col) -> col <= 'h',
-                        (col) -> col + 1,
-                        (col) -> new Square((char) (int) col, this.position().getRow())
+                        this,
+                        new Square((char) (this.position().getColumn() + 1), this.position().getRow()),
+                        (square) -> square.getColumn() <= 'h',
+                        (square) -> new Square((char) (square.getColumn() + 1), this.position().getRow())
                 )
         );
 
@@ -111,23 +87,23 @@ public class Rook implements Piece {
 
         // Moves to back
         moves.addAll(
-                generateMovesUntilCondition(
+                MovementUtils.generateMovesUntilCondition(
                         board,
-                        this.position().getRow() - 1,
-                        (row) -> row >= 1,
-                        (row) -> row - 1,
-                        (row) -> new Square(this.position().getColumn(), row)
+                        this,
+                        new Square(this.position().getColumn(), this.position().getRow() - 1),
+                        (square) -> square.getRow() >= 1,
+                        (square) -> new Square(square.getColumn(), square.getRow() - 1)
                 )
         );
 
         // Moves to front
         moves.addAll(
-                generateMovesUntilCondition(
+                MovementUtils.generateMovesUntilCondition(
                         board,
-                        this.position().getRow() + 1,
-                        (row) -> row <= 8,
-                        (row) -> row + 1,
-                        (row) -> new Square(this.position().getColumn(), row)
+                        this,
+                        new Square(this.position().getColumn(), this.position().getRow() + 1),
+                        (square) -> square.getRow() <= 8,
+                        (square) -> new Square(square.getColumn(), square.getRow() + 1)
                 )
         );
 
