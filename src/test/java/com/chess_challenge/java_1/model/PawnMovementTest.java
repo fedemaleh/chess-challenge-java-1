@@ -27,7 +27,7 @@ public class PawnMovementTest {
         Pawn pawn = new Pawn(Color.WHITE, position);
 
         // When the pawn is asked for his moves
-        List<Square> moves = pawn.moves();
+        List<Square> moves = pawn.moves(Board.emptyBoard());
 
         List<Square> expectedMoves = Lists.newArrayList(
                 new Square(column, 3),
@@ -55,7 +55,7 @@ public class PawnMovementTest {
         Pawn pawn = new Pawn(Color.WHITE, position);
 
         // When the pawn is asked for his moves
-        List<Square> moves = pawn.moves();
+        List<Square> moves = pawn.moves(Board.emptyBoard());
 
         List<Square> expectedMoves = Lists.newArrayList(
                 new Square(col, row + 1)
@@ -83,7 +83,7 @@ public class PawnMovementTest {
         Pawn pawn = new Pawn(Color.WHITE, position);
 
         // When the pawn is asked for his moves
-        List<Square> moves = pawn.moves();
+        List<Square> moves = pawn.moves(Board.emptyBoard());
 
         // there are no moves
         assertTrue(moves.isEmpty());
@@ -100,7 +100,7 @@ public class PawnMovementTest {
         Pawn pawn = new Pawn(Color.BLACK, position);
 
         // When the pawn is asked for his moves
-        List<Square> moves = pawn.moves();
+        List<Square> moves = pawn.moves(Board.emptyBoard());
 
         List<Square> expectedMoves = Lists.newArrayList(
                 new Square(column, 6),
@@ -128,7 +128,7 @@ public class PawnMovementTest {
         Pawn pawn = new Pawn(Color.BLACK, position);
 
         // When the pawn is asked for his moves
-        List<Square> moves = pawn.moves();
+        List<Square> moves = pawn.moves(Board.emptyBoard());
 
         List<Square> expectedMoves = Lists.newArrayList(
                 new Square(col, row - 1)
@@ -156,7 +156,7 @@ public class PawnMovementTest {
         Pawn pawn = new Pawn(Color.BLACK, position);
 
         // When the pawn is asked for his moves
-        List<Square> moves = pawn.moves();
+        List<Square> moves = pawn.moves(Board.emptyBoard());
 
         // there are no moves
         assertTrue(moves.isEmpty());
@@ -164,14 +164,14 @@ public class PawnMovementTest {
 
     @Test
     @Timeout(value = 5)
-    void white_pawn_in_square_d2_has_2_attacks(){
+    void white_pawn_in_square_d2_has_2_attacks() {
         // Given a white Pawn in square d2.
         Square position = new Square('d', 2);
 
         Pawn pawn = new Pawn(Color.WHITE, position);
 
         // When the pawn is asked for his attacks
-        List<Square> attacks = pawn.attacks();
+        List<Square> attacks = pawn.attacks(Board.emptyBoard());
 
         List<Square> expectedAttacks = Lists.newArrayList(
                 new Square('c', 3),
@@ -191,14 +191,14 @@ public class PawnMovementTest {
 
     @Test
     @Timeout(value = 5)
-    void white_pawn_in_square_a2_has_1_attack(){
+    void white_pawn_in_square_a2_has_1_attack() {
         // Given a white Pawn in square a2.
         Square position = new Square('a', 2);
 
         Pawn pawn = new Pawn(Color.WHITE, position);
 
         // When the pawn is asked for his attacks
-        List<Square> attacks = pawn.attacks();
+        List<Square> attacks = pawn.attacks(Board.emptyBoard());
 
         List<Square> expectedAttacks = Lists.newArrayList(
                 new Square('b', 3)
@@ -217,14 +217,14 @@ public class PawnMovementTest {
 
     @Test
     @Timeout(value = 5)
-    void white_pawn_in_square_h2_has_1_attack(){
+    void white_pawn_in_square_h2_has_1_attack() {
         // Given a white Pawn in square h2.
         Square position = new Square('h', 2);
 
         Pawn pawn = new Pawn(Color.WHITE, position);
 
         // When the pawn is asked for his attacks
-        List<Square> attacks = pawn.attacks();
+        List<Square> attacks = pawn.attacks(Board.emptyBoard());
 
         List<Square> expectedAttacks = Lists.newArrayList(
                 new Square('g', 3)
@@ -252,7 +252,7 @@ public class PawnMovementTest {
         Pawn pawn = new Pawn(Color.WHITE, position);
 
         // When the pawn is asked for his attacks
-        List<Square> attacks = pawn.attacks();
+        List<Square> attacks = pawn.attacks(Board.emptyBoard());
 
         // there are no attacks
         assertTrue(attacks.isEmpty());
@@ -260,14 +260,14 @@ public class PawnMovementTest {
 
     @Test
     @Timeout(value = 5)
-    void black_pawn_in_square_d2_has_2_attacks(){
+    void black_pawn_in_square_d2_has_2_attacks() {
         // Given a black Pawn in square d2.
         Square position = new Square('d', 2);
 
         Pawn pawn = new Pawn(Color.BLACK, position);
 
         // When the pawn is asked for his attacks
-        List<Square> attacks = pawn.attacks();
+        List<Square> attacks = pawn.attacks(Board.emptyBoard());
 
         List<Square> expectedAttacks = Lists.newArrayList(
                 new Square('c', 1),
@@ -287,14 +287,14 @@ public class PawnMovementTest {
 
     @Test
     @Timeout(value = 5)
-    void black_pawn_in_square_a2_has_1_attack(){
+    void black_pawn_in_square_a2_has_1_attack() {
         // Given a black Pawn in square a2.
         Square position = new Square('a', 2);
 
         Pawn pawn = new Pawn(Color.BLACK, position);
 
         // When the pawn is asked for his attacks
-        List<Square> attacks = pawn.attacks();
+        List<Square> attacks = pawn.attacks(Board.emptyBoard());
 
         List<Square> expectedAttacks = Lists.newArrayList(
                 new Square('b', 1)
@@ -313,14 +313,14 @@ public class PawnMovementTest {
 
     @Test
     @Timeout(value = 5)
-    void black_pawn_in_square_h2_has_1_attack(){
+    void black_pawn_in_square_h2_has_1_attack() {
         // Given a black Pawn in square h2.
         Square position = new Square('h', 2);
 
         Pawn pawn = new Pawn(Color.BLACK, position);
 
         // When the pawn is asked for his attacks
-        List<Square> attacks = pawn.attacks();
+        List<Square> attacks = pawn.attacks(Board.emptyBoard());
 
         List<Square> expectedAttacks = Lists.newArrayList(
                 new Square('g', 1)
@@ -348,7 +348,7 @@ public class PawnMovementTest {
         Pawn pawn = new Pawn(Color.BLACK, position);
 
         // When the pawn is asked for his attacks
-        List<Square> attacks = pawn.attacks();
+        List<Square> attacks = pawn.attacks(Board.emptyBoard());
 
         // there are no attacks
         assertTrue(attacks.isEmpty());
@@ -366,7 +366,7 @@ public class PawnMovementTest {
         Square d5 = new Square('d', 5);
 
         // Then a new Pawn is created in the D5 square.
-        Pawn movedPawn = assertDoesNotThrow(() -> pawn.moveTo(d5));
+        Pawn movedPawn = assertDoesNotThrow(() -> pawn.moveTo(Board.emptyBoard(), d5));
 
         assertEquals(d5, movedPawn.position());
     }
@@ -383,7 +383,7 @@ public class PawnMovementTest {
         Square d3 = new Square('d', 3);
 
         // Then a new Pawn is created in the D3 square.
-        Pawn movedPawn = assertDoesNotThrow(() -> pawn.moveTo(d3));
+        Pawn movedPawn = assertDoesNotThrow(() -> pawn.moveTo(Board.emptyBoard(), d3));
 
         assertEquals(d3, movedPawn.position());
     }
@@ -400,7 +400,7 @@ public class PawnMovementTest {
         Square d3 = new Square('d', 3);
 
         // Then an IllegalMovementException is thrown
-        assertThrows(IllegalMovementException.class, () -> pawn.moveTo(d3));
+        assertThrows(IllegalMovementException.class, () -> pawn.moveTo(Board.emptyBoard(), d3));
     }
 
     @Test
@@ -415,7 +415,7 @@ public class PawnMovementTest {
         Square d5 = new Square('d', 5);
 
         // Then an IllegalMovementException is thrown
-        assertThrows(IllegalMovementException.class, () -> pawn.moveTo(d5));
+        assertThrows(IllegalMovementException.class, () -> pawn.moveTo(Board.emptyBoard(), d5));
     }
 
     @Test

@@ -9,13 +9,6 @@ public interface Piece {
     /**
      * Gets the movements a piece can make.
      *
-     * @return a list of squares where the piece can move.
-     */
-    @Deprecated
-    List<Square> moves();
-
-    /**
-     * Gets the movements a piece can make.
      * @param board where the piece will be moved.
      * @return a list of squares where the piece can move.
      */
@@ -24,9 +17,10 @@ public interface Piece {
     /**
      * Gets the attack targets a piece has.
      *
+     * @param board where the piece will be moved.
      * @return a list of squares that are threatened by the piece.
      */
-    List<Square> attacks();
+    List<Square> attacks(Board board);
 
     /**
      * Gets the current position of the piece.
@@ -38,16 +32,7 @@ public interface Piece {
     /**
      * Moves a piece to a different square.
      *
-     * @param square the target square for the piece.
-     * @return the piece in the new square.
-     * @throws IllegalMovementException when the piece can't move to the desired square.
-     */
-    @Deprecated
-    Piece moveTo(Square square) throws IllegalMovementException;
-
-    /**
-     * Moves a piece to a different square.
-     * @param board where the piece will be moved.
+     * @param board  where the piece will be moved.
      * @param square the target square for the piece.
      * @return the piece in the new square.
      * @throws IllegalMovementException when the piece can't move to the desired square.

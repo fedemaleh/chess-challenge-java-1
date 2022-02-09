@@ -31,7 +31,7 @@ class KingMovementTest {
         King king = new King(Color.WHITE, d4);
 
         // When the king is asked for his moves
-        List<Square> moves = king.moves();
+        List<Square> moves = king.moves(Board.emptyBoard());
 
         List<Square> expectedMoves = Lists.newArrayList(
                 new Square('c', 3), new Square('d', 3), new Square('e', 3), // backward moves
@@ -59,7 +59,7 @@ class KingMovementTest {
         King king = new King(Color.WHITE, a1);
 
         // When the king is asked for his moves
-        List<Square> moves = king.moves();
+        List<Square> moves = king.moves(Board.emptyBoard());
 
         List<Square> expectedMoves = Lists.newArrayList(
                 // no backward moves
@@ -87,7 +87,7 @@ class KingMovementTest {
         King king = new King(Color.WHITE, h1);
 
         // When the king is asked for his moves
-        List<Square> moves = king.moves();
+        List<Square> moves = king.moves(Board.emptyBoard());
 
         List<Square> expectedMoves = Lists.newArrayList(
                 // no backward moves
@@ -115,7 +115,7 @@ class KingMovementTest {
         King king = new King(Color.WHITE, a8);
 
         // When the king is asked for his moves
-        List<Square> moves = king.moves();
+        List<Square> moves = king.moves(Board.emptyBoard());
 
         List<Square> expectedMoves = Lists.newArrayList(
                 new Square('a', 7), new Square('b', 7), //  backward moves
@@ -143,7 +143,7 @@ class KingMovementTest {
         King king = new King(Color.WHITE, d8);
 
         // When the king is asked for his moves
-        List<Square> moves = king.moves();
+        List<Square> moves = king.moves(Board.emptyBoard());
 
         List<Square> expectedMoves = Lists.newArrayList(
                 new Square('g', 7), new Square('h', 7), //  backward moves
@@ -170,11 +170,12 @@ class KingMovementTest {
         Square square = new Square(col, row);
 
         King king = new King(Color.WHITE, square);
+        Board board = Board.emptyBoard();
 
         // It's moves should be the same as it's attacks
-        List<Square> moves = king.moves();
+        List<Square> moves = king.moves(board);
 
-        List<Square> attacks = king.attacks();
+        List<Square> attacks = king.attacks(board);
 
         assertEquals(moves, attacks);
     }
@@ -191,7 +192,7 @@ class KingMovementTest {
         Square e4 = new Square('e', 4);
 
         // Then a new King is created in the E4 square.
-        King movedKing = assertDoesNotThrow(() -> king.moveTo(e4));
+        King movedKing = assertDoesNotThrow(() -> king.moveTo(Board.emptyBoard(), e4));
 
         assertEquals(e4, movedKing.position());
     }
@@ -208,7 +209,7 @@ class KingMovementTest {
         Square d1 = new Square('d', 1);
 
         // Then an IllegalMovementException is thrown
-        assertThrows(IllegalMovementException.class, () -> king.moveTo(d1));
+        assertThrows(IllegalMovementException.class, () -> king.moveTo(Board.emptyBoard(), d1));
     }
 
     @Test

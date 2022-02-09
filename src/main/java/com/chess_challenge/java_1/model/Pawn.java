@@ -1,7 +1,5 @@
 package com.chess_challenge.java_1.model;
 
-import com.google.common.collect.Lists;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -13,24 +11,6 @@ public class Pawn implements Piece {
     public Pawn(Color color, Square square) {
         this.color = color;
         this.square = square;
-    }
-
-    @Override
-    public List<Square> moves() {
-        List<Square> squares = new ArrayList<>();
-
-        char column = this.position().getColumn();
-        int row = this.position().getRow();
-
-        if (row != this.color().finalPawnRow()) {
-            squares.add(new Square(column, this.nextRow(1)));
-        }
-
-        if (row == this.color().initialPawnRow()) {
-            squares.add(new Square(column, this.nextRow(2)));
-        }
-
-        return squares;
     }
 
     @Override
@@ -70,7 +50,7 @@ public class Pawn implements Piece {
     }
 
     @Override
-    public List<Square> attacks() {
+    public List<Square> attacks(Board board) {
         if (this.position().getRow() == this.color().finalPawnRow()) {
             return Collections.emptyList();
         }
@@ -91,15 +71,6 @@ public class Pawn implements Piece {
     @Override
     public Square position() {
         return this.square;
-    }
-
-    @Override
-    public Pawn moveTo(Square square) throws IllegalMovementException {
-        if (!this.moves().contains(square)) {
-            throw new IllegalMovementException(this, square);
-        }
-
-        return new Pawn(this.color(), square);
     }
 
     @Override

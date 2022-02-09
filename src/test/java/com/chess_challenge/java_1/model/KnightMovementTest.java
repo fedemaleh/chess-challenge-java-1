@@ -25,7 +25,7 @@ public class KnightMovementTest {
         Knight knight = new Knight(Color.WHITE, d4);
 
         // When the knight is asked for his moves
-        List<Square> moves = knight.moves();
+        List<Square> moves = knight.moves(Board.emptyBoard());
 
         List<Square> expectedMoves = Lists.newArrayList(
                 // Forward moves
@@ -58,7 +58,7 @@ public class KnightMovementTest {
         Knight knight = new Knight(Color.WHITE, a1);
 
         // When the knight is asked for his moves
-        List<Square> moves = knight.moves();
+        List<Square> moves = knight.moves(Board.emptyBoard());
 
         List<Square> expectedMoves = Lists.newArrayList(
                 // Forward moves
@@ -89,7 +89,7 @@ public class KnightMovementTest {
         Knight knight = new Knight(Color.WHITE, h1);
 
         // When the knight is asked for his moves
-        List<Square> moves = knight.moves();
+        List<Square> moves = knight.moves(Board.emptyBoard());
 
         List<Square> expectedMoves = Lists.newArrayList(
                 // Forward moves
@@ -120,7 +120,7 @@ public class KnightMovementTest {
         Knight knight = new Knight(Color.WHITE, a8);
 
         // When the knight is asked for his moves
-        List<Square> moves = knight.moves();
+        List<Square> moves = knight.moves(Board.emptyBoard());
 
         List<Square> expectedMoves = Lists.newArrayList(
                 // Forward moves
@@ -151,7 +151,7 @@ public class KnightMovementTest {
         Knight knight = new Knight(Color.WHITE, d8);
 
         // When the knight is asked for his moves
-        List<Square> moves = knight.moves();
+        List<Square> moves = knight.moves(Board.emptyBoard());
 
         List<Square> expectedMoves = Lists.newArrayList(
                 // Forward moves
@@ -181,11 +181,12 @@ public class KnightMovementTest {
         Square square = new Square(col, row);
 
         Knight knight = new Knight(Color.WHITE, square);
+        Board board = Board.emptyBoard();
 
         // It's moves should be the same as it's attacks
-        List<Square> moves = knight.moves();
+        List<Square> moves = knight.moves(board);
 
-        List<Square> attacks = knight.attacks();
+        List<Square> attacks = knight.attacks(board);
 
         assertEquals(moves, attacks);
     }
@@ -202,7 +203,7 @@ public class KnightMovementTest {
         Square e6 = new Square('e', 6);
 
         // Then a new Knight is created in the E6 square.
-        Knight movedKnight = assertDoesNotThrow(() -> knight.moveTo(e6));
+        Knight movedKnight = assertDoesNotThrow(() -> knight.moveTo(Board.emptyBoard(), e6));
 
         assertEquals(e6, movedKnight.position());
     }
@@ -219,7 +220,7 @@ public class KnightMovementTest {
         Square e4 = new Square('e', 4);
 
         // Then an IllegalMovementException is thrown
-        assertThrows(IllegalMovementException.class, () -> knight.moveTo(e4));
+        assertThrows(IllegalMovementException.class, () -> knight.moveTo(Board.emptyBoard(), e4));
     }
 
     @Test
@@ -229,7 +230,7 @@ public class KnightMovementTest {
         Square d4 = new Square('d', 4);
         Knight knight = new Knight(Color.WHITE, d4);
 
-        Board board = new Board(Collections.emptyList());
+        Board board = Board.emptyBoard();
 
         // When it's asked to move to E6
         Square e6 = new Square('e', 6);

@@ -24,7 +24,7 @@ public class RookMovementTest {
         Rook rook = new Rook(Color.WHITE, d4);
 
         // When the rook is asked for his moves
-        List<Square> moves = rook.moves();
+        List<Square> moves = rook.moves(Board.emptyBoard());
 
         List<Square> expectedMoves = Lists.newArrayList(
                 new Square('a', 4), new Square('b', 4), new Square('c', 4), // moves to left
@@ -53,7 +53,7 @@ public class RookMovementTest {
         Rook rook = new Rook(Color.WHITE, a1);
 
         // When the rook is asked for his moves
-        List<Square> moves = rook.moves();
+        List<Square> moves = rook.moves(Board.emptyBoard());
 
         List<Square> expectedMoves = Lists.newArrayList(
                 // no left moves
@@ -84,7 +84,7 @@ public class RookMovementTest {
         Rook rook = new Rook(Color.WHITE, h1);
 
         // When the rook is asked for his moves
-        List<Square> moves = rook.moves();
+        List<Square> moves = rook.moves(Board.emptyBoard());
 
         List<Square> expectedMoves = Lists.newArrayList(
                 new Square('a', 1), new Square('b', 1), new Square('c', 1), // moves to left
@@ -115,7 +115,7 @@ public class RookMovementTest {
         Rook rook = new Rook(Color.WHITE, a8);
 
         // When the rook is asked for his moves
-        List<Square> moves = rook.moves();
+        List<Square> moves = rook.moves(Board.emptyBoard());
 
         List<Square> expectedMoves = Lists.newArrayList(
                 // no left moves
@@ -146,7 +146,7 @@ public class RookMovementTest {
         Rook rook = new Rook(Color.WHITE, d8);
 
         // When the rook is asked for his moves
-        List<Square> moves = rook.moves();
+        List<Square> moves = rook.moves(Board.emptyBoard());
 
         List<Square> expectedMoves = Lists.newArrayList(
                 new Square('a', 8), new Square('b', 8), new Square('c', 8), // moves to left
@@ -175,11 +175,12 @@ public class RookMovementTest {
         Square square = new Square(col, row);
 
         Rook rook = new Rook(Color.WHITE, square);
+        Board board = Board.emptyBoard();
 
         // It's moves should be the same as it's attacks
-        List<Square> moves = rook.moves();
+        List<Square> moves = rook.moves(board);
 
-        List<Square> attacks = rook.attacks();
+        List<Square> attacks = rook.attacks(board);
 
         assertEquals(moves, attacks);
     }
@@ -196,7 +197,7 @@ public class RookMovementTest {
         Square e4 = new Square('e', 4);
 
         // Then a new Rook is created in the E4 square.
-        Rook movedRook = assertDoesNotThrow(() -> rook.moveTo(e4));
+        Rook movedRook = assertDoesNotThrow(() -> rook.moveTo(Board.emptyBoard(), e4));
 
         assertEquals(e4, movedRook.position());
     }
@@ -213,7 +214,7 @@ public class RookMovementTest {
         Square e1 = new Square('e', 1);
 
         // Then an IllegalMovementException is thrown
-        assertThrows(IllegalMovementException.class, () -> rook.moveTo(e1));
+        assertThrows(IllegalMovementException.class, () -> rook.moveTo(Board.emptyBoard(), e1));
     }
 
     @Test

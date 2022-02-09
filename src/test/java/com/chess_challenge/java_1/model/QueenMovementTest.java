@@ -26,11 +26,12 @@ public class QueenMovementTest {
         Queen queen = new Queen(Color.WHITE, square);
         Bishop bishop = new Bishop(Color.WHITE, square);
         Rook rook = new Rook(Color.WHITE, square);
+        Board board = Board.emptyBoard();
 
         // The Queen moves are the sum of the moves of the Bishop and the Rook.
-        List<Square> queenMoves = queen.moves();
-        List<Square> bishopMoves = bishop.moves();
-        List<Square> rookMoves = rook.moves();
+        List<Square> queenMoves = queen.moves(board);
+        List<Square> bishopMoves = bishop.moves(board);
+        List<Square> rookMoves = rook.moves(board);
 
         List<Square> expectedQueenMoves = new ArrayList<>(bishopMoves);
         expectedQueenMoves.addAll(rookMoves);
@@ -46,11 +47,12 @@ public class QueenMovementTest {
         Square square = new Square(col, row);
 
         Queen queen = new Queen(Color.WHITE, square);
+        Board board = Board.emptyBoard();
 
         // It's moves should be the same as it's attacks
-        List<Square> moves = queen.moves();
+        List<Square> moves = queen.moves(board);
 
-        List<Square> attacks = queen.attacks();
+        List<Square> attacks = queen.attacks(board);
 
         assertEquals(moves, attacks);
     }
@@ -67,7 +69,7 @@ public class QueenMovementTest {
         Square e4 = new Square('e', 4);
 
         // Then a new Queen is created in the E4 square.
-        Queen movedQueen = assertDoesNotThrow(() -> queen.moveTo(e4));
+        Queen movedQueen = assertDoesNotThrow(() -> queen.moveTo(Board.emptyBoard(), e4));
 
         assertEquals(e4, movedQueen.position());
     }
@@ -84,7 +86,7 @@ public class QueenMovementTest {
         Square e6 = new Square('e', 6);
 
         // Then an IllegalMovementException is thrown
-        assertThrows(IllegalMovementException.class, () -> queen.moveTo(e6));
+        assertThrows(IllegalMovementException.class, () -> queen.moveTo(Board.emptyBoard(), e6));
     }
 
     @Test

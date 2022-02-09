@@ -24,7 +24,7 @@ public class BishopMovementTest {
         Bishop bishop = new Bishop(Color.WHITE, d4);
 
         // When the bishop is asked for his moves
-        List<Square> moves = bishop.moves();
+        List<Square> moves = bishop.moves(Board.emptyBoard());
 
         List<Square> expectedMoves = Lists.newArrayList(
                 // left and backward
@@ -57,7 +57,7 @@ public class BishopMovementTest {
         Bishop bishop = new Bishop(Color.WHITE, a1);
 
         // When the bishop is asked for his moves
-        List<Square> moves = bishop.moves();
+        List<Square> moves = bishop.moves(Board.emptyBoard());
 
         List<Square> expectedMoves = Lists.newArrayList(
                 new Square('b', 2), new Square('c', 3), new Square('d', 4),
@@ -85,7 +85,7 @@ public class BishopMovementTest {
         Bishop bishop = new Bishop(Color.WHITE, h1);
 
         // When the bishop is asked for his moves
-        List<Square> moves = bishop.moves();
+        List<Square> moves = bishop.moves(Board.emptyBoard());
 
         List<Square> expectedMoves = Lists.newArrayList(
                 new Square('g', 2), new Square('f', 3), new Square('e', 4),
@@ -113,7 +113,7 @@ public class BishopMovementTest {
         Bishop bishop = new Bishop(Color.WHITE, a8);
 
         // When the bishop is asked for his moves
-        List<Square> moves = bishop.moves();
+        List<Square> moves = bishop.moves(Board.emptyBoard());
 
         List<Square> expectedMoves = Lists.newArrayList(
                 new Square('h', 1), new Square('g', 2), new Square('f', 3),
@@ -141,7 +141,7 @@ public class BishopMovementTest {
         Bishop bishop = new Bishop(Color.WHITE, d8);
 
         // When the bishop is asked for his moves
-        List<Square> moves = bishop.moves();
+        List<Square> moves = bishop.moves(Board.emptyBoard());
 
         List<Square> expectedMoves = Lists.newArrayList(
                 new Square('a', 1), new Square('b', 2), new Square('c', 3),
@@ -168,11 +168,12 @@ public class BishopMovementTest {
         Square square = new Square(col, row);
 
         Bishop bishop = new Bishop(Color.WHITE, square);
+        Board board = Board.emptyBoard();
 
         // It's moves should be the same as it's attacks
-        List<Square> moves = bishop.moves();
+        List<Square> moves = bishop.moves(board);
 
-        List<Square> attacks = bishop.attacks();
+        List<Square> attacks = bishop.attacks(board);
 
         assertEquals(moves, attacks);
     }
@@ -189,7 +190,7 @@ public class BishopMovementTest {
         Square e5 = new Square('e', 5);
 
         // Then a new Bishop is created in the E5 square.
-        Bishop movedBishop = assertDoesNotThrow(() -> bishop.moveTo(e5));
+        Bishop movedBishop = assertDoesNotThrow(() -> bishop.moveTo(Board.emptyBoard(), e5));
 
         assertEquals(e5, movedBishop.position());
     }
@@ -206,7 +207,7 @@ public class BishopMovementTest {
         Square e4 = new Square('e', 4);
 
         // Then an IllegalMovementException is thrown
-        assertThrows(IllegalMovementException.class, () -> bishop.moveTo(e4));
+        assertThrows(IllegalMovementException.class, () -> bishop.moveTo(Board.emptyBoard(), e4));
     }
 
     @Test

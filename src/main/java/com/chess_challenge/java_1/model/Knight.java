@@ -1,9 +1,6 @@
 package com.chess_challenge.java_1.model;
 
-import com.google.common.collect.Maps;
-
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -18,19 +15,14 @@ public class Knight implements Piece {
     }
 
     @Override
-    public List<Square> moves() {
+    public List<Square> moves(Board board) {
         List<Square> moves = new ArrayList<>();
 
         moves.addAll(this.verticalMoves());
 
         moves.addAll(this.horizontalMoves());
 
-        return moves;
-    }
-
-    @Override
-    public List<Square> moves(Board board) {
-        return this.moves()
+        return moves
                 .stream()
                 .filter(square -> !board.pieceAt(square)
                         .filter(piece -> piece.color() == this.color())
@@ -64,22 +56,13 @@ public class Knight implements Piece {
     }
 
     @Override
-    public List<Square> attacks() {
-        return this.moves();
+    public List<Square> attacks(Board board) {
+        return this.moves(board);
     }
 
     @Override
     public Square position() {
         return this.square;
-    }
-
-    @Override
-    public Knight moveTo(Square square) throws IllegalMovementException {
-        if (!this.moves().contains(square)) {
-            throw new IllegalMovementException(this, square);
-        }
-
-        return new Knight(this.color(), square);
     }
 
     @Override

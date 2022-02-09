@@ -1,6 +1,9 @@
 package com.chess_challenge.java_1.model;
 
 import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 public class Square {
     private static final int MIN_ROW = 1;
@@ -13,16 +16,23 @@ public class Square {
     private final int row;
 
     public Square(char column, int row) throws IllegalSquareException {
-        if (column < MIN_COL || column > MAX_COL) {
-            throw new IllegalSquareException(column, row);
-        }
-
-        if (row < MIN_ROW || row > MAX_ROW) {
+        if (!validSquare(column, row)) {
             throw new IllegalSquareException(column, row);
         }
 
         this.column = column;
         this.row = row;
+    }
+
+    public static Optional<Square> squareOrEmpty(char column, int row) {
+        return Optional.of(validSquare(column, row))
+                .filter(valid -> valid)
+                .map(valid -> new Square(column, row));
+    }
+
+    private static boolean validSquare(char column, int row) {
+        return column >= MIN_COL && column <= MAX_COL &&
+                row >= MIN_ROW && row <= MAX_ROW;
     }
 
     public char getColumn() {

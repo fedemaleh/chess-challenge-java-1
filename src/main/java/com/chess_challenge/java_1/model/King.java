@@ -15,21 +15,6 @@ public class King implements Piece {
     }
 
     @Override
-    public List<Square> moves() {
-        List<Square> moves = new ArrayList<>();
-
-        // Adds moves in all direction 1 square
-        moves.addAll(this.backwardMoves());
-        moves.addAll(this.horizontalMoves());
-        moves.addAll(this.forwardMoves());
-
-        // Removes current position as it's not a movement
-        moves.remove(this.position());
-
-        return moves;
-    }
-
-    @Override
     public List<Square> moves(Board board) {
         List<Square> moves = new ArrayList<>();
 
@@ -43,26 +28,17 @@ public class King implements Piece {
 
         return moves.stream()
                 .filter(move -> !board.pieceAt(move).filter(piece -> piece.color() == this.color()).isPresent())
-                .collect(Collectors.toList());
+                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<Square> attacks() {
-        return moves();
+    public List<Square> attacks(Board board) {
+        return this.moves(board);
     }
 
     @Override
     public Square position() {
         return this.square;
-    }
-
-    @Override
-    public King moveTo(Square square) throws IllegalMovementException {
-        if (!this.moves().contains(square)) {
-            throw new IllegalMovementException(this, square);
-        }
-
-        return new King(this.color(), square);
     }
 
     @Override

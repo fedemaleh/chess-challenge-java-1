@@ -13,10 +13,17 @@ import java.util.function.Predicate;
 public class MovementUtils {
     public static List<Square> generateMovesUntilCondition(Board board,
                                                            Piece currentPiece,
-                                                           Square currentSquare,
                                                            Predicate<Square> loopCondition,
-                                                           Function<Square, Square> nextSquare) {
+                                                           Function<Square, Optional<Square>> nextSquare) {
         List<Square> moves = new ArrayList<>();
+
+        Optional<Square> possibleSquare = nextSquare.apply(currentPiece.position());
+
+        if (!possibleSquare.isPresent()) {
+            return moves;
+        }
+
+        Square currentSquare = possibleSquare.get();
 
         while (loopCondition.test(currentSquare)) {
             Optional<Piece> piece = board.pieceAt(currentSquare);
@@ -31,7 +38,13 @@ public class MovementUtils {
                 moves.add(currentSquare);
             }
 
-            currentSquare = nextSquare.apply(currentSquare);
+            possibleSquare = nextSquare.apply(currentSquare);
+
+            if (!possibleSquare.isPresent()) {
+                break;
+            }
+
+            currentSquare = possibleSquare.get();
         }
 
         return moves;
