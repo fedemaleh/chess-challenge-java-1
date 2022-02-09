@@ -130,7 +130,7 @@ public class Rook implements Piece {
     }
 
     @Override
-    public Piece moveTo(Board board, Square square) throws IllegalMovementException {
+    public Rook moveTo(Board board, Square square) throws IllegalMovementException {
         if (!this.moves(board).contains(square)) {
             throw new IllegalMovementException(this, square);
         }

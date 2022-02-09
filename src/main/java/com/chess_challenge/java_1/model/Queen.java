@@ -52,7 +52,7 @@ public class Queen implements Piece {
     }
 
     @Override
-    public Piece moveTo(Board board, Square square) throws IllegalMovementException {
+    public Queen moveTo(Board board, Square square) throws IllegalMovementException {
         if (!this.moves(board).contains(square)){
             throw new IllegalMovementException(this, square);
         }

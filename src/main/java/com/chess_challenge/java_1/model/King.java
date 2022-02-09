@@ -3,6 +3,7 @@ package com.chess_challenge.java_1.model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class King implements Piece {
     private final Color color;
@@ -29,6 +30,23 @@ public class King implements Piece {
     }
 
     @Override
+    public List<Square> moves(Board board) {
+        List<Square> moves = new ArrayList<>();
+
+        // Adds moves in all direction 1 square
+        moves.addAll(this.backwardMoves());
+        moves.addAll(this.horizontalMoves());
+        moves.addAll(this.forwardMoves());
+
+        // Removes current position as it's not a movement
+        moves.remove(this.position());
+
+        return moves.stream()
+                .filter(move -> !board.pieceAt(move).filter(piece -> piece.color() == this.color()).isPresent())
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<Square> attacks() {
         return moves();
     }
@@ -40,7 +58,16 @@ public class King implements Piece {
 
     @Override
     public King moveTo(Square square) throws IllegalMovementException {
-        if (!this.moves().contains(square)){
+        if (!this.moves().contains(square)) {
+            throw new IllegalMovementException(this, square);
+        }
+
+        return new King(this.color(), square);
+    }
+
+    @Override
+    public King moveTo(Board board, Square square) throws IllegalMovementException {
+        if (!this.moves(board).contains(square)) {
             throw new IllegalMovementException(this, square);
         }
 

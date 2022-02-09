@@ -8,6 +8,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.IntStream;
@@ -208,6 +209,40 @@ class KingMovementTest {
 
         // Then an IllegalMovementException is thrown
         assertThrows(IllegalMovementException.class, () -> king.moveTo(d1));
+    }
+
+    @Test
+    @Timeout(value = 5)
+    void white_king_in_d4_cannot_move_to_d5_if_d5_is_occupied_by_white_piece() {
+        // Given a white king in square D4 and a Board with a white piece in D5.
+        Square d4 = new Square('d', 4);
+        Square d5 = new Square('d', 5);
+
+        King king = new King(Color.WHITE, d4);
+
+        Board board = new Board(Collections.singletonList(new Pawn(Color.WHITE, d5)));
+
+        // When it's asked to move to D5
+        // Then an IllegalMovementException is thrown
+        assertThrows(IllegalMovementException.class, () -> king.moveTo(board, d5));
+    }
+
+    @Test
+    @Timeout(value = 5)
+    void white_king_in_d4_can_move_to_d5_if_d5_is_occupied_by_black_piece() {
+        // Given a white king in square D4 and a Board with a black piece in D5.
+        Square d4 = new Square('d', 4);
+        Square d5 = new Square('d', 5);
+
+        King king = new King(Color.WHITE, d4);
+
+        Board board = new Board(Collections.singletonList(new Pawn(Color.BLACK, d5)));
+
+        // When it's asked to move to D5
+        // Then an IllegalMovementException is thrown
+        King movedKing = assertDoesNotThrow(() -> king.moveTo(board, d5));
+
+        assertEquals(d5, movedKing.position());
     }
 
     private static Stream<Arguments> squares() {
