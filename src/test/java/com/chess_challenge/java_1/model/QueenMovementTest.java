@@ -87,6 +87,130 @@ public class QueenMovementTest {
         assertThrows(IllegalMovementException.class, () -> queen.moveTo(e6));
     }
 
+    @Test
+    @Timeout(value = 5)
+    void white_queen_can_move_up_to_the_first_white_piece_in_each_direction_not_included() {
+        // Given a white queen in square D4 and a Board with white pieces in D2, D6, B4, F4, B2, B6, F2, F6
+        Square d4 = new Square('d', 4);
+        Square d2 = new Square('d', 2);
+        Square d6 = new Square('d', 6);
+        Square b4 = new Square('b', 4);
+        Square f4 = new Square('f', 4);
+        Square b2 = new Square('b', 2);
+        Square b6 = new Square('b', 6);
+        Square f2 = new Square('f', 2);
+        Square f6 = new Square('f', 6);
+
+        Queen queen = new Queen(Color.WHITE, d4);
+
+        Piece p1 = new Pawn(Color.WHITE, d2);
+        Piece p2 = new Pawn(Color.WHITE, d6);
+        Piece p3 = new Pawn(Color.WHITE, b4);
+        Piece p4 = new Pawn(Color.WHITE, f4);
+        Piece p5 = new Pawn(Color.WHITE, b2);
+        Piece p6 = new Pawn(Color.WHITE, b6);
+        Piece p7 = new Pawn(Color.WHITE, f2);
+        Piece p8 = new Pawn(Color.WHITE, f6);
+
+        Board board = new Board(Lists.newArrayList(p1, p2, p3, p4, p5, p6, p7, p8));
+
+        // When the queen is asked for his moves
+        List<Square> moves = queen.moves(board);
+
+        List<Square> expectedMoves = Lists.newArrayList(
+                // Rook moves
+                // vertical moves
+                new Square('d', 3),
+                new Square('d', 5),
+                // horizontal moves
+                new Square('c', 4),
+                new Square('e', 4),
+                // Bishop moves
+                // vertical moves
+                new Square('c', 3),
+                new Square('c', 5),
+                // horizontal moves
+                new Square('e', 3),
+                new Square('e', 5)
+        );
+
+        // all the expected moves where found
+        assertAll(
+                expectedMoves.stream().map((square) -> () -> assertTrue(moves.contains(square), () -> String.format("Move: %s was not found", square)))
+        );
+
+        // no additional expected move found
+        assertAll(
+                moves.stream().map((square) -> () -> assertTrue(expectedMoves.contains(square), () -> String.format("Move: %s is not expected", square)))
+        );
+    }
+
+    @Test
+    @Timeout(value = 5)
+    void white_queen_can_move_up_to_the_first_white_piece_included() {
+        // Given a white queen in square D4 and a Board with white pieces in D2, D6, B4, F4, B2, B6, F2, F6
+        Square d4 = new Square('d', 4);
+        Square d2 = new Square('d', 2);
+        Square d6 = new Square('d', 6);
+        Square b4 = new Square('b', 4);
+        Square f4 = new Square('f', 4);
+        Square b2 = new Square('b', 2);
+        Square b6 = new Square('b', 6);
+        Square f2 = new Square('f', 2);
+        Square f6 = new Square('f', 6);
+
+        Queen queen = new Queen(Color.WHITE, d4);
+
+        Piece p1 = new Pawn(Color.BLACK, d2);
+        Piece p2 = new Pawn(Color.BLACK, d6);
+        Piece p3 = new Pawn(Color.BLACK, b4);
+        Piece p4 = new Pawn(Color.BLACK, f4);
+        Piece p5 = new Pawn(Color.BLACK, b2);
+        Piece p6 = new Pawn(Color.BLACK, b6);
+        Piece p7 = new Pawn(Color.BLACK, f2);
+        Piece p8 = new Pawn(Color.BLACK, f6);
+
+        Board board = new Board(Lists.newArrayList(p1, p2, p3, p4, p5, p6, p7, p8));
+
+        // When the queen is asked for his moves
+        List<Square> moves = queen.moves(board);
+
+        List<Square> expectedMoves = Lists.newArrayList(
+                // Rook Moves
+                // vertical moves
+                new Square('d', 2),
+                new Square('d', 3),
+                new Square('d', 5),
+                new Square('d', 6),
+                // horizontal moves
+                new Square('b', 4),
+                new Square('c', 4),
+                new Square('e', 4),
+                new Square('f', 4),
+                // Bishop moves
+                // vertical moves
+                new Square('b', 2),
+                new Square('c', 3),
+                new Square('c', 5),
+                new Square('b', 6),
+                // horizontal moves
+                new Square('f', 2),
+                new Square('e', 3),
+                new Square('e', 5),
+                new Square('f', 6)
+        );
+
+        // all the expected moves where found
+        assertAll(
+                expectedMoves.stream().map((square) -> () -> assertTrue(moves.contains(square), () -> String.format("Move: %s was not found", square)))
+        );
+
+        // no additional expected move found
+        assertAll(
+                moves.stream().map((square) -> () -> assertTrue(expectedMoves.contains(square), () -> String.format("Move: %s is not expected", square)))
+        );
+    }
+
     private static Stream<Arguments> squares() {
         List<Character> columns = Lists.newArrayList('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
 

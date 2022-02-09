@@ -23,6 +23,16 @@ public class Queen implements Piece {
     }
 
     @Override
+    public List<Square> moves(Board board) {
+        List<Square> bishopMoves = new Bishop(this.color(), this.position()).moves(board);
+        List<Square> rookMoves = new Rook(this.color(), this.position()).moves(board);
+
+        List<Square> moves = new ArrayList<>(bishopMoves);
+        moves.addAll(rookMoves);
+        return moves;
+    }
+
+    @Override
     public List<Square> attacks() {
         return this.moves();
     }
@@ -35,6 +45,15 @@ public class Queen implements Piece {
     @Override
     public Queen moveTo(Square square) throws IllegalMovementException {
         if (!this.moves().contains(square)){
+            throw new IllegalMovementException(this, square);
+        }
+
+        return new Queen(this.color(), square);
+    }
+
+    @Override
+    public Piece moveTo(Board board, Square square) throws IllegalMovementException {
+        if (!this.moves(board).contains(square)){
             throw new IllegalMovementException(this, square);
         }
 

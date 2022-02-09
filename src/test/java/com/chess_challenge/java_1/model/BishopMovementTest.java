@@ -228,7 +228,7 @@ public class BishopMovementTest {
 
         Board board = new Board(Lists.newArrayList(p1, p2, p3, p4));
 
-        // When the rook is asked for his moves
+        // When the bishop is asked for his moves
         List<Square> moves = bishop.moves(board);
 
         List<Square> expectedMoves = Lists.newArrayList(
@@ -253,7 +253,7 @@ public class BishopMovementTest {
 
     @Test
     @Timeout(value = 5)
-    void white_rook_can_move_up_to_the_first_white_piece_included() {
+    void white_bishop_can_move_up_to_the_first_white_piece_included() {
         // Given a white bishop in square D4 and a Board with black pieces in B2, B6, F2, F6
         Square d4 = new Square('d', 4);
         Square b2 = new Square('b', 2);
@@ -270,7 +270,7 @@ public class BishopMovementTest {
 
         Board board = new Board(Lists.newArrayList(p1, p2, p3, p4));
 
-        // When the rook is asked for his moves
+        // When the bishop is asked for his moves
         List<Square> moves = bishop.moves(board);
 
         List<Square> expectedMoves = Lists.newArrayList(
