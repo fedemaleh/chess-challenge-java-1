@@ -1,9 +1,12 @@
 package com.chess_challenge.java_1.model;
 
 import com.chess_challenge.java_1.utils.MovementUtils;
+import com.google.common.collect.Lists;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Rook implements Piece {
     private final Color color;
@@ -98,6 +101,39 @@ public class Rook implements Piece {
         }
 
         return new Rook(this.color(), square);
+    }
+
+    @Override
+    public List<Square> pathTo(Board board, Square square) throws IllegalMovementException {
+        if (!this.moves(board).contains(square)) {
+            throw new IllegalMovementException(this, square);
+        }
+
+        List<Square> path = Lists.newArrayList(this.position());
+
+        if (this.position().getColumn() == square.getColumn()) {
+            path.addAll(this.verticalPath(board, square));
+
+            return path;
+        }
+
+        path.addAll(this.horizontalMoves(board, square));
+
+        return path;
+    }
+
+    private List<Square> verticalPath(Board board, Square square) {
+        return this.verticalMoves(board).stream().filter(move ->
+                (move.getRow() >= square.getRow() && move.getRow() <= this.position().getRow()) || // when moving backwards
+                        (move.getRow() <= square.getRow() && move.getRow() >= this.position().getRow()) // when moving forward
+        ).collect(Collectors.toList());
+    }
+
+    private List<Square> horizontalMoves(Board board, Square square) {
+        return this.horizontalMoves(board).stream().filter(move ->
+                (move.getColumn() >= square.getColumn() && move.getColumn() <= this.position().getColumn()) || // when moving left
+                        (move.getColumn() <= square.getColumn() && move.getColumn() >= this.position().getColumn()) // when moving right
+        ).collect(Collectors.toList());
     }
 
     @Override

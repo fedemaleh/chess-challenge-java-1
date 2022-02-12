@@ -305,6 +305,90 @@ public class RookMovementTest {
         );
     }
 
+    @Test
+    @Timeout(value = 5)
+    void rook_path_to_vertical_valid_move_is_always_origin_square_and_destination_square_and_middle_squares() {
+        // Given a white rook in square D4.
+        Square d4 = new Square('d', 4);
+
+        Rook rook = new Rook(Color.WHITE, d4);
+
+        // When it's asked for the path to D8
+        Square d8 = new Square('d', 8);
+
+        List<Square> path = assertDoesNotThrow(() -> rook.pathTo(Board.emptyBoard(), d8));
+
+        Square d5 = new Square('d', 5);
+        Square d6 = new Square('d', 6);
+        Square d7 = new Square('d', 7);
+
+        List<Square> expectedMoves = Lists.newArrayList(
+                d4, // current square
+                // intermediate squares
+                d5, d6, d7,
+                d8 // destination square
+        );
+
+        // all the expected moves where found
+        assertAll(
+                expectedMoves.stream().map((square) -> () -> assertTrue(path.contains(square), () -> String.format("Move: %s was not found", square)))
+        );
+
+        // no additional expected move found
+        assertAll(
+                path.stream().map((square) -> () -> assertTrue(expectedMoves.contains(square), () -> String.format("Move: %s is not expected", square)))
+        );
+    }
+
+    @Test
+    @Timeout(value = 5)
+    void rook_path_to_horizontal_valid_move_is_always_origin_square_and_destination_square_and_middle_squares() {
+        // Given a white rook in square D4.
+        Square d4 = new Square('d', 4);
+
+        Rook rook = new Rook(Color.WHITE, d4);
+
+        // When it's asked for the path to A4
+        Square a4 = new Square('a', 4);
+
+        List<Square> path = assertDoesNotThrow(() -> rook.pathTo(Board.emptyBoard(), a4));
+
+        Square c4 = new Square('c', 4);
+        Square b4 = new Square('b', 4);
+
+        List<Square> expectedMoves = Lists.newArrayList(
+                d4, // current square
+                // intermediate squares
+                c4, b4,
+                a4 // destination square
+        );
+
+        // all the expected moves where found
+        assertAll(
+                expectedMoves.stream().map((square) -> () -> assertTrue(path.contains(square), () -> String.format("Move: %s was not found", square)))
+        );
+
+        // no additional expected move found
+        assertAll(
+                path.stream().map((square) -> () -> assertTrue(expectedMoves.contains(square), () -> String.format("Move: %s is not expected", square)))
+        );
+    }
+
+    @Test
+    @Timeout(value = 5)
+    void rook_path_to_invalid_move_throws_exception() {
+        // Given a white rook in square D4.
+        Square d4 = new Square('d', 4);
+
+        Rook rook = new Rook(Color.WHITE, d4);
+
+        // When it's asked for the path to E1
+        Square e1 = new Square('e', 1);
+
+        // Then an IllegalMovementException is thrown
+        assertThrows(IllegalMovementException.class, () -> rook.pathTo(Board.emptyBoard(), e1));
+    }
+
     private static Stream<Arguments> squares() {
         List<Character> columns = Lists.newArrayList('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
 
