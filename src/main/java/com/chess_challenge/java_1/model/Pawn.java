@@ -69,6 +69,11 @@ public class Pawn implements Piece {
     }
 
     @Override
+    public boolean attacks(Board board, Square square) {
+        return this.attacks(board).contains(square);
+    }
+
+    @Override
     public Square position() {
         return this.square;
     }

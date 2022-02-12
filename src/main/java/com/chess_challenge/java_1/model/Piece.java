@@ -23,6 +23,15 @@ public interface Piece {
     List<Square> attacks(Board board);
 
     /**
+     * Gets the attack targets a piece has.
+     *
+     * @param board where the piece will be moved.
+     * @param square to attack
+     * @return if the piece can attack the square.
+     */
+    boolean attacks(Board board, Square square);
+
+    /**
      * Gets the current position of the piece.
      *
      * @return the square of the piece.

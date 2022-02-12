@@ -82,6 +82,11 @@ public class Rook implements Piece {
     }
 
     @Override
+    public boolean attacks(Board board, Square square) {
+        return this.attacks(board).contains(square);
+    }
+
+    @Override
     public Square position() {
         return square;
     }

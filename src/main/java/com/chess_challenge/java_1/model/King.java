@@ -27,13 +27,26 @@ public class King implements Piece {
         moves.remove(this.position());
 
         return moves.stream()
-                .filter(move -> !board.pieceAt(move).filter(piece -> piece.color() == this.color()).isPresent())
-                 .collect(Collectors.toList());
+                .filter(move -> !this.isSquareOccupiedByOwnPiece(board, move) && !isSquareThreatenedByRivalPiece(board, move))
+                .collect(Collectors.toList());
+    }
+
+    private boolean isSquareOccupiedByOwnPiece(Board board, Square move) {
+        return board.pieceAt(move).filter(piece -> piece.color() == this.color()).isPresent();
+    }
+
+    private boolean isSquareThreatenedByRivalPiece(Board board, Square move) {
+        return board.isThreatened(move, this);
     }
 
     @Override
     public List<Square> attacks(Board board) {
         return this.moves(board);
+    }
+
+    @Override
+    public boolean attacks(Board board, Square square) {
+        return this.attacks(board).contains(square);
     }
 
     @Override
