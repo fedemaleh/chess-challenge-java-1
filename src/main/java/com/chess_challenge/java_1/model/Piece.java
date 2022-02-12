@@ -1,5 +1,6 @@
 package com.chess_challenge.java_1.model;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -47,6 +48,18 @@ public interface Piece {
      * @throws IllegalMovementException when the piece can't move to the desired square.
      */
     Piece moveTo(Board board, Square square) throws IllegalMovementException;
+
+    /**
+     * Gives the squares that need to be visited to get from the current position to the desired one.
+     * @param board where the piece will be moved.
+     * @param square the target square for the piece.
+     * @return a list with all the squares visited to get from the current position to the desired one.
+     * @throws IllegalMovementException when the piece can't move to the desired square.
+     */
+    // TODO remove default once all pieces implement this method
+    default List<Square> pathTo(Board board, Square square) throws IllegalMovementException {
+        return Collections.emptyList();
+    }
 
     /**
      * Gets the color of the piece.

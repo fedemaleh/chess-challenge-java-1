@@ -246,6 +246,50 @@ class KingMovementTest {
         assertEquals(d5, movedKing.position());
     }
 
+    @Test
+    @Timeout(value = 5)
+    void king_path_to_valid_move_is_always_origin_square_and_destination_square() {
+        // Given a white king in square D4.
+        Square d4 = new Square('d', 4);
+
+        King king = new King(Color.WHITE, d4);
+
+        // When it's asked for the path to E4
+        Square e4 = new Square('e', 4);
+
+        // Then a new King is created in the E4 square.
+        List<Square> path = assertDoesNotThrow(() -> king.pathTo(Board.emptyBoard(), e4));
+        List<Square> expectedMoves = Lists.newArrayList(
+                d4, // current square
+                e4 // destination square
+        );
+
+        // all the expected moves where found
+        assertAll(
+                expectedMoves.stream().map((square) -> () -> assertTrue(path.contains(square), () -> String.format("Move: %s was not found", square)))
+        );
+
+        // no additional expected move found
+        assertAll(
+                path.stream().map((square) -> () -> assertTrue(expectedMoves.contains(square), () -> String.format("Move: %s is not expected", square)))
+        );
+    }
+
+    @Test
+    @Timeout(value = 5)
+    void king_path_to_invalid_move_throws_exception() {
+        // Given a white king in square D4.
+        Square d4 = new Square('d', 4);
+
+        King king = new King(Color.WHITE, d4);
+
+        // When it's asked for the path to D1
+        Square d1 = new Square('d', 1);
+
+        // Then an IllegalMovementException is thrown
+        assertThrows(IllegalMovementException.class, () -> king.pathTo(Board.emptyBoard(), d1));
+    }
+
     private static Stream<Arguments> squares() {
         List<Character> columns = Lists.newArrayList('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
 
