@@ -257,7 +257,6 @@ class KingMovementTest {
         // When it's asked for the path to E4
         Square e4 = new Square('e', 4);
 
-        // Then a new King is created in the E4 square.
         List<Square> path = assertDoesNotThrow(() -> king.pathTo(Board.emptyBoard(), e4));
         List<Square> expectedMoves = Lists.newArrayList(
                 d4, // current square

@@ -419,6 +419,7 @@ public class PawnMovementTest {
     }
 
     @Test
+    @Timeout(value = 5)
     void white_pawn_in_d2_cannot_move_to_d4_if_d4_is_occupied() {
         // Given a white pawn in square D2 and a Board with a white pawn in D4.
         Square d2 = new Square('d', 2);
@@ -434,6 +435,7 @@ public class PawnMovementTest {
     }
 
     @Test
+    @Timeout(value = 5)
     void white_pawn_in_d2_cannot_move_to_d3_if_d3_is_occupied() {
         // Given a white pawn in square D2 and a Board with a white pawn in D3.
         Square d2 = new Square('d', 2);
@@ -449,6 +451,7 @@ public class PawnMovementTest {
     }
 
     @Test
+    @Timeout(value = 5)
     void white_pawn_in_d2_cannot_move_to_d4_if_d3_is_occupied() {
         // Given a white pawn in square D2 and a Board with a white pawn in D3.
         Square d2 = new Square('d', 2);
@@ -462,6 +465,49 @@ public class PawnMovementTest {
         // When it's asked to move to D4
         // Then an IllegalMovementException is thrown
         assertThrows(IllegalMovementException.class, () -> pawn.moveTo(board, d4));
+    }
+
+    @Test
+    @Timeout(value = 5)
+    void pawn_path_to_valid_move_is_always_origin_square_and_destination_square() {
+        // Given a white pawn in square D4.
+        Square d4 = new Square('d', 4);
+
+        Pawn pawn = new Pawn(Color.WHITE, d4);
+
+        // When it's asked for the path to D5
+        Square d5 = new Square('d', 5);
+
+        List<Square> path = assertDoesNotThrow(() -> pawn.pathTo(Board.emptyBoard(), d5));
+        List<Square> expectedMoves = Lists.newArrayList(
+                d4, // current square
+                d5 // destination square
+        );
+
+        // all the expected moves where found
+        assertAll(
+                expectedMoves.stream().map((square) -> () -> assertTrue(path.contains(square), () -> String.format("Move: %s was not found", square)))
+        );
+
+        // no additional expected move found
+        assertAll(
+                path.stream().map((square) -> () -> assertTrue(expectedMoves.contains(square), () -> String.format("Move: %s is not expected", square)))
+        );
+    }
+
+    @Test
+    @Timeout(value = 5)
+    void pawn_path_to_invalid_move_throws_exception() {
+        // Given a white pawn in square D4.
+        Square d4 = new Square('d', 4);
+
+        Pawn pawn = new Pawn(Color.WHITE, d4);
+
+        // When it's asked for the path to D1
+        Square d1 = new Square('d', 1);
+
+        // Then an IllegalMovementException is thrown
+        assertThrows(IllegalMovementException.class, () -> pawn.pathTo(Board.emptyBoard(), d1));
     }
 
     private static IntStream columns() {

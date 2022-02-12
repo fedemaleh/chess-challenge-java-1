@@ -1,5 +1,7 @@
 package com.chess_challenge.java_1.model;
 
+import com.google.common.collect.Lists;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -85,6 +87,15 @@ public class Pawn implements Piece {
         }
 
         return new Pawn(this.color(), square);
+    }
+
+    @Override
+    public List<Square> pathTo(Board board, Square square) throws IllegalMovementException {
+        if (!this.moves(board).contains(square)) {
+            throw new IllegalMovementException(this, square);
+        }
+
+        return Lists.newArrayList(this.position(), square);
     }
 
     @Override
