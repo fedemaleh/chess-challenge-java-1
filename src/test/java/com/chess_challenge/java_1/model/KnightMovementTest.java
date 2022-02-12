@@ -277,6 +277,49 @@ public class KnightMovementTest {
         assertThrows(IllegalMovementException.class, () -> knight.moveTo(board, e6));
     }
 
+    @Test
+    @Timeout(value = 5)
+    void knight_path_to_valid_move_is_always_origin_square_and_destination_square() {
+        // Given a white knight in square D4.
+        Square d4 = new Square('d', 4);
+
+        Knight knight = new Knight(Color.WHITE, d4);
+
+        // When it's asked for the path to E6
+        Square e6 = new Square('e', 6);
+
+        List<Square> path = assertDoesNotThrow(() -> knight.pathTo(Board.emptyBoard(), e6));
+        List<Square> expectedMoves = Lists.newArrayList(
+                d4, // current square
+                e6 // destination square
+        );
+
+        // all the expected moves where found
+        assertAll(
+                expectedMoves.stream().map((square) -> () -> assertTrue(path.contains(square), () -> String.format("Move: %s was not found", square)))
+        );
+
+        // no additional expected move found
+        assertAll(
+                path.stream().map((square) -> () -> assertTrue(expectedMoves.contains(square), () -> String.format("Move: %s is not expected", square)))
+        );
+    }
+
+    @Test
+    @Timeout(value = 5)
+    void knight_path_to_invalid_move_throws_exception() {
+        // Given a white knight in square D4.
+        Square d4 = new Square('d', 4);
+
+        Knight knight = new Knight(Color.WHITE, d4);
+
+        // When it's asked for the path to D1
+        Square d1 = new Square('d', 1);
+
+        // Then an IllegalMovementException is thrown
+        assertThrows(IllegalMovementException.class, () -> knight.pathTo(Board.emptyBoard(), d1));
+    }
+
     private static Stream<Arguments> squares() {
         List<Character> columns = Lists.newArrayList('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
 
