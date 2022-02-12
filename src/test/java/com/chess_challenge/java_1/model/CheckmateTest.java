@@ -23,6 +23,7 @@ public class CheckmateTest {
     void empty_board_has_no_checkmate() {
         Board board = Board.emptyBoard();
 
+        // Then there is no checkmate
         assertFalse(board.hasCheckmate());
     }
 
@@ -44,6 +45,7 @@ public class CheckmateTest {
                 new King(Color.WHITE, new Square('e', 1))
         );
 
+        // Then there is no checkmate
         assertFalse(board.hasCheckmate());
     }
 
@@ -94,7 +96,7 @@ public class CheckmateTest {
                 new Queen(Color.BLACK, new Square('h', 1))
         );
 
-        // Then there is a checkmate
+        // Then there is no checkmate
         assertFalse(board.hasCheckmate());
     }
 
@@ -170,7 +172,7 @@ public class CheckmateTest {
                 new Bishop(Color.WHITE, new Square('c', 2))
         );
 
-        // Then there is a checkmate
+        // Then there is no checkmate
         assertFalse(board.hasCheckmate());
     }
 
@@ -250,6 +252,59 @@ public class CheckmateTest {
                 new Queen(Color.BLACK, new Square('b', 2)),
                 new Rook(Color.WHITE, new Square('c', 1)),
                 new Rook(Color.WHITE, new Square('c', 2))
+        );
+
+        // Then there is a checkmate
+        assertTrue(board.hasCheckmate());
+    }
+
+    /*    a   b   c   d   e   f   g   h
+      8 |   |whR|   |   |   |   |   |   |
+      7 |   |   |   |   |   |   |   |   |
+      6 |   |   |   |   |   |   |   |   |
+      5 |   |   |   |   |   |   |   |   |
+      4 |   |   |   |   |   |   |   |   |
+      3 |   |   |   |   |   |   |   |   |
+      2 |   |   |blR|   |   |   |   |   |
+      1 |whK|   |blR|   |   |   |   |   |
+          a   b   c   d   e   f   g   h
+   */
+    @Test
+    @Timeout(value = 5)
+    void no_checkmate_if_attack_can_be_intercepted() {
+        // Given a board as the comment above
+        Board board = new Board(
+                new King(Color.WHITE, new Square('a', 1)),
+                new Rook(Color.WHITE, new Square('b', 8)),
+                new Rook(Color.BLACK, new Square('c', 1)),
+                new Rook(Color.BLACK, new Square('c', 2))
+        );
+
+        // Then there is no checkmate
+        assertFalse(board.hasCheckmate());
+    }
+
+    /*    a   b   c   d   e   f   g   h
+      8 |blQ|   |   |   |   |   |   |   |
+      7 |   |   |   |   |   |   |   |   |
+      6 |   |   |   |   |   |   |   |   |
+      5 |   |   |   |   |   |   |   |   |
+      4 |   |   |   |   |   |   |   |   |
+      3 |   |   |   |   |   |   |   |   |
+      2 |whB|   |blR|   |   |   |   |   |
+      1 |whK|   |blR|   |   |   |   |   |
+          a   b   c   d   e   f   g   h
+   */
+    @Test
+    @Timeout(value = 5)
+    void checkmate_if_attacking_piece_cannot_be_intercepted_due_to_blocked_piece() {
+        // Given a board as the comment above
+        Board board = new Board(
+                new King(Color.WHITE, new Square('a', 1)),
+                new Bishop(Color.WHITE, new Square('a', 2)),
+                new Queen(Color.BLACK, new Square('a', 8)),
+                new Rook(Color.BLACK, new Square('c', 1)),
+                new Rook(Color.BLACK, new Square('c', 2))
         );
 
         // Then there is a checkmate

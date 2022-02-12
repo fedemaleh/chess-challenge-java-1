@@ -56,7 +56,10 @@ public class Board {
         List<Piece> piecesThatThreatenKing = pieces.stream().filter(piece -> piece.color() != king.color() &&
                 piece.attacks(this, king.position())).collect(Collectors.toList());
 
-        return piecesThatThreatenKing.stream().anyMatch(piece -> piecesThatThreatenKing.size() > 1 || !this.canBeTaken(piece)) &&
+        return piecesThatThreatenKing.stream()
+                .anyMatch(piece -> piecesThatThreatenKing.size() > 1 ||
+                        (!this.canBeTaken(piece) && !this.canBeIntercepted(king, piece))
+                ) &&
                 king.moves(this).isEmpty();
     }
 
@@ -86,5 +89,17 @@ public class Board {
                 boardWithoutPieceAtSquare.pieces.stream()
                         .filter(currentPiece -> currentPiece.attacks(boardWithoutPieceAtSquare, king.get().position()))
                         .count();
+    }
+
+    private boolean canBeIntercepted(Piece king, Piece attacker) {
+        List<Square> possibleInterceptionSquares = attacker.pathTo(this, king.position());
+
+        possibleInterceptionSquares.remove(king.position()); // king cannot be displaced to be protected
+        possibleInterceptionSquares.remove(attacker.position()); // taking the attacking piece is already handled
+
+        return pieces.stream()
+                .filter(piece -> piece.color() == king.color()) // piece is friendly to king
+                .filter(this::pieceCanBeMoved) // is not blocked by an attacking piece
+                .anyMatch(piece -> possibleInterceptionSquares.stream().anyMatch(square -> piece.attacks(this, square)));
     }
 }
