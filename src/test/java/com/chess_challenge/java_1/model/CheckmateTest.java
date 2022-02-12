@@ -88,12 +88,37 @@ public class CheckmateTest {
     */
     @Test
     @Timeout(value = 5)
-    void no_checkmate_with_queen_if_king_has_move() {
+    void no_checkmate_if_king_can_take_piece() {
         // Given a board as the comment above
         Board board = new Board(
                 new King(Color.WHITE, new Square('a', 1)),
                 new Pawn(Color.WHITE, new Square('b', 2)),
                 new Queen(Color.BLACK, new Square('h', 1))
+        );
+
+        // Then there is no checkmate
+        assertFalse(board.hasCheckmate());
+    }
+
+    /*     a   b   c   d   e   f   g   h
+      8 |   |   |   |   |   |   |   |   |
+      7 |   |   |   |   |   |   |   |   |
+      6 |   |   |   |   |   |   |   |   |
+      5 |   |   |   |   |   |   |   |   |
+      4 |   |   |   |   |   |   |   |   |
+      3 |   |   |   |   |   |   |   |   |
+      2 |whP|   |   |   |   |   |   |   |
+      1 |whK|blR|   |   |   |   |   |   |
+          a   b   c   d   e   f   g   h
+   */
+    @Test
+    @Timeout(value = 5)
+    void no_checkmate_if_attacking_piece_can_be_taken_by_king() {
+        // Given a board as the comment above
+        Board board = new Board(
+                new King(Color.WHITE, new Square('a', 1)),
+                new Rook(Color.BLACK, new Square('b', 1)),
+                new Pawn(Color.WHITE, new Square('a', 2))
         );
 
         // Then there is no checkmate
