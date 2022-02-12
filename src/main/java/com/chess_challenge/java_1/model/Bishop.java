@@ -113,10 +113,9 @@ public class Bishop implements Piece {
 
         path.add(0, this.position());
 
-        return path.stream().filter(move ->
-                move.getRow() - square.getRow() == move.getColumn() - square.getColumn() && // same diagonal
-                move.distanceTo(square) <= this.position().distanceTo(square)
-        ).collect(Collectors.toList());
+        return path.stream()
+                .filter(move -> move.sharesDiagonal(square) && move.distanceTo(square) <= this.position().distanceTo(square))
+                .collect(Collectors.toList());
     }
 
 

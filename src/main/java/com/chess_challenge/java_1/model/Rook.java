@@ -113,12 +113,9 @@ public class Rook implements Piece {
 
         path.add(0, this.position());
 
-        return path.stream().filter(move ->
-                (move.getRow() == square.getRow() || // same row
-                        move.getColumn() == square.getColumn() // same column
-                ) &&
-                        move.distanceTo(square) <= this.position().distanceTo(square)
-        ).collect(Collectors.toList());
+        return path.stream()
+                .filter(move -> move.isAligned(square) && move.distanceTo(square) <= this.position().distanceTo(square))
+                .collect(Collectors.toList());
     }
 
     @Override

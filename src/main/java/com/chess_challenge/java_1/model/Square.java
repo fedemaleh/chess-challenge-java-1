@@ -47,7 +47,15 @@ public class Square {
         double deltaCol = this.getColumn() - square.getColumn();
         double deltaRow = this.getRow() - square.getRow();
 
-        return Math.sqrt(deltaCol*deltaCol + deltaRow * deltaRow);
+        return Math.sqrt(deltaCol * deltaCol + deltaRow * deltaRow);
+    }
+
+    public boolean isAligned(Square square) {
+        return this.getRow() == square.getRow() || this.getColumn() == square.getColumn();
+    }
+
+    public boolean sharesDiagonal(Square square) {
+        return this.getRow() - square.getRow() == this.getColumn() - square.getColumn();
     }
 
     @Override
