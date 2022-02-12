@@ -105,34 +105,19 @@ public class Rook implements Piece {
 
     @Override
     public List<Square> pathTo(Board board, Square square) throws IllegalMovementException {
-        if (!this.moves(board).contains(square)) {
+        List<Square> path = this.moves(board);
+
+        if (!path.contains(square)) {
             throw new IllegalMovementException(this, square);
         }
 
-        List<Square> path = Lists.newArrayList(this.position());
+        path.add(0, this.position());
 
-        if (this.position().getColumn() == square.getColumn()) {
-            path.addAll(this.verticalPath(board, square));
-
-            return path;
-        }
-
-        path.addAll(this.horizontalMoves(board, square));
-
-        return path;
-    }
-
-    private List<Square> verticalPath(Board board, Square square) {
-        return this.verticalMoves(board).stream().filter(move ->
-                (move.getRow() >= square.getRow() && move.getRow() <= this.position().getRow()) || // when moving backwards
-                        (move.getRow() <= square.getRow() && move.getRow() >= this.position().getRow()) // when moving forward
-        ).collect(Collectors.toList());
-    }
-
-    private List<Square> horizontalMoves(Board board, Square square) {
-        return this.horizontalMoves(board).stream().filter(move ->
-                (move.getColumn() >= square.getColumn() && move.getColumn() <= this.position().getColumn()) || // when moving left
-                        (move.getColumn() <= square.getColumn() && move.getColumn() >= this.position().getColumn()) // when moving right
+        return path.stream().filter(move ->
+                (move.getRow() == square.getRow() || // same row
+                        move.getColumn() == square.getColumn() // same column
+                ) &&
+                        move.distanceTo(square) <= this.position().distanceTo(square)
         ).collect(Collectors.toList());
     }
 

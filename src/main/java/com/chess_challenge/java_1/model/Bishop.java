@@ -105,13 +105,13 @@ public class Bishop implements Piece {
 
     @Override
     public List<Square> pathTo(Board board, Square square) throws IllegalMovementException {
-        if (!this.moves(board).contains(square)) {
+        List<Square> path = this.moves(board);
+
+        if (!path.contains(square)) {
             throw new IllegalMovementException(this, square);
         }
 
-        List<Square> path = Lists.newArrayList(this.position());
-
-        path.addAll(this.moves(board));
+        path.add(0, this.position());
 
         return path.stream().filter(move ->
                 move.getRow() - square.getRow() == move.getColumn() - square.getColumn() && // same diagonal
