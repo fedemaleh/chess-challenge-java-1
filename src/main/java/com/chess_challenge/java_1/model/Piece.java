@@ -26,7 +26,7 @@ public interface Piece {
     /**
      * Gets the attack targets a piece has.
      *
-     * @param board where the piece will be moved.
+     * @param board  where the piece will be moved.
      * @param square to attack
      * @return if the piece can attack the square.
      */
@@ -51,15 +51,13 @@ public interface Piece {
 
     /**
      * Gives the squares that need to be visited to get from the current position to the desired one.
-     * @param board where the piece will be moved.
+     *
+     * @param board  where the piece will be moved.
      * @param square the target square for the piece.
      * @return a list with all the squares visited to get from the current position to the desired one.
      * @throws IllegalMovementException when the piece can't move to the desired square.
      */
-    // TODO remove default once all pieces implement this method
-    default List<Square> pathTo(Board board, Square square) throws IllegalMovementException {
-        return Collections.emptyList();
-    }
+    List<Square> pathTo(Board board, Square square) throws IllegalMovementException;
 
     /**
      * Gets the color of the piece.

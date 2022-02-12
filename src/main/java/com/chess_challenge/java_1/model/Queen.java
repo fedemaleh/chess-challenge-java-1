@@ -1,7 +1,9 @@
 package com.chess_challenge.java_1.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Queen implements Piece {
     private final Color color;
@@ -44,6 +46,23 @@ public class Queen implements Piece {
         }
 
         return new Queen(this.color(), square);
+    }
+
+    @Override
+    public List<Square> pathTo(Board board, Square square) throws IllegalMovementException {
+        Bishop bishop = new Bishop(this.color(), this.position());
+
+        if (bishop.attacks(board, square)) {
+            return bishop.pathTo(board, square);
+        }
+
+        Rook rook = new Rook(this.color(), this.position());
+
+        if (rook.attacks(board, square)) {
+            return rook.pathTo(board, square);
+        }
+
+        throw new IllegalMovementException(this, square);
     }
 
     @Override

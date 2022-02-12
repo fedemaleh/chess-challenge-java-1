@@ -213,6 +213,59 @@ public class QueenMovementTest {
         );
     }
 
+    @Test
+    @Timeout(value = 5)
+    void queen_path_to_lineal_valid_move_is_the_same_as_rook_in_same_position() {
+        // Given a white queen and a white rook in square D4 and an empty board.
+        Square d4 = new Square('d', 4);
+        Board board = Board.emptyBoard();
+
+        Queen queen = new Queen(Color.WHITE, d4);
+        Rook rook = new Rook(Color.WHITE, d4);
+
+        // When it's asked for the path to D8
+        Square d8 = new Square('d', 8);
+
+        List<Square> queenPath = assertDoesNotThrow(() -> queen.pathTo(board, d8));
+        List<Square> rookPath = assertDoesNotThrow(() -> rook.pathTo(board, d8));
+
+        assertEquals(rookPath, queenPath);
+    }
+
+    @Test
+    @Timeout(value = 5)
+    void queen_path_to_diagnoal_valid_move_is_the_same_as_rook_in_same_position() {
+        // Given a white queen and a white bishop in square D4 and an empty board.
+        Square d4 = new Square('d', 4);
+        Board board = Board.emptyBoard();
+
+        Queen queen = new Queen(Color.WHITE, d4);
+        Bishop bishop = new Bishop(Color.WHITE, d4);
+
+        // When it's asked for the path to H8
+        Square h8 = new Square('h', 8);
+
+        List<Square> queenPath = assertDoesNotThrow(() -> queen.pathTo(board, h8));
+        List<Square> bishopPath = assertDoesNotThrow(() -> bishop.pathTo(board, h8));
+
+        assertEquals(bishopPath, queenPath);
+    }
+
+    @Test
+    @Timeout(value = 5)
+    void queen_path_to_invalid_move_throws_exception() {
+        // Given a white queen in square D4.
+        Square d4 = new Square('d', 4);
+
+        Queen queen = new Queen(Color.WHITE, d4);
+
+        // When it's asked for the path to E1
+        Square e1 = new Square('e', 1);
+
+        // Then an IllegalMovementException is thrown
+        assertThrows(IllegalMovementException.class, () -> queen.pathTo(Board.emptyBoard(), e1));
+    }
+
     private static Stream<Arguments> squares() {
         List<Character> columns = Lists.newArrayList('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
 
