@@ -310,6 +310,33 @@ public class CheckmateTest {
     }
 
     /*    a   b   c   d   e   f   g   h
+      8 |   |whR|   |   |   |   |   |   |
+      7 |   |   |   |   |   |   |   |   |
+      6 |   |   |   |   |   |   |   |   |
+      5 |   |   |   |   |   |   |   |   |
+      4 |   |   |   |   |   |   |   |   |
+      3 |   |   |blB|   |   |   |   |   |
+      2 |   |   |blR|   |   |   |   |   |
+      1 |whK|   |blR|   |   |   |   |   |
+          a   b   c   d   e   f   g   h
+   */
+    @Test
+    @Timeout(value = 5)
+    void attacking_piece_cannot_be_intercepted_if_2_pieces_are_checking_the_king() {
+        // Given a board as the comment above
+        Board board = new Board(
+                new King(Color.WHITE, new Square('a', 1)),
+                new Rook(Color.WHITE, new Square('b', 8)),
+                new Rook(Color.BLACK, new Square('c', 1)),
+                new Rook(Color.BLACK, new Square('c', 2)),
+                new Bishop(Color.BLACK, new Square('c', 3))
+        );
+
+        // Then there is no checkmate
+        assertTrue(board.hasCheckmate());
+    }
+
+    /*    a   b   c   d   e   f   g   h
       8 |blQ|   |   |   |   |   |   |   |
       7 |   |   |   |   |   |   |   |   |
       6 |   |   |   |   |   |   |   |   |
