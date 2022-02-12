@@ -298,6 +298,90 @@ public class BishopMovementTest {
         );
     }
 
+    @Test
+    @Timeout(value = 5)
+    void bishop_path_to_forward_valid_move_is_always_origin_square_and_destination_square_and_middle_squares() {
+        // Given a white bishop in square D4.
+        Square d4 = new Square('d', 4);
+
+        Bishop bishop = new Bishop(Color.WHITE, d4);
+
+        // When it's asked for the path to H8
+        Square h8 = new Square('h', 8);
+
+        List<Square> path = assertDoesNotThrow(() -> bishop.pathTo(Board.emptyBoard(), h8));
+
+        Square e5 = new Square('e', 5);
+        Square f6 = new Square('f', 6);
+        Square g7 = new Square('g', 7);
+
+        List<Square> expectedMoves = Lists.newArrayList(
+                d4, // current square
+                // intermediate squares
+                e5, f6, g7,
+                h8 // destination square
+        );
+
+        // all the expected moves where found
+        assertAll(
+                expectedMoves.stream().map((square) -> () -> assertTrue(path.contains(square), () -> String.format("Move: %s was not found", square)))
+        );
+
+        // no additional expected move found
+        assertAll(
+                path.stream().map((square) -> () -> assertTrue(expectedMoves.contains(square), () -> String.format("Move: %s is not expected", square)))
+        );
+    }
+
+    @Test
+    @Timeout(value = 5)
+    void bishop_path_to_backward_valid_move_is_always_origin_square_and_destination_square_and_middle_squares() {
+        // Given a white bishop in square D4.
+        Square d4 = new Square('d', 4);
+
+        Bishop bishop = new Bishop(Color.WHITE, d4);
+
+        // When it's asked for the path to A1
+        Square a1 = new Square('a', 1);
+
+        List<Square> path = assertDoesNotThrow(() -> bishop.pathTo(Board.emptyBoard(), a1));
+
+        Square b2 = new Square('b', 2);
+        Square c3 = new Square('c', 3);
+
+        List<Square> expectedMoves = Lists.newArrayList(
+                d4, // current square
+                // intermediate squares
+                c3, b2,
+                a1 // destination square
+        );
+
+        // all the expected moves where found
+        assertAll(
+                expectedMoves.stream().map((square) -> () -> assertTrue(path.contains(square), () -> String.format("Move: %s was not found", square)))
+        );
+
+        // no additional expected move found
+        assertAll(
+                path.stream().map((square) -> () -> assertTrue(expectedMoves.contains(square), () -> String.format("Move: %s is not expected", square)))
+        );
+    }
+
+    @Test
+    @Timeout(value = 5)
+    void bishop_path_to_invalid_move_throws_exception() {
+        // Given a white bishop in square D4.
+        Square d4 = new Square('d', 4);
+
+        Bishop bishop = new Bishop(Color.WHITE, d4);
+
+        // When it's asked for the path to E1
+        Square e1 = new Square('e', 1);
+
+        // Then an IllegalMovementException is thrown
+        assertThrows(IllegalMovementException.class, () -> bishop.pathTo(Board.emptyBoard(), e1));
+    }
+
     private static Stream<Arguments> squares() {
         List<Character> columns = Lists.newArrayList('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
 

@@ -1,9 +1,12 @@
 package com.chess_challenge.java_1.model;
 
 import com.chess_challenge.java_1.utils.MovementUtils;
+import com.google.common.collect.Lists;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Bishop implements Piece {
     private final Color color;
@@ -99,6 +102,23 @@ public class Bishop implements Piece {
 
         return new Bishop(this.color(), square);
     }
+
+    @Override
+    public List<Square> pathTo(Board board, Square square) throws IllegalMovementException {
+        if (!this.moves(board).contains(square)) {
+            throw new IllegalMovementException(this, square);
+        }
+
+        List<Square> path = Lists.newArrayList(this.position());
+
+        path.addAll(this.moves(board));
+
+        return path.stream().filter(move ->
+                move.getRow() - square.getRow() == move.getColumn() - square.getColumn() && // same diagonal
+                move.distanceTo(square) <= this.position().distanceTo(square)
+        ).collect(Collectors.toList());
+    }
+
 
     @Override
     public Color color() {

@@ -43,6 +43,13 @@ public class Square {
         return row;
     }
 
+    public double distanceTo(Square square) {
+        double deltaCol = this.getColumn() - square.getColumn();
+        double deltaRow = this.getRow() - square.getRow();
+
+        return Math.sqrt(deltaCol*deltaCol + deltaRow * deltaRow);
+    }
+
     @Override
     public String toString() {
         return String.format("(%c, %d)", column, row);
