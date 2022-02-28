@@ -1,0 +1,68 @@
+{
+  "pieces": [
+    {
+      "type": "queen",
+      "position": {
+        "column": "e",
+        "row": "7"
+      },
+      "color": "black"
+    },
+    {
+      "type": "king",
+      "position": {
+        "column": "g",
+        "row": "7"
+      },
+      "color": "white"
+    },
+    {
+      "type": "pawn",
+      "position": {
+        "column": "h",
+        "row": "7"
+      },
+      "color": "white"
+    },
+    {
+      "type": "bishop",
+      "position": {
+        "column": "f",
+        "row": "5"
+      },
+      "color": "white"
+    },
+    {
+      "type": "pawn",
+      "position": {
+        "column": "g",
+        "row": "5"
+      },
+      "color": "black"
+    },
+    {
+      "type": "king",
+      "position": {
+        "column": "d",
+        "row": "4"
+      },
+      "color": "black"
+    },
+    {
+      "type": "pawn",
+      "position": {
+        "column": "g",
+        "row": "4"
+      },
+      "color": "white"
+    },
+    {
+      "type": "knight",
+      "position": {
+        "column": "f",
+        "row": "2"
+      },
+      "color": "black"
+    }
+  ]
+}

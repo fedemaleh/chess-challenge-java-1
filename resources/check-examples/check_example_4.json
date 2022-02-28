@@ -1,0 +1,180 @@
+{
+  "pieces": [
+    {
+      "type": "rook",
+      "position": {
+        "column": "b",
+        "row": "8"
+      },
+      "color": "black"
+    },
+    {
+      "type": "king",
+      "position": {
+        "column": "e",
+        "row": "8"
+      },
+      "color": "black"
+    },
+    {
+      "type": "rook",
+      "position": {
+        "column": "g",
+        "row": "8"
+      },
+      "color": "black"
+    },
+    {
+      "type": "knight",
+      "position": {
+        "column": "c",
+        "row": "7"
+      },
+      "color": "white"
+    },
+    {
+      "type": "bishop",
+      "position": {
+        "column": "e",
+        "row": "7"
+      },
+      "color": "black"
+    },
+    {
+      "type": "pawn",
+      "position": {
+        "column": "f",
+        "row": "7"
+      },
+      "color": "black"
+    },
+    {
+      "type": "pawn",
+      "position": {
+        "column": "h",
+        "row": "7"
+      },
+      "color": "black"
+    },
+    {
+      "type": "pawn",
+      "position": {
+        "column": "a",
+        "row": "6"
+      },
+      "color": "black"
+    },
+    {
+      "type": "pawn",
+      "position": {
+        "column": "d",
+        "row": "6"
+      },
+      "color": "black"
+    },
+    {
+      "type": "bishop",
+      "position": {
+        "column": "e",
+        "row": "6"
+      },
+      "color": "black"
+    },
+    {
+      "type": "pawn",
+      "position": {
+        "column": "f",
+        "row": "6"
+      },
+      "color": "black"
+    },
+    {
+      "type": "pawn",
+      "position": {
+        "column": "b",
+        "row": "5"
+      },
+      "color": "black"
+    },
+    {
+      "type": "bishop",
+      "position": {
+        "column": "h",
+        "row": "5"
+      },
+      "color": "white"
+    },
+    {
+      "type": "rook",
+      "position": {
+        "column": "d",
+        "row": "4"
+      },
+      "color": "white"
+    },
+    {
+      "type": "pawn",
+      "position": {
+        "column": "e",
+        "row": "4"
+      },
+      "color": "white"
+    },
+    {
+      "type": "pawn",
+      "position": {
+        "column": "a",
+        "row": "3"
+      },
+      "color": "white"
+    },
+    {
+      "type": "pawn",
+      "position": {
+        "column": "b",
+        "row": "2"
+      },
+      "color": "white"
+    },
+    {
+      "type": "pawn",
+      "position": {
+        "column": "c",
+        "row": "2"
+      },
+      "color": "white"
+    },
+    {
+      "type": "pawn",
+      "position": {
+        "column": "g",
+        "row": "2"
+      },
+      "color": "white"
+    },
+    {
+      "type": "pawn",
+      "position": {
+        "column": "h",
+        "row": "2"
+      },
+      "color": "white"
+    },
+    {
+      "type": "king",
+      "position": {
+        "column": "c",
+        "row": "1"
+      },
+      "color": "white"
+    },
+    {
+      "type": "rook",
+      "position": {
+        "column": "d",
+        "row": "1"
+      },
+      "color": "white"
+    }
+  ]
+}

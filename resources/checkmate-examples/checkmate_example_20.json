@@ -1,0 +1,156 @@
+{
+  "pieces": [
+    {
+      "type": "rook",
+      "position": {
+        "column": "a",
+        "row": "8"
+      },
+      "color": "black"
+    },
+    {
+      "type": "queen",
+      "position": {
+        "column": "d",
+        "row": "8"
+      },
+      "color": "black"
+    },
+    {
+      "type": "rook",
+      "position": {
+        "column": "d",
+        "row": "7"
+      },
+      "color": "black"
+    },
+    {
+      "type": "king",
+      "position": {
+        "column": "e",
+        "row": "7"
+      },
+      "color": "black"
+    },
+    {
+      "type": "pawn",
+      "position": {
+        "column": "b",
+        "row": "6"
+      },
+      "color": "black"
+    },
+    {
+      "type": "rook",
+      "position": {
+        "column": "e",
+        "row": "6"
+      },
+      "color": "white"
+    },
+    {
+      "type": "pawn",
+      "position": {
+        "column": "h",
+        "row": "6"
+      },
+      "color": "black"
+    },
+    {
+      "type": "pawn",
+      "position": {
+        "column": "b",
+        "row": "5"
+      },
+      "color": "white"
+    },
+    {
+      "type": "pawn",
+      "position": {
+        "column": "d",
+        "row": "5"
+      },
+      "color": "white"
+    },
+    {
+      "type": "pawn",
+      "position": {
+        "column": "e",
+        "row": "5"
+      },
+      "color": "black"
+    },
+    {
+      "type": "rook",
+      "position": {
+        "column": "f",
+        "row": "5"
+      },
+      "color": "white"
+    },
+    {
+      "type": "pawn",
+      "position": {
+        "column": "g",
+        "row": "5"
+      },
+      "color": "black"
+    },
+    {
+      "type": "pawn",
+      "position": {
+        "column": "h",
+        "row": "5"
+      },
+      "color": "white"
+    },
+    {
+      "type": "pawn",
+      "position": {
+        "column": "a",
+        "row": "4"
+      },
+      "color": "black"
+    },
+    {
+      "type": "pawn",
+      "position": {
+        "column": "e",
+        "row": "4"
+      },
+      "color": "white"
+    },
+    {
+      "type": "pawn",
+      "position": {
+        "column": "g",
+        "row": "4"
+      },
+      "color": "white"
+    },
+    {
+      "type": "pawn",
+      "position": {
+        "column": "a",
+        "row": "3"
+      },
+      "color": "white"
+    },
+    {
+      "type": "pawn",
+      "position": {
+        "column": "b",
+        "row": "3"
+      },
+      "color": "black"
+    },
+    {
+      "type": "king",
+      "position": {
+        "column": "b",
+        "row": "1"
+      },
+      "color": "white"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "pieces": [
+    {
+      "type": "queen",
+      "position": {
+        "column": "e",
+        "row": "8"
+      },
+      "color": "white"
+    },
+    {
+      "type": "pawn",
+      "position": {
+        "column": "a",
+        "row": "5"
+      },
+      "color": "black"
+    },
+    {
+      "type": "pawn",
+      "position": {
+        "column": "a",
+        "row": "4"
+      },
+      "color": "white"
+    },
+    {
+      "type": "king",
+      "position": {
+        "column": "b",
+        "row": "4"
+      },
+      "color": "black"
+    },
+    {
+      "type": "queen",
+      "position": {
+        "column": "b",
+        "row": "2"
+      },
+      "color": "black"
+    },
+    {
+      "type": "king",
+      "position": {
+        "column": "e",
+        "row": "2"
+      },
+      "color": "white"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "pieces": [
+    {
+      "type": "pawn",
+      "position": {
+        "column": "d",
+        "row": "6"
+      },
+      "color": "black"
+    },
+    {
+      "type": "king",
+      "position": {
+        "column": "d",
+        "row": "5"
+      },
+      "color": "white"
+    },
+    {
+      "type": "king",
+      "position": {
+        "column": "f",
+        "row": "5"
+      },
+      "color": "black"
+    },
+    {
+      "type": "rook",
+      "position": {
+        "column": "d",
+        "row": "3"
+      },
+      "color": "black"
+    },
+    {
+      "type": "pawn",
+      "position": {
+        "column": "b",
+        "row": "2"
+      },
+      "color": "white"
+    },
+    {
+      "type": "rook",
+      "position": {
+        "column": "e",
+        "row": "2"
+      },
+      "color": "white"
+    }
+  ]
+}
