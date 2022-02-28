@@ -31,6 +31,12 @@ public class Board {
         return !this.pieceAt(square).isPresent();
     }
 
+    public boolean canOccupy(Piece piece, Square square) {
+        return !this.pieceAt(square)
+                .filter(currentPieceAtSquare -> currentPieceAtSquare.color() == piece.color())
+                .isPresent();
+    }
+
     public boolean isThreatened(Square square, Piece currentPiece) {
         // This temp board is necessary so the defending pieces can find the square with the friendly piece
         Board boardWithoutPieceAtSquare = new Board(

@@ -4,8 +4,10 @@ import com.google.common.collect.Lists;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class Knight implements MovementStrategy {
 
@@ -13,17 +15,11 @@ public class Knight implements MovementStrategy {
     public List<Square> moves(Board board, Piece piece) {
         List<Square> moves = new ArrayList<>();
 
-        moves.addAll(this.verticalMoves(piece));
+        moves.addAll(this.verticalMoves(board, piece));
 
-        moves.addAll(this.horizontalMoves(piece));
+        moves.addAll(this.horizontalMoves(board, piece));
 
-        return moves
-                .stream()
-                .filter(square -> !board.pieceAt(square)
-                        .filter(p -> p.color() == piece.color())
-                        .isPresent()
-                )
-                .collect(Collectors.toList());
+        return moves;
     }
 
     @Override
@@ -35,27 +31,28 @@ public class Knight implements MovementStrategy {
         return Lists.newArrayList(piece.position(), square);
     }
 
-    private List<Square> verticalMoves(Piece piece) {
-        return IntStream.of(piece.position().getRow() - 2, piece.position().getRow() + 2)
-                .filter(row -> row >= 1 && row <= 8)
-                .boxed()
-                .flatMap(row ->
-                        IntStream.of(piece.position().getColumn() - 1, piece.position().getColumn() + 1)
-                                .filter(col -> col >= 'a' && col <= 'h')
-                                .mapToObj(col -> new Square((char) col, row))
+    private List<Square> verticalMoves(Board board, Piece piece) {
+        return this.generateMoves(board, piece, 2, 1);
+    }
+
+    private List<Square> horizontalMoves(Board board, Piece piece) {
+        return this.generateMoves(board, piece, 1, 2);
+    }
+
+    private List<Square> generateMoves(Board board, Piece piece, int verticalSquares, int horizontalSquares) {
+        return this.validSquares(piece.position().backwardSquare(verticalSquares), piece.position().forwardSquare(verticalSquares))
+                .flatMap(square -> this.validSquares(
+                        square.leftSquare(horizontalSquares),
+                        square.rightSquare(horizontalSquares))
                 )
+                .filter(square -> board.canOccupy(piece, square))
                 .collect(Collectors.toList());
     }
 
-    private List<Square> horizontalMoves(Piece piece) {
-        return IntStream.of(piece.position().getColumn() - 2, piece.position().getColumn() + 2)
-                .filter(col -> col >= 'a' && col <= 'h')
-                .boxed()
-                .flatMap(col ->
-                        IntStream.of(piece.position().getRow() - 1, piece.position().getRow() + 1)
-                                .filter(row -> row >= 1 && row <= 8)
-                                .mapToObj(row -> new Square((char) (int) col, row))
-                )
-                .collect(Collectors.toList());
+    @SafeVarargs
+    private final Stream<Square> validSquares(Optional<Square>... squares) {
+        return Stream.of(squares)
+                .filter(Optional::isPresent)
+                .map(Optional::get);
     }
 }

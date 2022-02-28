@@ -67,19 +67,35 @@ public class Square {
     }
 
     public Optional<Square> leftSquare() {
-        return Square.squareOrEmpty(this.getColumn() - 1, this.getRow());
+        return this.leftSquare(1);
     }
 
     public Optional<Square> rightSquare() {
-        return Square.squareOrEmpty(this.getColumn() + 1, this.getRow());
+        return this.rightSquare(1);
     }
 
     public Optional<Square> backwardSquare() {
-        return Square.squareOrEmpty(this.getColumn(), this.getRow() - 1);
+        return this.backwardSquare(1);
     }
 
     public Optional<Square> forwardSquare() {
-        return Square.squareOrEmpty(this.getColumn(), this.getRow() + 1);
+        return this.forwardSquare(1);
+    }
+
+    public Optional<Square> leftSquare(int squares) {
+        return Square.squareOrEmpty(this.getColumn() - squares, this.getRow());
+    }
+
+    public Optional<Square> rightSquare(int squares) {
+        return Square.squareOrEmpty(this.getColumn() + squares, this.getRow());
+    }
+
+    public Optional<Square> backwardSquare(int squares) {
+        return Square.squareOrEmpty(this.getColumn(), this.getRow() - squares);
+    }
+
+    public Optional<Square> forwardSquare(int squares) {
+        return Square.squareOrEmpty(this.getColumn(), this.getRow() + squares);
     }
 
     @Override
