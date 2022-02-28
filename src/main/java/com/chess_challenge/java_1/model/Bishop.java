@@ -40,8 +40,8 @@ public class Bishop implements MovementStrategy {
                 MovementUtils.generateMovesUntilCondition(
                         board,
                         piece,
-                        (square) -> square.getColumn() >= 'a' && square.getRow() >= 1,
-                        (square) -> Square.squareOrEmpty((char) (square.getColumn() - 1), square.getRow() - 1)
+                        (square) -> square.getColumn() >= Square.MIN_COL && square.getRow() >= Square.MIN_ROW,
+                        (square) -> square.leftSquare().flatMap(Square::backwardSquare)
                 )
         );
 
@@ -50,8 +50,8 @@ public class Bishop implements MovementStrategy {
                 MovementUtils.generateMovesUntilCondition(
                         board,
                         piece,
-                        (square) -> square.getColumn() <= 'h' && square.getRow() >= 1,
-                        (square) -> Square.squareOrEmpty((char) (square.getColumn() + 1), square.getRow() - 1)
+                        (square) -> square.getColumn() <= Square.MAX_COL && square.getRow() >= Square.MIN_ROW,
+                        (square) -> square.rightSquare().flatMap(Square::backwardSquare)
                 )
         );
 
@@ -66,8 +66,8 @@ public class Bishop implements MovementStrategy {
                 MovementUtils.generateMovesUntilCondition(
                         board,
                         piece,
-                        (square) -> square.getColumn() >= 'a' && square.getRow() <= 8,
-                        (square) -> Square.squareOrEmpty((char) (square.getColumn() - 1), square.getRow() + 1)
+                        (square) -> square.getColumn() >= Square.MIN_COL && square.getRow() <= Square.MAX_ROW,
+                        (square) -> square.leftSquare().flatMap(Square::forwardSquare)
                 )
         );
 
@@ -76,8 +76,8 @@ public class Bishop implements MovementStrategy {
                 MovementUtils.generateMovesUntilCondition(
                         board,
                         piece,
-                        (square) -> square.getColumn() <= 'h' && square.getRow() <= 8,
-                        (square) -> Square.squareOrEmpty((char) (square.getColumn() + 1), square.getRow() + 1)
+                        (square) -> square.getColumn() <= Square.MAX_COL && square.getRow() <= Square.MAX_ROW,
+                        (square) -> square.rightSquare().flatMap(Square::forwardSquare)
                 )
         );
 
