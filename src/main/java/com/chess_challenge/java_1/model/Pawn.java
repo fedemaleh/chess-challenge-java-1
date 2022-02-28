@@ -2,54 +2,38 @@ package com.chess_challenge.java_1.model;
 
 import com.google.common.collect.Lists;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class Pawn implements MovementStrategy {
     @Override
     public List<Square> moves(Board board, Piece piece) {
-        List<Square> squares = new ArrayList<>();
+        List<Square> moves = new ArrayList<>();
 
-        char column = piece.position().getColumn();
-        int row = piece.position().getRow();
+        Optional<Square> firstPossibleMove = this.nextSquare(piece.color(), piece.position())
+                .filter(board::emptySquare);
 
-        if (row != piece.color().finalPawnRow()) {
-            Square move = new Square(column, this.nextRow(piece, 1));
+        Optional<Square> secondPossibleMove = firstPossibleMove
+                .filter(move -> this.isInitialPosition(piece))
+                .flatMap(move -> this.nextSquare(piece.color(), move))
+                .filter(board::emptySquare);
 
-            if (board.pieceAt(move).isPresent()) {
-                return Collections.emptyList();
-            }
+        firstPossibleMove.ifPresent(moves::add);
+        secondPossibleMove.ifPresent(moves::add);
 
-            squares.add(move);
-        }
-
-        if (row == piece.color().initialPawnRow()) {
-            Square move = new Square(column, this.nextRow(piece, 2));
-
-            if (!board.pieceAt(move).isPresent()) {
-                squares.add(move);
-            }
-        }
-
-        return squares;
+        return moves;
     }
 
     @Override
     public List<Square> attacks(Board board, Piece piece) {
-        if (piece.position().getRow() == piece.color().finalPawnRow()) {
-            return Collections.emptyList();
-        }
-
         List<Square> attacks = new ArrayList<>();
 
-        if (piece.position().getColumn() != 'a') {
-            attacks.add(new Square((char) (piece.position().getColumn() - 1), this.nextRow(piece, 1)));
-        }
+        Optional<Square> nextRow = this.nextSquare(piece.color(), piece.position());
 
-        if (piece.position().getColumn() != 'h') {
-            attacks.add(new Square((char) (piece.position().getColumn() + 1), this.nextRow(piece, 1)));
-        }
+        Optional<Square> leftAttack = nextRow.flatMap(Square::leftSquare);
+        Optional<Square> rightAttack = nextRow.flatMap(Square::rightSquare);
+
+        leftAttack.ifPresent(attacks::add);
+        rightAttack.ifPresent(attacks::add);
 
         return attacks;
     }
@@ -63,11 +47,19 @@ public class Pawn implements MovementStrategy {
         return Lists.newArrayList(piece.position(), square);
     }
 
-    private int nextRow(Piece piece, int squares) {
-        if (piece.color() == Color.WHITE) {
-            return piece.position().getRow() + squares;
+    private Optional<Square> nextSquare(Color color, Square position) {
+        if (color == Color.WHITE) {
+            return position.forwardSquare();
         }
 
-        return piece.position().getRow() - squares;
+        return position.backwardSquare();
+    }
+
+    private boolean isInitialPosition(Piece piece) {
+        if (piece.color() == Color.WHITE) {
+            return piece.position().getRow() == Square.MIN_ROW + 1;
+        }
+
+        return piece.position().getRow() == Square.MAX_ROW - 1;
     }
 }

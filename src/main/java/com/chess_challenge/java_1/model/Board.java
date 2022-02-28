@@ -27,6 +27,10 @@ public class Board {
         return pieces.stream().filter(piece -> piece.position().equals(square)).findFirst();
     }
 
+    public boolean emptySquare(Square square) {
+        return !this.pieceAt(square).isPresent();
+    }
+
     public boolean isThreatened(Square square, Piece currentPiece) {
         // This temp board is necessary so the defending pieces can find the square with the friendly piece
         Board boardWithoutPieceAtSquare = new Board(
