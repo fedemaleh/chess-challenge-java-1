@@ -289,6 +289,24 @@ class KingMovementTest {
         assertThrows(IllegalMovementException.class, () -> king.pathTo(Board.emptyBoard(), d1));
     }
 
+    @Test
+    @Timeout(value = 5)
+    void king_cannot_move_to_adjacent_other_king() {
+        // Given a white king in square D4.
+        Square d4 = new Square('d', 4);
+        Square d6 = new Square('d', 6);
+
+        King whiteKing = new King(Color.WHITE, d4);
+
+        King blackKing = new King(Color.BLACK, d6);
+
+        // When it's asked to move to D5
+        Square d5 = new Square('d', 5);
+
+        // Then an IllegalMovementException is thrown
+        assertThrows(IllegalMovementException.class, () -> whiteKing.moveTo(new Board(whiteKing, blackKing), d5));
+    }
+
     private static Stream<Arguments> squares() {
         List<Character> columns = Lists.newArrayList('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
 

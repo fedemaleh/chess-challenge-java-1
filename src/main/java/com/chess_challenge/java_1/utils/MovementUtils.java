@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class MovementUtils {
     public static List<Square> generateMovesUntilCondition(Board board,
@@ -48,5 +50,21 @@ public class MovementUtils {
         }
 
         return moves;
+    }
+
+    public static List<Square> adjacentSquares(Square square) {
+        int minRow = Integer.max(1, square.getRow() - 1);
+        int maxRow = Integer.min(8, square.getRow() + 1);
+
+        char minCol = (char)Integer.max('a', square.getColumn() - 1);
+        char maxCol = (char)Integer.min('h', square.getColumn() + 1);
+
+        return IntStream.rangeClosed(minRow, maxRow)
+                .mapToObj(row ->
+                        IntStream.rangeClosed(minCol, maxCol)
+                        .mapToObj(col -> new Square((char)col, row))
+                )
+                .flatMap(Function.identity())
+                .collect(Collectors.toList());
     }
 }

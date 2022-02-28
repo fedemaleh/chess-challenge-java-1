@@ -29,7 +29,9 @@ public class King implements Piece {
         moves.remove(this.position());
 
         return moves.stream()
-                .filter(move -> !this.isSquareOccupiedByOwnPiece(board, move) && !isSquareThreatenedByRivalPiece(board, move))
+                .filter(move -> !this.isSquareOccupiedByOwnPiece(board, move))
+                .filter(move -> !isSquareThreatenedByRivalPiece(board, move))
+                .filter(move -> !isAdjacentToOtherKing(board, move))
                 .collect(Collectors.toList());
     }
 
@@ -39,6 +41,10 @@ public class King implements Piece {
 
     private boolean isSquareThreatenedByRivalPiece(Board board, Square move) {
         return board.isThreatened(move, this);
+    }
+
+    private boolean isAdjacentToOtherKing(Board board, Square move) {
+        return !board.validKingMove(this, move);
     }
 
     @Override

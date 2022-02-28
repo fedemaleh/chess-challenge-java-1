@@ -1,7 +1,21 @@
 package com.chess_challenge.java_1.model;
 
+import com.chess_challenge.java_1.converters.BoardConverter;
+import com.chess_challenge.java_1.dto.BoardDTO;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Lists;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+import java.util.function.Function;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -361,5 +375,39 @@ public class CheckmateTest {
 
         // Then there is a checkmate
         assertTrue(board.hasCheckmate());
+    }
+
+    @ParameterizedTest
+    @MethodSource("examples")
+    @Timeout(value = 5)
+    void check_cases_are_not_considered_checkmates(Integer exampleNumber) throws IOException {
+        File example = new File(String.format("resources/check-examples/check_example_%d.json", exampleNumber));
+
+        BoardDTO boardDTO = new ObjectMapper().readValue(example, BoardDTO.class);
+
+        BoardConverter converter = new BoardConverter();
+
+        Board board = converter.convertBoard(boardDTO);
+
+        assertFalse(board.hasCheckmate());
+    }
+
+    @ParameterizedTest
+    @MethodSource("examples")
+    @Timeout(value = 20)
+    void checkmate_cases_are_considered_checkmates(Integer exampleNumber) throws IOException {
+        File example = new File(String.format("resources/checkmate-examples/checkmate_example_%d.json", exampleNumber));
+
+        BoardDTO boardDTO = new ObjectMapper().readValue(example, BoardDTO.class);
+
+        BoardConverter converter = new BoardConverter();
+
+        Board board = converter.convertBoard(boardDTO);
+
+        assertTrue(board.hasCheckmate());
+    }
+
+    private static Stream<Arguments> examples() {
+        return IntStream.rangeClosed(1, 30).boxed().map(Arguments::of);
     }
 }

@@ -91,7 +91,7 @@ public class Pawn implements Piece {
 
     @Override
     public List<Square> pathTo(Board board, Square square) throws IllegalMovementException {
-        if (!this.moves(board).contains(square)) {
+        if (!this.moves(board).contains(square) && !this.attacks(board).contains(square)) {
             throw new IllegalMovementException(this, square);
         }
 
