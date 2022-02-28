@@ -18,6 +18,11 @@ public class Rook implements MovementStrategy {
     }
 
     @Override
+    public List<Square> attacks(Board board, Piece piece) {
+        return this.moves(board, piece);
+    }
+
+    @Override
     public List<Square> pathTo(Board board, Piece piece, Square square) throws IllegalMovementException {
         List<Square> path = this.moves(board, piece);
 
@@ -40,8 +45,8 @@ public class Rook implements MovementStrategy {
                 MovementUtils.generateMovesUntilCondition(
                         board,
                         piece,
-                        (square) -> square.getColumn() >= 'a',
-                        (square) -> Square.squareOrEmpty((char) (square.getColumn() - 1), piece.position().getRow())
+                        (square) -> square.getColumn() >= Square.MIN_COL,
+                        Square::leftSquare
                 )
         );
 
@@ -50,8 +55,8 @@ public class Rook implements MovementStrategy {
                 MovementUtils.generateMovesUntilCondition(
                         board,
                         piece,
-                        (square) -> square.getColumn() <= 'h',
-                        (square) -> Square.squareOrEmpty((char) (square.getColumn() + 1), piece.position().getRow())
+                        (square) -> square.getColumn() <= Square.MAX_COL,
+                        Square::rightSquare
                 )
         );
 
@@ -66,8 +71,8 @@ public class Rook implements MovementStrategy {
                 MovementUtils.generateMovesUntilCondition(
                         board,
                         piece,
-                        (square) -> square.getRow() >= 1,
-                        (square) -> Square.squareOrEmpty(square.getColumn(), square.getRow() - 1)
+                        (square) -> square.getRow() >= Square.MIN_ROW,
+                        Square::backwardSquare
                 )
         );
 
@@ -76,8 +81,8 @@ public class Rook implements MovementStrategy {
                 MovementUtils.generateMovesUntilCondition(
                         board,
                         piece,
-                        (square) -> square.getRow() <= 8,
-                        (square) -> Square.squareOrEmpty(square.getColumn(), square.getRow() + 1)
+                        (square) -> square.getRow() <= Square.MAX_ROW,
+                        Square::forwardSquare
                 )
         );
 

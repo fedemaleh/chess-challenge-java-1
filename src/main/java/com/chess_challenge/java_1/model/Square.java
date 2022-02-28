@@ -4,11 +4,11 @@ import java.util.Objects;
 import java.util.Optional;
 
 public class Square {
-    private static final int MIN_ROW = 1;
-    private static final int MAX_ROW = 8;
+    public static final int MIN_ROW = 1;
+    public static final int MAX_ROW = 8;
 
-    private static final char MIN_COL = 'a';
-    private static final char MAX_COL = 'h';
+    public static final char MIN_COL = 'a';
+    public static final char MAX_COL = 'h';
 
     private final char column;
     private final int row;
@@ -22,8 +22,18 @@ public class Square {
         this.row = row;
     }
 
+    public Square(int column, int row) throws IllegalSquareException {
+        this((char) column, row);
+    }
+
     public static Optional<Square> squareOrEmpty(char column, int row) {
         return Optional.of(validSquare(column, row))
+                .filter(valid -> valid)
+                .map(valid -> new Square(column, row));
+    }
+
+    public static Optional<Square> squareOrEmpty(int column, int row) {
+        return Optional.of(validSquare((char) column, row))
                 .filter(valid -> valid)
                 .map(valid -> new Square(column, row));
     }
@@ -54,6 +64,22 @@ public class Square {
 
     public boolean sharesDiagonal(Square square) {
         return this.getRow() - square.getRow() == this.getColumn() - square.getColumn();
+    }
+
+    public Optional<Square> leftSquare() {
+        return Square.squareOrEmpty(this.getColumn() - 1, this.getRow());
+    }
+
+    public Optional<Square> rightSquare() {
+        return Square.squareOrEmpty(this.getColumn() + 1, this.getRow());
+    }
+
+    public Optional<Square> backwardSquare() {
+        return Square.squareOrEmpty(this.getColumn(), this.getRow() - 1);
+    }
+
+    public Optional<Square> forwardSquare() {
+        return Square.squareOrEmpty(this.getColumn(), this.getRow() + 1);
     }
 
     @Override
