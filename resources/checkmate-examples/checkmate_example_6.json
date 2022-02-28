@@ -3,47 +3,63 @@
     {
       "type": "rook",
       "position": {
-        "column": "a",
+        "column": "c",
         "row": "8"
+      },
+      "color": "black"
+    },
+    {
+      "type": "rook",
+      "position": {
+        "column": "e",
+        "row": "8"
+      },
+      "color": "black"
+    },
+    {
+      "type": "king",
+      "position": {
+        "column": "f",
+        "row": "8"
+      },
+      "color": "black"
+    },
+    {
+      "type": "rook",
+      "position": {
+        "column": "h",
+        "row": "8"
+      },
+      "color": "white"
+    },
+    {
+      "type": "pawn",
+      "position": {
+        "column": "a",
+        "row": "7"
+      },
+      "color": "black"
+    },
+    {
+      "type": "pawn",
+      "position": {
+        "column": "b",
+        "row": "7"
       },
       "color": "black"
     },
     {
       "type": "queen",
       "position": {
+        "column": "c",
+        "row": "7"
+      },
+      "color": "black"
+    },
+    {
+      "type": "bishop",
+      "position": {
         "column": "d",
-        "row": "8"
-      },
-      "color": "black"
-    },
-    {
-      "type": "rook",
-      "position": {
-        "column": "f",
-        "row": "8"
-      },
-      "color": "black"
-    },
-    {
-      "type": "pawn",
-      "position": {
-        "column": "a",
-        "row": "7"
-      },
-      "color": "black"
-    },
-    {
-      "type": "pawn",
-      "position": {
-        "column": "b",
-        "row": "7"
-      },
-      "color": "black"
-    },
-    {
-      "type": "knight",
-      "position": {
-        "column": "e",
         "row": "7"
       },
       "color": "black"
@@ -57,49 +73,41 @@
       "color": "black"
     },
     {
-      "type": "bishop",
-      "position": {
-        "column": "b",
-        "row": "6"
-      },
-      "color": "black"
-    },
-    {
-      "type": "pawn",
-      "position": {
-        "column": "c",
-        "row": "6"
-      },
-      "color": "black"
-    },
-    {
-      "type": "pawn",
-      "position": {
-        "column": "h",
-        "row": "6"
-      },
-      "color": "black"
-    },
-    {
       "type": "pawn",
       "position": {
         "column": "d",
-        "row": "5"
+        "row": "6"
       },
       "color": "black"
+    },
+    {
+      "type": "pawn",
+      "position": {
+        "column": "e",
+        "row": "6"
+      },
+      "color": "black"
+    },
+    {
+      "type": "pawn",
+      "position": {
+        "column": "f",
+        "row": "6"
+      },
+      "color": "white"
     },
     {
       "type": "pawn",
       "position": {
         "column": "g",
-        "row": "5"
+        "row": "6"
       },
       "color": "black"
     },
     {
       "type": "pawn",
       "position": {
-        "column": "b",
+        "column": "e",
         "row": "4"
       },
       "color": "white"
@@ -107,47 +115,31 @@
     {
       "type": "knight",
       "position": {
-        "column": "d",
-        "row": "4"
+        "column": "e",
+        "row": "3"
       },
       "color": "white"
     },
     {
-      "type": "king",
+      "type": "pawn",
       "position": {
-        "column": "g",
-        "row": "4"
+        "column": "a",
+        "row": "2"
       },
-      "color": "black"
+      "color": "white"
+    },
+    {
+      "type": "pawn",
+      "position": {
+        "column": "b",
+        "row": "2"
+      },
+      "color": "white"
     },
     {
       "type": "pawn",
       "position": {
         "column": "c",
-        "row": "3"
-      },
-      "color": "white"
-    },
-    {
-      "type": "bishop",
-      "position": {
-        "column": "g",
-        "row": "3"
-      },
-      "color": "white"
-    },
-    {
-      "type": "pawn",
-      "position": {
-        "column": "a",
-        "row": "2"
-      },
-      "color": "white"
-    },
-    {
-      "type": "bishop",
-      "position": {
-        "column": "e",
         "row": "2"
       },
       "color": "white"
@@ -171,7 +163,7 @@
     {
       "type": "rook",
       "position": {
-        "column": "a",
+        "column": "d",
         "row": "1"
       },
       "color": "white"
@@ -179,15 +171,7 @@
     {
       "type": "king",
       "position": {
-        "column": "e",
-        "row": "1"
-      },
-      "color": "white"
-    },
-    {
-      "type": "rook",
-      "position": {
-        "column": "h",
+        "column": "g",
         "row": "1"
       },
       "color": "white"
