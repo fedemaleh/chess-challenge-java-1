@@ -9,26 +9,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class MovementUtils {
     public static List<Square> generateMovesUntilCondition(Board board,
                                                            Piece currentPiece,
-                                                           Predicate<Square> loopCondition,
-                                                           Function<Square, Optional<Square>> nextSquare) {
+                                                           MoveDirection moveDirection) {
         List<Square> moves = new ArrayList<>();
 
-        Optional<Square> possibleSquare = nextSquare.apply(currentPiece.position());
+        Optional<Square> possibleSquare = moveDirection.next(currentPiece.position());
 
-        if (!possibleSquare.isPresent()) {
-            return moves;
-        }
 
-        Square currentSquare = possibleSquare.get();
+        while (possibleSquare.isPresent()) {
+            Square currentSquare = possibleSquare.get();
 
-        while (loopCondition.test(currentSquare)) {
             Optional<Piece> piece = board.pieceAt(currentSquare);
 
             if (piece.isPresent()) {
@@ -41,13 +36,7 @@ public class MovementUtils {
                 moves.add(currentSquare);
             }
 
-            possibleSquare = nextSquare.apply(currentSquare);
-
-            if (!possibleSquare.isPresent()) {
-                break;
-            }
-
-            currentSquare = possibleSquare.get();
+            possibleSquare = moveDirection.next(currentSquare);
         }
 
         return moves;
