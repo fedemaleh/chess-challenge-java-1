@@ -1,6 +1,5 @@
 package com.chess_challenge.java_1.model;
 
-
 import com.google.common.collect.Lists;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
@@ -8,7 +7,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.IntStream;
@@ -28,7 +26,7 @@ class KingMovementTest {
         // Given a white king in square D4.
         Square d4 = new Square('d', 4);
 
-        King king = new King(Color.WHITE, d4);
+        Piece king = new Piece(new King(), Color.WHITE, d4);
 
         // When the king is asked for his moves
         List<Square> moves = king.moves(Board.emptyBoard());
@@ -56,7 +54,7 @@ class KingMovementTest {
         // Given a white king in square A1.
         Square a1 = new Square('a', 1);
 
-        King king = new King(Color.WHITE, a1);
+        Piece king = new Piece(new King(), Color.WHITE, a1);
 
         // When the king is asked for his moves
         List<Square> moves = king.moves(Board.emptyBoard());
@@ -84,7 +82,7 @@ class KingMovementTest {
         // Given a white king in square H1.
         Square h1 = new Square('h', 1);
 
-        King king = new King(Color.WHITE, h1);
+        Piece king = new Piece(new King(), Color.WHITE, h1);
 
         // When the king is asked for his moves
         List<Square> moves = king.moves(Board.emptyBoard());
@@ -112,7 +110,7 @@ class KingMovementTest {
         // Given a white king in square A8.
         Square a8 = new Square('a', 8);
 
-        King king = new King(Color.WHITE, a8);
+        Piece king = new Piece(new King(), Color.WHITE, a8);
 
         // When the king is asked for his moves
         List<Square> moves = king.moves(Board.emptyBoard());
@@ -138,9 +136,9 @@ class KingMovementTest {
     @Timeout(value = 5)
     void king_in_h8_has_3_possible_moves() throws IllegalSquareException {
         // Given a white king in square H8.
-        Square d8 = new Square('h', 8);
+        Square h8 = new Square('h', 8);
 
-        King king = new King(Color.WHITE, d8);
+        Piece king = new Piece(new King(), Color.WHITE, h8);
 
         // When the king is asked for his moves
         List<Square> moves = king.moves(Board.emptyBoard());
@@ -169,7 +167,7 @@ class KingMovementTest {
         // Given a King
         Square square = new Square(col, row);
 
-        King king = new King(Color.WHITE, square);
+        Piece king = new Piece(new King(), Color.WHITE, square);
         Board board = Board.emptyBoard();
 
         // It's moves should be the same as it's attacks
@@ -186,13 +184,13 @@ class KingMovementTest {
         // Given a white king in square D4.
         Square d4 = new Square('d', 4);
 
-        King king = new King(Color.WHITE, d4);
+        Piece king = new Piece(new King(), Color.WHITE, d4);
 
         // When it's asked to move to E4
         Square e4 = new Square('e', 4);
 
         // Then a new King is created in the E4 square.
-        King movedKing = assertDoesNotThrow(() -> king.moveTo(Board.emptyBoard(), e4));
+        Piece movedKing = assertDoesNotThrow(() -> king.moveTo(Board.emptyBoard(), e4));
 
         assertEquals(e4, movedKing.position());
     }
@@ -203,7 +201,7 @@ class KingMovementTest {
         // Given a white king in square D4.
         Square d4 = new Square('d', 4);
 
-        King king = new King(Color.WHITE, d4);
+        Piece king = new Piece(new King(), Color.WHITE, d4);
 
         // When it's asked to move to D1
         Square d1 = new Square('d', 1);
@@ -219,9 +217,9 @@ class KingMovementTest {
         Square d4 = new Square('d', 4);
         Square d5 = new Square('d', 5);
 
-        King king = new King(Color.WHITE, d4);
+        Piece king = new Piece(new King(), Color.WHITE, d4);
 
-        Board board = new Board(Collections.singletonList(new Pawn(Color.WHITE, d5)));
+        Board board = new Board(new Piece(new Pawn(), Color.WHITE, d5));
 
         // When it's asked to move to D5
         // Then an IllegalMovementException is thrown
@@ -235,13 +233,13 @@ class KingMovementTest {
         Square d4 = new Square('d', 4);
         Square d5 = new Square('d', 5);
 
-        King king = new King(Color.WHITE, d4);
+        Piece king = new Piece(new King(), Color.WHITE, d4);
 
-        Board board = new Board(Collections.singletonList(new Pawn(Color.BLACK, d5)));
+        Board board = new Board(new Piece(new Pawn(), Color.BLACK, d5));
 
         // When it's asked to move to D5
         // Then an IllegalMovementException is thrown
-        King movedKing = assertDoesNotThrow(() -> king.moveTo(board, d5));
+        Piece movedKing = assertDoesNotThrow(() -> king.moveTo(board, d5));
 
         assertEquals(d5, movedKing.position());
     }
@@ -252,7 +250,7 @@ class KingMovementTest {
         // Given a white king in square D4.
         Square d4 = new Square('d', 4);
 
-        King king = new King(Color.WHITE, d4);
+        Piece king = new Piece(new King(), Color.WHITE, d4);
 
         // When it's asked for the path to E4
         Square e4 = new Square('e', 4);
@@ -280,7 +278,7 @@ class KingMovementTest {
         // Given a white king in square D4.
         Square d4 = new Square('d', 4);
 
-        King king = new King(Color.WHITE, d4);
+        Piece king = new Piece(new King(), Color.WHITE, d4);
 
         // When it's asked for the path to D1
         Square d1 = new Square('d', 1);
@@ -296,9 +294,9 @@ class KingMovementTest {
         Square d4 = new Square('d', 4);
         Square d6 = new Square('d', 6);
 
-        King whiteKing = new King(Color.WHITE, d4);
+        Piece whiteKing = new Piece(new King(), Color.WHITE, d4);
 
-        King blackKing = new King(Color.BLACK, d6);
+        Piece blackKing = new Piece(new King(), Color.BLACK, d6);
 
         // When it's asked to move to D5
         Square d5 = new Square('d', 5);

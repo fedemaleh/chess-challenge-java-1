@@ -22,19 +22,23 @@ public class BoardConverter {
         Color color = Color.valueOf(piece.getColor().name());
         Square square = new Square(piece.getSquare().getColumn(), piece.getSquare().getRow());
 
+        return new Piece(this.convertMovementStrategy(piece), color, square);
+    }
+
+    private MovementStrategy convertMovementStrategy(PieceDTO piece) {
         switch (piece.getType()) {
             case KING:
-                return new King(color, square);
+                return new King();
             case QUEEN:
-                return new Queen(color, square);
+                return new Queen();
             case ROOK:
-                return new Rook(color, square);
+                return new Rook();
             case KNIGHT:
-                return new Knight(color, square);
+                return new Knight();
             case BISHOP:
-                return new Bishop(color, square);
+                return new Bishop();
             case PAWN:
-                return new Pawn(color, square);
+                return new Pawn();
             default:
                 throw new IllegalPieceException(piece.getType());
         }

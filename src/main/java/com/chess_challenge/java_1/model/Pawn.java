@@ -6,24 +6,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Pawn implements Piece {
-    private final Color color;
-    private final Square square;
-
-    public Pawn(Color color, Square square) {
-        this.color = color;
-        this.square = square;
-    }
-
+public class Pawn implements MovementStrategy {
     @Override
-    public List<Square> moves(Board board) {
+    public List<Square> moves(Board board, Piece piece) {
         List<Square> squares = new ArrayList<>();
 
-        char column = this.position().getColumn();
-        int row = this.position().getRow();
+        char column = piece.position().getColumn();
+        int row = piece.position().getRow();
 
-        if (row != this.color().finalPawnRow()) {
-            Square move = new Square(column, this.nextRow(1));
+        if (row != piece.color().finalPawnRow()) {
+            Square move = new Square(column, this.nextRow(piece, 1));
 
             if (board.pieceAt(move).isPresent()) {
                 return Collections.emptyList();
@@ -32,8 +24,8 @@ public class Pawn implements Piece {
             squares.add(move);
         }
 
-        if (row == this.color().initialPawnRow()) {
-            Square move = new Square(column, this.nextRow(2));
+        if (row == piece.color().initialPawnRow()) {
+            Square move = new Square(column, this.nextRow(piece, 2));
 
             if (!board.pieceAt(move).isPresent()) {
                 squares.add(move);
@@ -43,68 +35,39 @@ public class Pawn implements Piece {
         return squares;
     }
 
-    private int nextRow(int squares) {
-        if (this.color() == Color.WHITE) {
-            return this.position().getRow() + squares;
-        }
-
-        return this.position().getRow() - squares;
-    }
-
     @Override
-    public List<Square> attacks(Board board) {
-        if (this.position().getRow() == this.color().finalPawnRow()) {
+    public List<Square> attacks(Board board, Piece piece) {
+        if (piece.position().getRow() == piece.color().finalPawnRow()) {
             return Collections.emptyList();
         }
 
         List<Square> attacks = new ArrayList<>();
 
-        if (this.position().getColumn() != 'a') {
-            attacks.add(new Square((char) (this.position().getColumn() - 1), this.nextRow(1)));
+        if (piece.position().getColumn() != 'a') {
+            attacks.add(new Square((char) (piece.position().getColumn() - 1), this.nextRow(piece, 1)));
         }
 
-        if (this.position().getColumn() != 'h') {
-            attacks.add(new Square((char) (this.position().getColumn() + 1), this.nextRow(1)));
+        if (piece.position().getColumn() != 'h') {
+            attacks.add(new Square((char) (piece.position().getColumn() + 1), this.nextRow(piece, 1)));
         }
 
         return attacks;
     }
 
     @Override
-    public boolean attacks(Board board, Square square) {
-        return this.attacks(board).contains(square);
-    }
-
-    @Override
-    public Square position() {
-        return this.square;
-    }
-
-    @Override
-    public Pawn moveTo(Board board, Square square) throws IllegalMovementException {
-        if (!this.moves(board).contains(square)) {
-            throw new IllegalMovementException(this, square);
+    public List<Square> pathTo(Board board, Piece piece, Square square) throws IllegalMovementException {
+        if (!this.moves(board, piece).contains(square) && !this.attacks(board, piece).contains(square)) {
+            throw new IllegalMovementException(piece, square);
         }
 
-        return new Pawn(this.color(), square);
+        return Lists.newArrayList(piece.position(), square);
     }
 
-    @Override
-    public List<Square> pathTo(Board board, Square square) throws IllegalMovementException {
-        if (!this.moves(board).contains(square) && !this.attacks(board).contains(square)) {
-            throw new IllegalMovementException(this, square);
+    private int nextRow(Piece piece, int squares) {
+        if (piece.color() == Color.WHITE) {
+            return piece.position().getRow() + squares;
         }
 
-        return Lists.newArrayList(this.position(), square);
-    }
-
-    @Override
-    public Color color() {
-        return this.color;
-    }
-
-    @Override
-    public Type type() {
-        return Type.PAWN;
+        return piece.position().getRow() - squares;
     }
 }

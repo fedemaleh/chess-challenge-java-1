@@ -23,9 +23,9 @@ public class QueenMovementTest {
         // Given a Queen, a Bishop and  aRook
         Square square = new Square(col, row);
 
-        Queen queen = new Queen(Color.WHITE, square);
-        Bishop bishop = new Bishop(Color.WHITE, square);
-        Rook rook = new Rook(Color.WHITE, square);
+        Piece queen = new Piece(new Queen(), Color.WHITE, square);
+        Piece bishop = new Piece(new Bishop(), Color.WHITE, square);
+        Piece rook = new Piece(new Rook(), Color.WHITE, square);
         Board board = Board.emptyBoard();
 
         // The Queen moves are the sum of the moves of the Bishop and the Rook.
@@ -46,7 +46,7 @@ public class QueenMovementTest {
         // Given a Queen
         Square square = new Square(col, row);
 
-        Queen queen = new Queen(Color.WHITE, square);
+        Piece queen = new Piece(new Queen(), Color.WHITE, square);
         Board board = Board.emptyBoard();
 
         // It's moves should be the same as it's attacks
@@ -63,13 +63,13 @@ public class QueenMovementTest {
         // Given a white Queen in square D4.
         Square d4 = new Square('d', 4);
 
-        Queen queen = new Queen(Color.WHITE, d4);
+        Piece queen = new Piece(new Queen(), Color.WHITE, d4);
 
         // When it's asked to move to E4
         Square e4 = new Square('e', 4);
 
         // Then a new Queen is created in the E4 square.
-        Queen movedQueen = assertDoesNotThrow(() -> queen.moveTo(Board.emptyBoard(), e4));
+        Piece movedQueen = assertDoesNotThrow(() -> queen.moveTo(Board.emptyBoard(), e4));
 
         assertEquals(e4, movedQueen.position());
     }
@@ -80,7 +80,7 @@ public class QueenMovementTest {
         // Given a white queen in square D4.
         Square d4 = new Square('d', 4);
 
-        Queen queen = new Queen(Color.WHITE, d4);
+        Piece queen = new Piece(new Queen(), Color.WHITE, d4);
 
         // When it's asked to move to E6
         Square e6 = new Square('e', 6);
@@ -103,18 +103,18 @@ public class QueenMovementTest {
         Square f2 = new Square('f', 2);
         Square f6 = new Square('f', 6);
 
-        Queen queen = new Queen(Color.WHITE, d4);
+        Piece queen = new Piece(new Queen(), Color.WHITE, d4);
 
-        Piece p1 = new Pawn(Color.WHITE, d2);
-        Piece p2 = new Pawn(Color.WHITE, d6);
-        Piece p3 = new Pawn(Color.WHITE, b4);
-        Piece p4 = new Pawn(Color.WHITE, f4);
-        Piece p5 = new Pawn(Color.WHITE, b2);
-        Piece p6 = new Pawn(Color.WHITE, b6);
-        Piece p7 = new Pawn(Color.WHITE, f2);
-        Piece p8 = new Pawn(Color.WHITE, f6);
+        Piece p1 = new Piece(new Pawn(), Color.WHITE, d2);
+        Piece p2 = new Piece(new Pawn(), Color.WHITE, d6);
+        Piece p3 = new Piece(new Pawn(), Color.WHITE, b4);
+        Piece p4 = new Piece(new Pawn(), Color.WHITE, f4);
+        Piece p5 = new Piece(new Pawn(), Color.WHITE, b2);
+        Piece p6 = new Piece(new Pawn(), Color.WHITE, b6);
+        Piece p7 = new Piece(new Pawn(), Color.WHITE, f2);
+        Piece p8 = new Piece(new Pawn(), Color.WHITE, f6);
 
-        Board board = new Board(Lists.newArrayList(p1, p2, p3, p4, p5, p6, p7, p8));
+        Board board = new Board(p1, p2, p3, p4, p5, p6, p7, p8);
 
         // When the queen is asked for his moves
         List<Square> moves = queen.moves(board);
@@ -161,18 +161,18 @@ public class QueenMovementTest {
         Square f2 = new Square('f', 2);
         Square f6 = new Square('f', 6);
 
-        Queen queen = new Queen(Color.WHITE, d4);
+        Piece queen = new Piece(new Queen(), Color.WHITE, d4);
 
-        Piece p1 = new Pawn(Color.BLACK, d2);
-        Piece p2 = new Pawn(Color.BLACK, d6);
-        Piece p3 = new Pawn(Color.BLACK, b4);
-        Piece p4 = new Pawn(Color.BLACK, f4);
-        Piece p5 = new Pawn(Color.BLACK, b2);
-        Piece p6 = new Pawn(Color.BLACK, b6);
-        Piece p7 = new Pawn(Color.BLACK, f2);
-        Piece p8 = new Pawn(Color.BLACK, f6);
+        Piece p1 = new Piece(new Pawn(), Color.BLACK, d2);
+        Piece p2 = new Piece(new Pawn(), Color.BLACK, d6);
+        Piece p3 = new Piece(new Pawn(), Color.BLACK, b4);
+        Piece p4 = new Piece(new Pawn(), Color.BLACK, f4);
+        Piece p5 = new Piece(new Pawn(), Color.BLACK, b2);
+        Piece p6 = new Piece(new Pawn(), Color.BLACK, b6);
+        Piece p7 = new Piece(new Pawn(), Color.BLACK, f2);
+        Piece p8 = new Piece(new Pawn(), Color.BLACK, f6);
 
-        Board board = new Board(Lists.newArrayList(p1, p2, p3, p4, p5, p6, p7, p8));
+        Board board = new Board(p1, p2, p3, p4, p5, p6, p7, p8);
 
         // When the queen is asked for his moves
         List<Square> moves = queen.moves(board);
@@ -220,8 +220,8 @@ public class QueenMovementTest {
         Square d4 = new Square('d', 4);
         Board board = Board.emptyBoard();
 
-        Queen queen = new Queen(Color.WHITE, d4);
-        Rook rook = new Rook(Color.WHITE, d4);
+        Piece queen = new Piece(new Queen(), Color.WHITE, d4);
+        Piece rook = new Piece(new Rook(), Color.WHITE, d4);
 
         // When it's asked for the path to D8
         Square d8 = new Square('d', 8);
@@ -239,8 +239,8 @@ public class QueenMovementTest {
         Square d4 = new Square('d', 4);
         Board board = Board.emptyBoard();
 
-        Queen queen = new Queen(Color.WHITE, d4);
-        Bishop bishop = new Bishop(Color.WHITE, d4);
+        Piece queen = new Piece(new Queen(), Color.WHITE, d4);
+        Piece bishop = new Piece(new Bishop(), Color.WHITE, d4);
 
         // When it's asked for the path to H8
         Square h8 = new Square('h', 8);
@@ -257,7 +257,7 @@ public class QueenMovementTest {
         // Given a white queen in square D4.
         Square d4 = new Square('d', 4);
 
-        Queen queen = new Queen(Color.WHITE, d4);
+        Piece queen = new Piece(new Queen(), Color.WHITE, d4);
 
         // When it's asked for the path to E1
         Square e1 = new Square('e', 1);

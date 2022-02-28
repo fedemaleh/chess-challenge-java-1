@@ -43,13 +43,13 @@ public class Board {
     private boolean canTakePiece(Board board, Piece pieceToTake, Piece piece, Square square) {
         return !piece.equals(pieceToTake) &&
                 piece.color() != pieceToTake.color() &&
-                (piece.type() != Type.KING || pieceToTake.type() != Type.KING) && // Kings cannot threaten each other
+                (!(piece.type() instanceof King) || !(pieceToTake.type() instanceof King)) && // Kings cannot threaten each other
                 piece.attacks(board, square) && this.pieceCanBeMoved(piece);
     }
 
     public boolean hasCheckmate() {
         return pieces.stream()
-                .anyMatch(piece -> piece.type() == Type.KING && this.hasCheckmate(piece));
+                .anyMatch(piece -> piece.type() instanceof King && this.hasCheckmate(piece));
     }
 
     private boolean hasCheckmate(Piece king) {
@@ -61,7 +61,7 @@ public class Board {
          */
 
         List<Piece> piecesThatThreatenKing = pieces.stream()
-                .filter(piece -> piece.type() != Type.KING)
+                .filter(piece -> !(piece.type() instanceof King))
                 .filter(piece -> piece.color() != king.color())
                 .filter(piece -> piece.attacks(this, king.position()))
                 .collect(Collectors.toList());
@@ -79,7 +79,7 @@ public class Board {
 
     private boolean pieceCanBeMoved(Piece piece) {
         Optional<Piece> king = this.pieces.stream()
-                .filter(currentPiece -> currentPiece.type() == Type.KING && piece.color() == currentPiece.color())
+                .filter(currentPiece -> currentPiece.type() instanceof King && piece.color() == currentPiece.color())
                 .findFirst();
 
         if (!king.isPresent()) {
@@ -95,7 +95,7 @@ public class Board {
 
         return this.pieces.stream()
                 .filter(currentPiece -> !currentPiece.equals(piece))
-                .filter(currentPiece -> currentPiece.type() != Type.KING)
+                .filter(currentPiece -> !(currentPiece.type() instanceof King))
                 .filter(currentPiece -> currentPiece.attacks(this, king.get().position()))
                 .count() ==
                 boardWithoutPieceAtSquare.pieces.stream()
@@ -115,11 +115,11 @@ public class Board {
                 .anyMatch(piece -> possibleInterceptionSquares.stream().anyMatch(square -> piece.moves(this).contains(square)));
     }
 
-    public boolean validKingMove(King king, Square move) {
+    public boolean validKingMove(Piece king, Square move) {
         List<Square> adjacentSquares = MovementUtils.adjacentSquares(move);
 
         return pieces.stream()
-                .filter(piece -> piece.type() == Type.KING)
+                .filter(piece -> piece.type() instanceof King)
                 .filter(piece -> piece.color() != king.color())
                 .noneMatch(piece -> adjacentSquares.contains(piece.position()));
 

@@ -21,7 +21,7 @@ public class RookMovementTest {
         // Given a white Rook in square D4.
         Square d4 = new Square('d', 4);
 
-        Rook rook = new Rook(Color.WHITE, d4);
+        Piece rook = new Piece(new Rook(), Color.WHITE, d4);
 
         // When the rook is asked for his moves
         List<Square> moves = rook.moves(Board.emptyBoard());
@@ -50,7 +50,7 @@ public class RookMovementTest {
         // Given a white Rook in square A1.
         Square a1 = new Square('a', 1);
 
-        Rook rook = new Rook(Color.WHITE, a1);
+        Piece rook = new Piece(new Rook(), Color.WHITE, a1);
 
         // When the rook is asked for his moves
         List<Square> moves = rook.moves(Board.emptyBoard());
@@ -81,7 +81,7 @@ public class RookMovementTest {
         // Given a white Rook in square H1.
         Square h1 = new Square('h', 1);
 
-        Rook rook = new Rook(Color.WHITE, h1);
+        Piece rook = new Piece(new Rook(), Color.WHITE, h1);
 
         // When the rook is asked for his moves
         List<Square> moves = rook.moves(Board.emptyBoard());
@@ -112,7 +112,7 @@ public class RookMovementTest {
         // Given a white Rook in square A8.
         Square a8 = new Square('a', 8);
 
-        Rook rook = new Rook(Color.WHITE, a8);
+        Piece rook = new Piece(new Rook(), Color.WHITE, a8);
 
         // When the rook is asked for his moves
         List<Square> moves = rook.moves(Board.emptyBoard());
@@ -141,9 +141,9 @@ public class RookMovementTest {
     @Timeout(value = 5)
     void rook_in_a1_has_8_directions_moves() throws IllegalSquareException {
         // Given a white Rook in square H8.
-        Square d8 = new Square('h', 8);
+        Square h8 = new Square('h', 8);
 
-        Rook rook = new Rook(Color.WHITE, d8);
+        Piece rook = new Piece(new Rook(), Color.WHITE, h8);
 
         // When the rook is asked for his moves
         List<Square> moves = rook.moves(Board.emptyBoard());
@@ -174,7 +174,7 @@ public class RookMovementTest {
         // Given a Rook
         Square square = new Square(col, row);
 
-        Rook rook = new Rook(Color.WHITE, square);
+        Piece rook = new Piece(new Rook(), Color.WHITE, square);
         Board board = Board.emptyBoard();
 
         // It's moves should be the same as it's attacks
@@ -191,13 +191,13 @@ public class RookMovementTest {
         // Given a white rook in square D4.
         Square d4 = new Square('d', 4);
 
-        Rook rook = new Rook(Color.WHITE, d4);
+        Piece rook = new Piece(new Rook(), Color.WHITE, d4);
 
         // When it's asked to move to E4
         Square e4 = new Square('e', 4);
 
         // Then a new Rook is created in the E4 square.
-        Rook movedRook = assertDoesNotThrow(() -> rook.moveTo(Board.emptyBoard(), e4));
+        Piece movedRook = assertDoesNotThrow(() -> rook.moveTo(Board.emptyBoard(), e4));
 
         assertEquals(e4, movedRook.position());
     }
@@ -208,7 +208,7 @@ public class RookMovementTest {
         // Given a white rook in square D4.
         Square d4 = new Square('d', 4);
 
-        Rook rook = new Rook(Color.WHITE, d4);
+        Piece rook = new Piece(new Rook(), Color.WHITE, d4);
 
         // When it's asked to move to E1
         Square e1 = new Square('e', 1);
@@ -227,14 +227,14 @@ public class RookMovementTest {
         Square b4 = new Square('b', 4);
         Square f4 = new Square('f', 4);
 
-        Rook rook = new Rook(Color.WHITE, d4);
+        Piece rook = new Piece(new Rook(), Color.WHITE, d4);
 
-        Piece p1 = new Pawn(Color.WHITE, d2);
-        Piece p2 = new Pawn(Color.WHITE, d6);
-        Piece p3 = new Pawn(Color.WHITE, b4);
-        Piece p4 = new Pawn(Color.WHITE, f4);
+        Piece p1 = new Piece(new Pawn(), Color.WHITE, d2);
+        Piece p2 = new Piece(new Pawn(), Color.WHITE, d6);
+        Piece p3 = new Piece(new Pawn(), Color.WHITE, b4);
+        Piece p4 = new Piece(new Pawn(), Color.WHITE, f4);
 
-        Board board = new Board(Lists.newArrayList(p1, p2, p3, p4));
+        Board board = new Board(p1, p2, p3, p4);
 
         // When the rook is asked for his moves
         List<Square> moves = rook.moves(board);
@@ -269,14 +269,14 @@ public class RookMovementTest {
         Square b4 = new Square('b', 4);
         Square f4 = new Square('f', 4);
 
-        Rook rook = new Rook(Color.WHITE, d4);
+        Piece rook = new Piece(new Rook(), Color.WHITE, d4);
 
-        Piece p1 = new Pawn(Color.BLACK, d2);
-        Piece p2 = new Pawn(Color.BLACK, d6);
-        Piece p3 = new Pawn(Color.BLACK, b4);
-        Piece p4 = new Pawn(Color.BLACK, f4);
+        Piece p1 = new Piece(new Pawn(), Color.BLACK, d2);
+        Piece p2 = new Piece(new Pawn(), Color.BLACK, d6);
+        Piece p3 = new Piece(new Pawn(), Color.BLACK, b4);
+        Piece p4 = new Piece(new Pawn(), Color.BLACK, f4);
 
-        Board board = new Board(Lists.newArrayList(p1, p2, p3, p4));
+        Board board = new Board(p1, p2, p3, p4);
 
         // When the rook is asked for his moves
         List<Square> moves = rook.moves(board);
@@ -311,7 +311,7 @@ public class RookMovementTest {
         // Given a white rook in square D4.
         Square d4 = new Square('d', 4);
 
-        Rook rook = new Rook(Color.WHITE, d4);
+        Piece rook = new Piece(new Rook(), Color.WHITE, d4);
 
         // When it's asked for the path to D8
         Square d8 = new Square('d', 8);
@@ -346,7 +346,7 @@ public class RookMovementTest {
         // Given a white rook in square D4.
         Square d4 = new Square('d', 4);
 
-        Rook rook = new Rook(Color.WHITE, d4);
+        Piece rook = new Piece(new Rook(), Color.WHITE, d4);
 
         // When it's asked for the path to A4
         Square a4 = new Square('a', 4);
@@ -380,7 +380,7 @@ public class RookMovementTest {
         // Given a white rook in square D4.
         Square d4 = new Square('d', 4);
 
-        Rook rook = new Rook(Color.WHITE, d4);
+        Piece rook = new Piece(new Rook(), Color.WHITE, d4);
 
         // When it's asked for the path to E1
         Square e1 = new Square('e', 1);

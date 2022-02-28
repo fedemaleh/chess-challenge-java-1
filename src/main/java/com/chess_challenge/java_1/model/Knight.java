@@ -7,96 +7,55 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class Knight implements Piece {
-    private final Color color;
-    private final Square square;
-
-    public Knight(Color color, Square square) {
-        this.color = color;
-        this.square = square;
-    }
+public class Knight implements MovementStrategy {
 
     @Override
-    public List<Square> moves(Board board) {
+    public List<Square> moves(Board board, Piece piece) {
         List<Square> moves = new ArrayList<>();
 
-        moves.addAll(this.verticalMoves());
+        moves.addAll(this.verticalMoves(piece));
 
-        moves.addAll(this.horizontalMoves());
+        moves.addAll(this.horizontalMoves(piece));
 
         return moves
                 .stream()
                 .filter(square -> !board.pieceAt(square)
-                        .filter(piece -> piece.color() == this.color())
+                        .filter(p -> p.color() == piece.color())
                         .isPresent()
                 )
                 .collect(Collectors.toList());
     }
 
-    private List<Square> verticalMoves() {
-        return IntStream.of(this.position().getRow() - 2, this.position().getRow() + 2)
+    @Override
+    public List<Square> pathTo(Board board, Piece piece, Square square) throws IllegalMovementException {
+        if (!this.moves(board, piece).contains(square)) {
+            throw new IllegalMovementException(piece, square);
+        }
+
+        return Lists.newArrayList(piece.position(), square);
+    }
+
+    private List<Square> verticalMoves(Piece piece) {
+        return IntStream.of(piece.position().getRow() - 2, piece.position().getRow() + 2)
                 .filter(row -> row >= 1 && row <= 8)
                 .boxed()
                 .flatMap(row ->
-                        IntStream.of(this.position().getColumn() - 1, this.position().getColumn() + 1)
+                        IntStream.of(piece.position().getColumn() - 1, piece.position().getColumn() + 1)
                                 .filter(col -> col >= 'a' && col <= 'h')
                                 .mapToObj(col -> new Square((char) col, row))
                 )
                 .collect(Collectors.toList());
     }
 
-    private List<Square> horizontalMoves() {
-        return IntStream.of(this.position().getColumn() - 2, this.position().getColumn() + 2)
+    private List<Square> horizontalMoves(Piece piece) {
+        return IntStream.of(piece.position().getColumn() - 2, piece.position().getColumn() + 2)
                 .filter(col -> col >= 'a' && col <= 'h')
                 .boxed()
                 .flatMap(col ->
-                        IntStream.of(this.position().getRow() - 1, this.position().getRow() + 1)
+                        IntStream.of(piece.position().getRow() - 1, piece.position().getRow() + 1)
                                 .filter(row -> row >= 1 && row <= 8)
                                 .mapToObj(row -> new Square((char) (int) col, row))
                 )
                 .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<Square> attacks(Board board) {
-        return this.moves(board);
-    }
-
-    @Override
-    public boolean attacks(Board board, Square square) {
-        return this.attacks(board).contains(square);
-    }
-
-    @Override
-    public Square position() {
-        return this.square;
-    }
-
-    @Override
-    public Knight moveTo(Board board, Square square) throws IllegalMovementException {
-        if (!this.moves(board).contains(square)) {
-            throw new IllegalMovementException(this, square);
-        }
-
-        return new Knight(this.color(), square);
-    }
-
-    @Override
-    public List<Square> pathTo(Board board, Square square) throws IllegalMovementException {
-        if (!this.moves(board).contains(square)) {
-            throw new IllegalMovementException(this, square);
-        }
-
-        return Lists.newArrayList(this.position(), square);
-    }
-
-    @Override
-    public Color color() {
-        return this.color;
-    }
-
-    @Override
-    public Type type() {
-        return Type.KNIGHT;
     }
 }

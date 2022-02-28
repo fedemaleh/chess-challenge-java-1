@@ -21,7 +21,7 @@ public class BishopMovementTest {
         // Given a white Bishop in square D4.
         Square d4 = new Square('d', 4);
 
-        Bishop bishop = new Bishop(Color.WHITE, d4);
+        Piece bishop = new Piece(new Bishop(), Color.WHITE, d4);
 
         // When the bishop is asked for his moves
         List<Square> moves = bishop.moves(Board.emptyBoard());
@@ -54,7 +54,7 @@ public class BishopMovementTest {
         // Given a white Bishop in square A1.
         Square a1 = new Square('a', 1);
 
-        Bishop bishop = new Bishop(Color.WHITE, a1);
+        Piece bishop = new Piece(new Bishop(), Color.WHITE, a1);
 
         // When the bishop is asked for his moves
         List<Square> moves = bishop.moves(Board.emptyBoard());
@@ -82,7 +82,7 @@ public class BishopMovementTest {
         // Given a white Bishop in square H1.
         Square h1 = new Square('h', 1);
 
-        Bishop bishop = new Bishop(Color.WHITE, h1);
+        Piece bishop = new Piece(new Bishop(), Color.WHITE, h1);
 
         // When the bishop is asked for his moves
         List<Square> moves = bishop.moves(Board.emptyBoard());
@@ -110,7 +110,7 @@ public class BishopMovementTest {
         // Given a white Bishop in square A8.
         Square a8 = new Square('a', 8);
 
-        Bishop bishop = new Bishop(Color.WHITE, a8);
+        Piece bishop = new Piece(new Bishop(), Color.WHITE, a8);
 
         // When the bishop is asked for his moves
         List<Square> moves = bishop.moves(Board.emptyBoard());
@@ -138,7 +138,7 @@ public class BishopMovementTest {
         // Given a white Bishop in square H8.
         Square d8 = new Square('h', 8);
 
-        Bishop bishop = new Bishop(Color.WHITE, d8);
+        Piece bishop = new Piece(new Bishop(), Color.WHITE, d8);
 
         // When the bishop is asked for his moves
         List<Square> moves = bishop.moves(Board.emptyBoard());
@@ -167,7 +167,7 @@ public class BishopMovementTest {
         // Given a Bishop
         Square square = new Square(col, row);
 
-        Bishop bishop = new Bishop(Color.WHITE, square);
+        Piece bishop = new Piece(new Bishop(), Color.WHITE, square);
         Board board = Board.emptyBoard();
 
         // It's moves should be the same as it's attacks
@@ -184,13 +184,13 @@ public class BishopMovementTest {
         // Given a white bishop in square D4.
         Square d4 = new Square('d', 4);
 
-        Bishop bishop = new Bishop(Color.WHITE, d4);
+        Piece bishop = new Piece(new Bishop(), Color.WHITE, d4);
 
         // When it's asked to move to E5
         Square e5 = new Square('e', 5);
 
         // Then a new Bishop is created in the E5 square.
-        Bishop movedBishop = assertDoesNotThrow(() -> bishop.moveTo(Board.emptyBoard(), e5));
+        Piece movedBishop = assertDoesNotThrow(() -> bishop.moveTo(Board.emptyBoard(), e5));
 
         assertEquals(e5, movedBishop.position());
     }
@@ -201,7 +201,7 @@ public class BishopMovementTest {
         // Given a white bishop in square D4.
         Square d4 = new Square('d', 4);
 
-        Bishop bishop = new Bishop(Color.WHITE, d4);
+        Piece bishop = new Piece(new Bishop(), Color.WHITE, d4);
 
         // When it's asked to move to E4
         Square e4 = new Square('e', 4);
@@ -220,14 +220,14 @@ public class BishopMovementTest {
         Square f2 = new Square('f', 2);
         Square f6 = new Square('f', 6);
 
-        Bishop bishop = new Bishop(Color.WHITE, d4);
+        Piece bishop = new Piece(new Bishop(), Color.WHITE, d4);
 
-        Piece p1 = new Pawn(Color.WHITE, b2);
-        Piece p2 = new Pawn(Color.WHITE, b6);
-        Piece p3 = new Pawn(Color.WHITE, f2);
-        Piece p4 = new Pawn(Color.WHITE, f6);
+        Piece p1 = new Piece(new Pawn(), Color.WHITE, b2);
+        Piece p2 = new Piece(new Pawn(), Color.WHITE, b6);
+        Piece p3 = new Piece(new Pawn(), Color.WHITE, f2);
+        Piece p4 = new Piece(new Pawn(), Color.WHITE, f6);
 
-        Board board = new Board(Lists.newArrayList(p1, p2, p3, p4));
+        Board board = new Board(p1, p2, p3, p4);
 
         // When the bishop is asked for his moves
         List<Square> moves = bishop.moves(board);
@@ -262,14 +262,14 @@ public class BishopMovementTest {
         Square f2 = new Square('f', 2);
         Square f6 = new Square('f', 6);
 
-        Bishop bishop = new Bishop(Color.WHITE, d4);
+        Piece bishop = new Piece(new Bishop(), Color.WHITE, d4);
 
-        Piece p1 = new Pawn(Color.BLACK, b2);
-        Piece p2 = new Pawn(Color.BLACK, b6);
-        Piece p3 = new Pawn(Color.BLACK, f2);
-        Piece p4 = new Pawn(Color.BLACK, f6);
+        Piece p1 = new Piece(new Pawn(), Color.BLACK, b2);
+        Piece p2 = new Piece(new Pawn(), Color.BLACK, b6);
+        Piece p3 = new Piece(new Pawn(), Color.BLACK, f2);
+        Piece p4 = new Piece(new Pawn(), Color.BLACK, f6);
 
-        Board board = new Board(Lists.newArrayList(p1, p2, p3, p4));
+        Board board = new Board(p1, p2, p3, p4);
 
         // When the bishop is asked for his moves
         List<Square> moves = bishop.moves(board);
@@ -304,7 +304,7 @@ public class BishopMovementTest {
         // Given a white bishop in square D4.
         Square d4 = new Square('d', 4);
 
-        Bishop bishop = new Bishop(Color.WHITE, d4);
+        Piece bishop = new Piece(new Bishop(), Color.WHITE, d4);
 
         // When it's asked for the path to H8
         Square h8 = new Square('h', 8);
@@ -339,7 +339,7 @@ public class BishopMovementTest {
         // Given a white bishop in square D4.
         Square d4 = new Square('d', 4);
 
-        Bishop bishop = new Bishop(Color.WHITE, d4);
+        Piece bishop = new Piece(new Bishop(), Color.WHITE, d4);
 
         // When it's asked for the path to A1
         Square a1 = new Square('a', 1);
@@ -373,7 +373,7 @@ public class BishopMovementTest {
         // Given a white bishop in square D4.
         Square d4 = new Square('d', 4);
 
-        Bishop bishop = new Bishop(Color.WHITE, d4);
+        Piece bishop = new Piece(new Bishop(), Color.WHITE, d4);
 
         // When it's asked for the path to E1
         Square e1 = new Square('e', 1);

@@ -7,7 +7,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.IntStream;
@@ -24,7 +23,7 @@ public class PawnMovementTest {
         char column = (char) col;
         Square position = new Square(column, 2);
 
-        Pawn pawn = new Pawn(Color.WHITE, position);
+        Piece pawn = new Piece(new Pawn(), Color.WHITE, position);
 
         // When the pawn is asked for his moves
         List<Square> moves = pawn.moves(Board.emptyBoard());
@@ -52,7 +51,7 @@ public class PawnMovementTest {
         // Given a white Pawn in column `col` and row `row`.
         Square position = new Square(col, row);
 
-        Pawn pawn = new Pawn(Color.WHITE, position);
+        Piece pawn = new Piece(new Pawn(), Color.WHITE, position);
 
         // When the pawn is asked for his moves
         List<Square> moves = pawn.moves(Board.emptyBoard());
@@ -80,7 +79,7 @@ public class PawnMovementTest {
         char column = (char) col;
         Square position = new Square(column, 8);
 
-        Pawn pawn = new Pawn(Color.WHITE, position);
+        Piece pawn = new Piece(new Pawn(), Color.WHITE, position);
 
         // When the pawn is asked for his moves
         List<Square> moves = pawn.moves(Board.emptyBoard());
@@ -97,7 +96,7 @@ public class PawnMovementTest {
         char column = (char) col;
         Square position = new Square(column, 7);
 
-        Pawn pawn = new Pawn(Color.BLACK, position);
+        Piece pawn = new Piece(new Pawn(), Color.BLACK, position);
 
         // When the pawn is asked for his moves
         List<Square> moves = pawn.moves(Board.emptyBoard());
@@ -125,7 +124,7 @@ public class PawnMovementTest {
         // Given a black Pawn in column `col` and row `row`.
         Square position = new Square(col, row);
 
-        Pawn pawn = new Pawn(Color.BLACK, position);
+        Piece pawn = new Piece(new Pawn(), Color.BLACK, position);
 
         // When the pawn is asked for his moves
         List<Square> moves = pawn.moves(Board.emptyBoard());
@@ -153,7 +152,7 @@ public class PawnMovementTest {
         char column = (char) col;
         Square position = new Square(column, 1);
 
-        Pawn pawn = new Pawn(Color.BLACK, position);
+        Piece pawn = new Piece(new Pawn(), Color.BLACK, position);
 
         // When the pawn is asked for his moves
         List<Square> moves = pawn.moves(Board.emptyBoard());
@@ -168,7 +167,7 @@ public class PawnMovementTest {
         // Given a white Pawn in square d2.
         Square position = new Square('d', 2);
 
-        Pawn pawn = new Pawn(Color.WHITE, position);
+        Piece pawn = new Piece(new Pawn(), Color.WHITE, position);
 
         // When the pawn is asked for his attacks
         List<Square> attacks = pawn.attacks(Board.emptyBoard());
@@ -195,7 +194,7 @@ public class PawnMovementTest {
         // Given a white Pawn in square a2.
         Square position = new Square('a', 2);
 
-        Pawn pawn = new Pawn(Color.WHITE, position);
+        Piece pawn = new Piece(new Pawn(), Color.WHITE, position);
 
         // When the pawn is asked for his attacks
         List<Square> attacks = pawn.attacks(Board.emptyBoard());
@@ -221,7 +220,7 @@ public class PawnMovementTest {
         // Given a white Pawn in square h2.
         Square position = new Square('h', 2);
 
-        Pawn pawn = new Pawn(Color.WHITE, position);
+        Piece pawn = new Piece(new Pawn(), Color.WHITE, position);
 
         // When the pawn is asked for his attacks
         List<Square> attacks = pawn.attacks(Board.emptyBoard());
@@ -249,7 +248,7 @@ public class PawnMovementTest {
         char column = (char) col;
         Square position = new Square(column, 8);
 
-        Pawn pawn = new Pawn(Color.WHITE, position);
+        Piece pawn = new Piece(new Pawn(), Color.WHITE, position);
 
         // When the pawn is asked for his attacks
         List<Square> attacks = pawn.attacks(Board.emptyBoard());
@@ -264,7 +263,7 @@ public class PawnMovementTest {
         // Given a black Pawn in square d2.
         Square position = new Square('d', 2);
 
-        Pawn pawn = new Pawn(Color.BLACK, position);
+        Piece pawn = new Piece(new Pawn(), Color.BLACK, position);
 
         // When the pawn is asked for his attacks
         List<Square> attacks = pawn.attacks(Board.emptyBoard());
@@ -291,7 +290,7 @@ public class PawnMovementTest {
         // Given a black Pawn in square a2.
         Square position = new Square('a', 2);
 
-        Pawn pawn = new Pawn(Color.BLACK, position);
+        Piece pawn = new Piece(new Pawn(), Color.BLACK, position);
 
         // When the pawn is asked for his attacks
         List<Square> attacks = pawn.attacks(Board.emptyBoard());
@@ -317,7 +316,7 @@ public class PawnMovementTest {
         // Given a black Pawn in square h2.
         Square position = new Square('h', 2);
 
-        Pawn pawn = new Pawn(Color.BLACK, position);
+        Piece pawn = new Piece(new Pawn(), Color.BLACK, position);
 
         // When the pawn is asked for his attacks
         List<Square> attacks = pawn.attacks(Board.emptyBoard());
@@ -345,7 +344,7 @@ public class PawnMovementTest {
         char column = (char) col;
         Square position = new Square(column, 1);
 
-        Pawn pawn = new Pawn(Color.BLACK, position);
+        Piece pawn = new Piece(new Pawn(), Color.BLACK, position);
 
         // When the pawn is asked for his attacks
         List<Square> attacks = pawn.attacks(Board.emptyBoard());
@@ -360,13 +359,13 @@ public class PawnMovementTest {
         // Given a white pawn in square D4.
         Square d4 = new Square('d', 4);
 
-        Pawn pawn = new Pawn(Color.WHITE, d4);
+        Piece pawn = new Piece(new Pawn(), Color.WHITE, d4);
 
         // When it's asked to move to D5
         Square d5 = new Square('d', 5);
 
         // Then a new Pawn is created in the D5 square.
-        Pawn movedPawn = assertDoesNotThrow(() -> pawn.moveTo(Board.emptyBoard(), d5));
+        Piece movedPawn = assertDoesNotThrow(() -> pawn.moveTo(Board.emptyBoard(), d5));
 
         assertEquals(d5, movedPawn.position());
     }
@@ -377,13 +376,13 @@ public class PawnMovementTest {
         // Given a black pawn in square D4.
         Square d4 = new Square('d', 4);
 
-        Pawn pawn = new Pawn(Color.BLACK, d4);
+        Piece pawn = new Piece(new Pawn(), Color.BLACK, d4);
 
         // When it's asked to move to D3
         Square d3 = new Square('d', 3);
 
         // Then a new Pawn is created in the D3 square.
-        Pawn movedPawn = assertDoesNotThrow(() -> pawn.moveTo(Board.emptyBoard(), d3));
+        Piece movedPawn = assertDoesNotThrow(() -> pawn.moveTo(Board.emptyBoard(), d3));
 
         assertEquals(d3, movedPawn.position());
     }
@@ -394,7 +393,7 @@ public class PawnMovementTest {
         // Given a white pawn in square D4.
         Square d4 = new Square('d', 4);
 
-        Pawn pawn = new Pawn(Color.WHITE, d4);
+        Piece pawn = new Piece(new Pawn(), Color.WHITE, d4);
 
         // When it's asked to move to D3
         Square d3 = new Square('d', 3);
@@ -409,7 +408,7 @@ public class PawnMovementTest {
         // Given a white pawn in square D4.
         Square d4 = new Square('d', 4);
 
-        Pawn pawn = new Pawn(Color.BLACK, d4);
+        Piece pawn = new Piece(new Pawn(), Color.BLACK, d4);
 
         // When it's asked to move to D5
         Square d5 = new Square('d', 5);
@@ -425,9 +424,9 @@ public class PawnMovementTest {
         Square d2 = new Square('d', 2);
         Square d4 = new Square('d', 4);
 
-        Pawn pawn = new Pawn(Color.WHITE, d2);
+        Piece pawn = new Piece(new Pawn(), Color.WHITE, d2);
 
-        Board board = new Board(Collections.singletonList(new Pawn(Color.WHITE, d4)));
+        Board board = new Board(new Piece(new Pawn(), Color.WHITE, d4));
 
         // When it's asked to move to D4
         // Then an IllegalMovementException is thrown
@@ -441,9 +440,9 @@ public class PawnMovementTest {
         Square d2 = new Square('d', 2);
         Square d3 = new Square('d', 3);
 
-        Pawn pawn = new Pawn(Color.WHITE, d2);
+        Piece pawn = new Piece(new Pawn(), Color.WHITE, d2);
 
-        Board board = new Board(Collections.singletonList(new Pawn(Color.WHITE, d3)));
+        Board board = new Board(new Piece(new Pawn(), Color.WHITE, d3));
 
         // When it's asked to move to D3
         // Then an IllegalMovementException is thrown
@@ -458,9 +457,9 @@ public class PawnMovementTest {
         Square d3 = new Square('d', 3);
         Square d4 = new Square('d', 4);
 
-        Pawn pawn = new Pawn(Color.WHITE, d2);
+        Piece pawn = new Piece(new Pawn(), Color.WHITE, d2);
 
-        Board board = new Board(Collections.singletonList(new Pawn(Color.WHITE, d3)));
+        Board board = new Board(new Piece(new Pawn(), Color.WHITE, d3));
 
         // When it's asked to move to D4
         // Then an IllegalMovementException is thrown
@@ -473,7 +472,7 @@ public class PawnMovementTest {
         // Given a white pawn in square D4.
         Square d4 = new Square('d', 4);
 
-        Pawn pawn = new Pawn(Color.WHITE, d4);
+        Piece pawn = new Piece(new Pawn(), Color.WHITE, d4);
 
         // When it's asked for the path to D5
         Square d5 = new Square('d', 5);
@@ -501,7 +500,7 @@ public class PawnMovementTest {
         // Given a white pawn in square D4.
         Square d4 = new Square('d', 4);
 
-        Pawn pawn = new Pawn(Color.WHITE, d4);
+        Piece pawn = new Piece(new Pawn(), Color.WHITE, d4);
 
         // When it's asked for the path to D1
         Square d1 = new Square('d', 1);

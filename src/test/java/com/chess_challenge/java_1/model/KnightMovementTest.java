@@ -7,7 +7,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.IntStream;
@@ -22,7 +21,7 @@ public class KnightMovementTest {
         // Given a white Knight in square D4.
         Square d4 = new Square('d', 4);
 
-        Knight knight = new Knight(Color.WHITE, d4);
+        Piece knight = new Piece(new Knight(), Color.WHITE, d4);
 
         // When the knight is asked for his moves
         List<Square> moves = knight.moves(Board.emptyBoard());
@@ -55,7 +54,7 @@ public class KnightMovementTest {
         // Given a white Knight in square A1.
         Square a1 = new Square('a', 1);
 
-        Knight knight = new Knight(Color.WHITE, a1);
+        Piece knight = new Piece(new Knight(), Color.WHITE, a1);
 
         // When the knight is asked for his moves
         List<Square> moves = knight.moves(Board.emptyBoard());
@@ -86,7 +85,7 @@ public class KnightMovementTest {
         // Given a white Knight in square H1.
         Square h1 = new Square('h', 1);
 
-        Knight knight = new Knight(Color.WHITE, h1);
+        Piece knight = new Piece(new Knight(), Color.WHITE, h1);
 
         // When the knight is asked for his moves
         List<Square> moves = knight.moves(Board.emptyBoard());
@@ -117,7 +116,7 @@ public class KnightMovementTest {
         // Given a white Knight in square A8.
         Square a8 = new Square('a', 8);
 
-        Knight knight = new Knight(Color.WHITE, a8);
+        Piece knight = new Piece(new Knight(), Color.WHITE, a8);
 
         // When the knight is asked for his moves
         List<Square> moves = knight.moves(Board.emptyBoard());
@@ -146,9 +145,9 @@ public class KnightMovementTest {
     @Timeout(value = 5)
     void knight_in_h8_has_2_moves() throws IllegalSquareException {
         // Given a white Knight in square H8.
-        Square d8 = new Square('h', 8);
+        Square h8 = new Square('h', 8);
 
-        Knight knight = new Knight(Color.WHITE, d8);
+        Piece knight = new Piece(new Knight(), Color.WHITE, h8);
 
         // When the knight is asked for his moves
         List<Square> moves = knight.moves(Board.emptyBoard());
@@ -180,7 +179,7 @@ public class KnightMovementTest {
         // Given a Knight
         Square square = new Square(col, row);
 
-        Knight knight = new Knight(Color.WHITE, square);
+        Piece knight = new Piece(new Knight(), Color.WHITE, square);
         Board board = Board.emptyBoard();
 
         // It's moves should be the same as it's attacks
@@ -197,13 +196,13 @@ public class KnightMovementTest {
         // Given a white knight in square D4.
         Square d4 = new Square('d', 4);
 
-        Knight knight = new Knight(Color.WHITE, d4);
+        Piece knight = new Piece(new Knight(), Color.WHITE, d4);
 
         // When it's asked to move to E6
         Square e6 = new Square('e', 6);
 
         // Then a new Knight is created in the E6 square.
-        Knight movedKnight = assertDoesNotThrow(() -> knight.moveTo(Board.emptyBoard(), e6));
+        Piece movedKnight = assertDoesNotThrow(() -> knight.moveTo(Board.emptyBoard(), e6));
 
         assertEquals(e6, movedKnight.position());
     }
@@ -214,7 +213,7 @@ public class KnightMovementTest {
         // Given a white knight in square D4.
         Square d4 = new Square('d', 4);
 
-        Knight knight = new Knight(Color.WHITE, d4);
+        Piece knight = new Piece(new Knight(), Color.WHITE, d4);
 
         // When it's asked to move to E4
         Square e4 = new Square('e', 4);
@@ -228,7 +227,7 @@ public class KnightMovementTest {
     void white_knight_in_d4_can_move_to_e6_if_square_is_empty() {
         // Given a white knight in square D4 and an empty Board.
         Square d4 = new Square('d', 4);
-        Knight knight = new Knight(Color.WHITE, d4);
+        Piece knight = new Piece(new Knight(), Color.WHITE, d4);
 
         Board board = Board.emptyBoard();
 
@@ -236,7 +235,7 @@ public class KnightMovementTest {
         Square e6 = new Square('e', 6);
 
         // Then a new Knight is created in the E6 square.
-        Knight movedKnight = assertDoesNotThrow(() -> knight.moveTo(board, e6));
+        Piece movedKnight = assertDoesNotThrow(() -> knight.moveTo(board, e6));
 
         assertEquals(e6, movedKnight.position());
     }
@@ -246,16 +245,16 @@ public class KnightMovementTest {
     void white_knight_in_d4_can_move_to_e6_if_square_has_black_piece() {
         // Given a white knight in square D4 and a Board with a black Pawn in D4.
         Square d4 = new Square('d', 4);
-        Knight knight = new Knight(Color.WHITE, d4);
+        Piece knight = new Piece(new Knight(), Color.WHITE, d4);
 
         Square e6 = new Square('e', 6);
-        Pawn pawn = new Pawn(Color.BLACK, e6);
+        Piece pawn = new Piece(new Pawn(), Color.BLACK, e6);
 
-        Board board = new Board(Collections.singletonList(pawn));
+        Board board = new Board(pawn);
 
         // When it's asked to move to E6
         // Then a new Knight is created in the E6 square.
-        Knight movedKnight = assertDoesNotThrow(() -> knight.moveTo(board, e6));
+        Piece movedKnight = assertDoesNotThrow(() -> knight.moveTo(board, e6));
 
         assertEquals(e6, movedKnight.position());
     }
@@ -265,12 +264,12 @@ public class KnightMovementTest {
     void white_knight_in_d4_cannot_move_to_e6_if_square_has_white_piece() {
         // Given a white knight in square D4 and a Board with a white Pawn in D4.
         Square d4 = new Square('d', 4);
-        Knight knight = new Knight(Color.WHITE, d4);
+        Piece knight = new Piece(new Knight(), Color.WHITE, d4);
 
         Square e6 = new Square('e', 6);
-        Pawn pawn = new Pawn(Color.WHITE, e6);
+        Piece pawn = new Piece(new Pawn(), Color.WHITE, e6);
 
-        Board board = new Board(Collections.singletonList(pawn));
+        Board board = new Board(pawn);
 
         // When it's asked to move to E6
         // Then an IllegalMovementException is thrown
@@ -283,7 +282,7 @@ public class KnightMovementTest {
         // Given a white knight in square D4.
         Square d4 = new Square('d', 4);
 
-        Knight knight = new Knight(Color.WHITE, d4);
+        Piece knight = new Piece(new Knight(), Color.WHITE, d4);
 
         // When it's asked for the path to E6
         Square e6 = new Square('e', 6);
@@ -311,7 +310,7 @@ public class KnightMovementTest {
         // Given a white knight in square D4.
         Square d4 = new Square('d', 4);
 
-        Knight knight = new Knight(Color.WHITE, d4);
+        Piece knight = new Piece(new Knight(), Color.WHITE, d4);
 
         // When it's asked for the path to D1
         Square d1 = new Square('d', 1);

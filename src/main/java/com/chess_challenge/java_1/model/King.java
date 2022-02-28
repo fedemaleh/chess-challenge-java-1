@@ -7,109 +7,55 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class King implements Piece {
-    private final Color color;
-    private final Square square;
-
-    public King(Color color, Square square) {
-        this.color = color;
-        this.square = square;
-    }
-
+public class King implements MovementStrategy {
     @Override
-    public List<Square> moves(Board board) {
+    public List<Square> moves(Board board, Piece piece) {
         List<Square> moves = new ArrayList<>();
 
         // Adds moves in all direction 1 square
-        moves.addAll(this.backwardMoves());
-        moves.addAll(this.horizontalMoves());
-        moves.addAll(this.forwardMoves());
+        moves.addAll(this.backwardMoves(piece));
+        moves.addAll(this.horizontalMoves(piece));
+        moves.addAll(this.forwardMoves(piece));
 
         // Removes current position as it's not a movement
-        moves.remove(this.position());
+        moves.remove(piece.position());
 
         return moves.stream()
-                .filter(move -> !this.isSquareOccupiedByOwnPiece(board, move))
-                .filter(move -> !isSquareThreatenedByRivalPiece(board, move))
-                .filter(move -> !isAdjacentToOtherKing(board, move))
+                .filter(move -> !this.isSquareOccupiedByOwnPiece(board, piece, move))
+                .filter(move -> !this.isSquareThreatenedByRivalPiece(board, piece, move))
+                .filter(move -> !this.isAdjacentToOtherKing(board, piece, move))
                 .collect(Collectors.toList());
     }
 
-    private boolean isSquareOccupiedByOwnPiece(Board board, Square move) {
-        return board.pieceAt(move).filter(piece -> piece.color() == this.color()).isPresent();
-    }
-
-    private boolean isSquareThreatenedByRivalPiece(Board board, Square move) {
-        return board.isThreatened(move, this);
-    }
-
-    private boolean isAdjacentToOtherKing(Board board, Square move) {
-        return !board.validKingMove(this, move);
-    }
-
     @Override
-    public List<Square> attacks(Board board) {
-        return this.moves(board);
-    }
-
-    @Override
-    public boolean attacks(Board board, Square square) {
-        return this.attacks(board).contains(square);
-    }
-
-    @Override
-    public Square position() {
-        return this.square;
-    }
-
-    @Override
-    public King moveTo(Board board, Square square) throws IllegalMovementException {
-        if (!this.moves(board).contains(square)) {
-            throw new IllegalMovementException(this, square);
+    public List<Square> pathTo(Board board, Piece piece, Square square) throws IllegalMovementException {
+        if (!this.moves(board, piece).contains(square)) {
+            throw new IllegalMovementException(piece, square);
         }
 
-        return new King(this.color(), square);
+        return Lists.newArrayList(piece.position(), square);
     }
 
-    @Override
-    public List<Square> pathTo(Board board, Square square) throws IllegalMovementException {
-        if (!this.moves(board).contains(square)) {
-            throw new IllegalMovementException(this, square);
-        }
-
-        return Lists.newArrayList(this.position(), square);
+    private List<Square> backwardMoves(Piece piece) {
+        return movesInRow(piece, piece.position().getRow() - 1);
     }
 
-    @Override
-    public Color color() {
-        return this.color;
+    private List<Square> horizontalMoves(Piece piece) {
+        return movesInRow(piece, piece.position().getRow());
     }
 
-    @Override
-    public Type type() {
-        return Type.KING;
+    private List<Square> forwardMoves(Piece piece) {
+        return movesInRow(piece, piece.position().getRow() + 1);
     }
 
-    private List<Square> backwardMoves() {
-        return movesInRow(this.position().getRow() - 1);
-    }
-
-    private List<Square> horizontalMoves() {
-        return movesInRow(this.position().getRow());
-    }
-
-    private List<Square> forwardMoves() {
-        return movesInRow(this.position().getRow() + 1);
-    }
-
-    private List<Square> movesInRow(int row) {
+    private List<Square> movesInRow(Piece piece, int row) {
         if (row < 1 || row > 8) {
             return Collections.emptyList();
         }
 
-        char currentColumn = this.square.getColumn();
-        char leftColumn = (char) (this.square.getColumn() - 1);
-        char rightColumn = (char) (this.square.getColumn() + 1);
+        char currentColumn = piece.position().getColumn();
+        char leftColumn = (char) (piece.position().getColumn() - 1);
+        char rightColumn = (char) (piece.position().getColumn() + 1);
 
         List<Square> moves = new ArrayList<>();
 
@@ -124,5 +70,17 @@ public class King implements Piece {
         }
 
         return moves;
+    }
+
+    private boolean isSquareOccupiedByOwnPiece(Board board, Piece piece, Square move) {
+        return board.pieceAt(move).filter(p -> p.color() == piece.color()).isPresent();
+    }
+
+    private boolean isSquareThreatenedByRivalPiece(Board board, Piece piece, Square move) {
+        return board.isThreatened(move, piece);
+    }
+
+    private boolean isAdjacentToOtherKing(Board board, Piece piece, Square move) {
+        return !board.validKingMove(piece, move);
     }
 }

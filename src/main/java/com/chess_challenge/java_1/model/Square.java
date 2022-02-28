@@ -2,8 +2,6 @@ package com.chess_challenge.java_1.model;
 
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Function;
-import java.util.function.Predicate;
 
 public class Square {
     private static final int MIN_ROW = 1;

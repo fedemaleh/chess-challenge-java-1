@@ -1,5 +1,6 @@
 package com.chess_challenge.java_1.utils;
 
+
 import com.chess_challenge.java_1.model.Board;
 import com.chess_challenge.java_1.model.Piece;
 import com.chess_challenge.java_1.model.Square;
@@ -56,13 +57,13 @@ public class MovementUtils {
         int minRow = Integer.max(1, square.getRow() - 1);
         int maxRow = Integer.min(8, square.getRow() + 1);
 
-        char minCol = (char)Integer.max('a', square.getColumn() - 1);
-        char maxCol = (char)Integer.min('h', square.getColumn() + 1);
+        char minCol = (char) Integer.max('a', square.getColumn() - 1);
+        char maxCol = (char) Integer.min('h', square.getColumn() + 1);
 
         return IntStream.rangeClosed(minRow, maxRow)
                 .mapToObj(row ->
                         IntStream.rangeClosed(minCol, maxCol)
-                        .mapToObj(col -> new Square((char)col, row))
+                                .mapToObj(col -> new Square((char) col, row))
                 )
                 .flatMap(Function.identity())
                 .collect(Collectors.toList());
