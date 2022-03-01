@@ -14,8 +14,7 @@ import java.io.IOException;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CheckmateTest {
 
@@ -36,7 +35,7 @@ public class CheckmateTest {
         Board board = Board.emptyBoard();
 
         // Then there is no checkmate
-        assertFalse(board.hasCheckmate());
+        assertEquals(BoardStatus.NO_CHECKMATE, board.analyse());
     }
 
     /*     a   b   c   d   e   f   g   h
@@ -58,7 +57,7 @@ public class CheckmateTest {
         );
 
         // Then there is no checkmate
-        assertFalse(board.hasCheckmate());
+        assertEquals(BoardStatus.NO_CHECKMATE, board.analyse());
     }
 
     /*     a   b   c   d   e   f   g   h
@@ -84,7 +83,7 @@ public class CheckmateTest {
         );
 
         // Then there is a checkmate
-        assertTrue(board.hasCheckmate());
+        assertEquals(BoardStatus.CHECKMATE, board.analyse());
     }
 
     /*     a   b   c   d   e   f   g   h
@@ -109,7 +108,7 @@ public class CheckmateTest {
         );
 
         // Then there is no checkmate
-        assertFalse(board.hasCheckmate());
+        assertEquals(BoardStatus.NO_CHECKMATE, board.analyse());
     }
 
     /*     a   b   c   d   e   f   g   h
@@ -134,7 +133,7 @@ public class CheckmateTest {
         );
 
         // Then there is no checkmate
-        assertFalse(board.hasCheckmate());
+        assertEquals(BoardStatus.NO_CHECKMATE, board.analyse());
     }
 
     /*     a   b   c   d   e   f   g   h
@@ -159,7 +158,7 @@ public class CheckmateTest {
         );
 
         // Then there is a checkmate
-        assertTrue(board.hasCheckmate());
+        assertEquals(BoardStatus.CHECKMATE, board.analyse());
     }
 
     /*     a   b   c   d   e   f   g   h
@@ -184,7 +183,7 @@ public class CheckmateTest {
         );
 
         // Then there is a checkmate
-        assertTrue(board.hasCheckmate());
+        assertEquals(BoardStatus.CHECKMATE, board.analyse());
     }
 
     /*     a   b   c   d   e   f   g   h
@@ -210,7 +209,7 @@ public class CheckmateTest {
         );
 
         // Then there is no checkmate
-        assertFalse(board.hasCheckmate());
+        assertEquals(BoardStatus.NO_CHECKMATE, board.analyse());
     }
 
     /*     a   b   c   d   e   f   g   h
@@ -237,7 +236,7 @@ public class CheckmateTest {
         );
 
         // Then there is a checkmate
-        assertTrue(board.hasCheckmate());
+        assertEquals(BoardStatus.CHECKMATE, board.analyse());
     }
 
     /*     a   b   c   d   e   f   g   h
@@ -265,7 +264,7 @@ public class CheckmateTest {
         );
 
         // Then there is a checkmate
-        assertTrue(board.hasCheckmate());
+        assertEquals(BoardStatus.CHECKMATE, board.analyse());
     }
 
     /*     a   b   c   d   e   f   g   h
@@ -292,7 +291,7 @@ public class CheckmateTest {
         );
 
         // Then there is a checkmate
-        assertTrue(board.hasCheckmate());
+        assertEquals(BoardStatus.CHECKMATE, board.analyse());
     }
 
     /*    a   b   c   d   e   f   g   h
@@ -318,7 +317,7 @@ public class CheckmateTest {
         );
 
         // Then there is no checkmate
-        assertFalse(board.hasCheckmate());
+        assertEquals(BoardStatus.NO_CHECKMATE, board.analyse());
     }
 
     /*    a   b   c   d   e   f   g   h
@@ -345,7 +344,7 @@ public class CheckmateTest {
         );
 
         // Then there is no checkmate
-        assertTrue(board.hasCheckmate());
+        assertEquals(BoardStatus.CHECKMATE, board.analyse());
     }
 
     /*    a   b   c   d   e   f   g   h
@@ -372,7 +371,7 @@ public class CheckmateTest {
         );
 
         // Then there is a checkmate
-        assertTrue(board.hasCheckmate());
+        assertEquals(BoardStatus.CHECKMATE, board.analyse());
     }
 
     @ParameterizedTest
@@ -387,7 +386,7 @@ public class CheckmateTest {
 
         Board board = converter.convertBoard(boardDTO);
 
-        assertFalse(board.hasCheckmate());
+        assertEquals(BoardStatus.NO_CHECKMATE, board.analyse());
     }
 
     @ParameterizedTest
@@ -402,7 +401,7 @@ public class CheckmateTest {
 
         Board board = converter.convertBoard(boardDTO);
 
-        assertTrue(board.hasCheckmate());
+        assertEquals(BoardStatus.CHECKMATE, board.analyse());
     }
 
     private static Stream<Arguments> examples() {

@@ -56,9 +56,11 @@ public class Board {
                 piece.attacks(board, square) && this.pieceCanBeMoved(piece);
     }
 
-    public boolean hasCheckmate() {
-        return pieces.stream()
+    public BoardStatus analyse() {
+        boolean hasCheckmate = pieces.stream()
                 .anyMatch(piece -> piece.type() instanceof King && this.hasCheckmate(piece));
+
+        return hasCheckmate ? BoardStatus.CHECKMATE : BoardStatus.NO_CHECKMATE;
     }
 
     private boolean hasCheckmate(Piece king) {
