@@ -2,7 +2,10 @@ package com.chess_challenge.java_1.model;
 
 import com.chess_challenge.java_1.utils.MovementUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class Board {
@@ -47,10 +50,10 @@ public class Board {
     }
 
     private boolean canTakePiece(Board board, Piece pieceToTake, Piece piece, Square square) {
-        return piece.color() != pieceToTake.color() &&
+        return !piece.equals(pieceToTake) &&
+                piece.color() != pieceToTake.color() &&
                 (!(piece.type() instanceof King) || !(pieceToTake.type() instanceof King)) && // Kings cannot threaten each other
-                piece.attacks(board, square) &&
-                this.pieceCanBeMoved(piece);
+                piece.attacks(board, square) && this.pieceCanBeMoved(piece);
     }
 
     public boolean hasCheckmate() {
@@ -99,14 +102,20 @@ public class Board {
                         .collect(Collectors.toList())
         );
 
-        return this.pieces.stream()
+        long originalChecks = this.pieces.stream()
                 .filter(currentPiece -> !currentPiece.equals(piece))
                 .filter(currentPiece -> !(currentPiece.type() instanceof King))
                 .filter(currentPiece -> currentPiece.attacks(this, king.get().position()))
-                .count() ==
-                boardWithoutPieceAtSquare.pieces.stream()
-                        .filter(currentPiece -> currentPiece.attacks(boardWithoutPieceAtSquare, king.get().position()))
-                        .count();
+                .count();
+
+        long checks = boardWithoutPieceAtSquare.pieces
+                .stream()
+                .filter(currentPiece -> !currentPiece.equals(piece))
+                .filter(currentPiece -> !(currentPiece.type() instanceof King))
+                .filter(currentPiece -> currentPiece.attacks(boardWithoutPieceAtSquare, king.get().position()))
+                .count();
+
+        return originalChecks == checks;
     }
 
     private boolean canBeIntercepted(Piece king, Piece attacker) {
@@ -128,5 +137,6 @@ public class Board {
                 .filter(piece -> piece.type() instanceof King)
                 .filter(piece -> piece.color() != king.color())
                 .noneMatch(piece -> adjacentSquares.contains(piece.position()));
+
     }
 }
