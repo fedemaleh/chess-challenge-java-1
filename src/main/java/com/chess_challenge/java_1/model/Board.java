@@ -2,14 +2,11 @@ package com.chess_challenge.java_1.model;
 
 import com.chess_challenge.java_1.utils.MovementUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Board {
-    private List<Piece> pieces;
+    private final List<Piece> pieces;
 
     public Board(List<Piece> pieces) {
         this.pieces = pieces;
@@ -46,15 +43,14 @@ public class Board {
                         .collect(Collectors.toList())
         );
 
-
         return pieces.stream().anyMatch(piece -> this.canTakePiece(boardWithoutPieceAtSquare, currentPiece, piece, square));
     }
 
     private boolean canTakePiece(Board board, Piece pieceToTake, Piece piece, Square square) {
-        return !piece.equals(pieceToTake) &&
-                piece.color() != pieceToTake.color() &&
+        return piece.color() != pieceToTake.color() &&
                 (!(piece.type() instanceof King) || !(pieceToTake.type() instanceof King)) && // Kings cannot threaten each other
-                piece.attacks(board, square) && this.pieceCanBeMoved(piece);
+                piece.attacks(board, square) &&
+                this.pieceCanBeMoved(piece);
     }
 
     public boolean hasCheckmate() {
@@ -126,12 +122,11 @@ public class Board {
     }
 
     public boolean validKingMove(Piece king, Square move) {
-        List<Square> adjacentSquares = MovementUtils.adjacentSquares(move);
+        List<Square> adjacentSquares = MovementUtils.adjacentSquares(move).collect(Collectors.toList());
 
         return pieces.stream()
                 .filter(piece -> piece.type() instanceof King)
                 .filter(piece -> piece.color() != king.color())
                 .noneMatch(piece -> adjacentSquares.contains(piece.position()));
-
     }
 }

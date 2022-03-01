@@ -1,5 +1,6 @@
 package com.chess_challenge.java_1.model;
 
+import com.chess_challenge.java_1.utils.MovementUtils;
 import com.google.common.collect.Lists;
 
 import java.util.ArrayList;
@@ -40,19 +41,12 @@ public class Knight implements MovementStrategy {
     }
 
     private List<Square> generateMoves(Board board, Piece piece, int verticalSquares, int horizontalSquares) {
-        return this.validSquares(piece.position().backwardSquare(verticalSquares), piece.position().forwardSquare(verticalSquares))
-                .flatMap(square -> this.validSquares(
+        return MovementUtils.validSquares(piece.position().backwardSquare(verticalSquares), piece.position().forwardSquare(verticalSquares))
+                .flatMap(square -> MovementUtils.validSquares(
                         square.leftSquare(horizontalSquares),
                         square.rightSquare(horizontalSquares))
                 )
                 .filter(square -> board.canOccupy(piece, square))
                 .collect(Collectors.toList());
-    }
-
-    @SafeVarargs
-    private final Stream<Square> validSquares(Optional<Square>... squares) {
-        return Stream.of(squares)
-                .filter(Optional::isPresent)
-                .map(Optional::get);
     }
 }
