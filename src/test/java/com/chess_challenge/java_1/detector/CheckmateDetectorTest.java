@@ -2,12 +2,15 @@ package com.chess_challenge.java_1.detector;
 
 import com.chess_challenge.java_1.converters.BoardConverter;
 import com.chess_challenge.java_1.converters.BoardStatusConverter;
+import com.chess_challenge.java_1.converters.StatisticsConverter;
 import com.chess_challenge.java_1.dto.BoardDTO;
 import com.chess_challenge.java_1.dto.ColorDTO;
 import com.chess_challenge.java_1.model.*;
 import com.chess_challenge.java_1.response.BoardStatusResponse;
 import com.chess_challenge.java_1.response.CheckmateDetectorResultResponse;
+import com.chess_challenge.java_1.response.DetectorStatisticsResponse;
 import com.chess_challenge.java_1.response.ErrorResponse;
+import com.chess_challenge.java_1.statistics.StatisticsController;
 import com.chess_challenge.java_1.statistics.repositories.InMemoryStatisticsRepository;
 import com.chess_challenge.java_1.statistics.StatisticsService;
 import com.chess_challenge.java_1.statistics.repositories.StatisticsRepository;
@@ -31,7 +34,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CheckmateDetectorTest {
     private CheckmateDetector checkmateDetector;
-    private StatisticsService statisticsService;
+    private StatisticsController statisticsController;
 
     @BeforeEach
     public void setup() {
@@ -41,8 +44,11 @@ class CheckmateDetectorTest {
 
         StatisticsRepository statisticsRepository = new InMemoryStatisticsRepository();
 
-        this.statisticsService = new StatisticsService(statisticsRepository);
+        StatisticsService statisticsService = new StatisticsService(statisticsRepository);
         this.checkmateDetector = new CheckmateDetector(boardConverter, boardStatusConverter, statisticsService);
+
+        StatisticsConverter statisticsConverter = new StatisticsConverter();
+        this.statisticsController = new StatisticsController(statisticsService, statisticsConverter);
     }
 
     @Test
@@ -171,15 +177,14 @@ class CheckmateDetectorTest {
     @Timeout(value = 5)
     void no_checkmate_case_should_update_statistics() throws IOException {
         // Given an empty statistics service
-
-        DetectorStatistics initialStats = statisticsService.getStatistics();
+        DetectorStatisticsResponse initialStats = this.getStats();
 
         // verify stats are empty
-        Map<Color, Integer> initialWinners = initialStats.getWinners();
+        Map<String, Integer> initialWinners = initialStats.getWinners();
 
         initialWinners.forEach((color, checkmates) -> assertEquals(0, checkmates));
 
-        Map<Type, Integer> initialCheckmatePieces = initialStats.getCheckmatePieces();
+        Map<String, Integer> initialCheckmatePieces = initialStats.getCheckmatePieces();
 
         initialCheckmatePieces.forEach((piece, checkmates) -> assertEquals(0, checkmates));
 
@@ -191,19 +196,19 @@ class CheckmateDetectorTest {
         checkmateDetector.detectCheckmate(board);
 
         // then stats are updated
-        DetectorStatistics currentStats = statisticsService.getStatistics();
+        DetectorStatisticsResponse currentStats = this.getStats();
 
-        Map<Color, Integer> currentWinners = currentStats.getWinners();
+        Map<String , Integer> currentWinners = currentStats.getWinners();
 
-        assertEquals(1, currentWinners.get(Color.NO_COLOR));
+        assertEquals(1, currentWinners.get(Color.NO_COLOR.name().toLowerCase()));
 
         initialWinners
                 .entrySet()
                 .stream()
-                .filter(winner -> winner.getKey() != Color.NO_COLOR)
+                .filter(winner -> !winner.getKey().equals(Color.NO_COLOR.name().toLowerCase()))
                 .forEach((winner) -> assertEquals(0, winner.getValue()));
 
-        Map<Type, Integer> currentCheckmatePieces = currentStats.getCheckmatePieces();
+        Map<String, Integer> currentCheckmatePieces = currentStats.getCheckmatePieces();
 
         currentCheckmatePieces.forEach((piece, checkmates) -> assertEquals(0, checkmates));
     }
@@ -212,15 +217,14 @@ class CheckmateDetectorTest {
     @Timeout(value = 5)
     void checkmate_case_should_update_statistics() throws IOException {
         // Given an empty statistics service
-
-        DetectorStatistics initialStats = statisticsService.getStatistics();
+        DetectorStatisticsResponse initialStats = this.getStats();
 
         // verify stats are empty
-        Map<Color, Integer> initialWinners = initialStats.getWinners();
+        Map<String, Integer> initialWinners = initialStats.getWinners();
 
         initialWinners.forEach((color, checkmates) -> assertEquals(0, checkmates));
 
-        Map<Type, Integer> initialCheckmatePieces = initialStats.getCheckmatePieces();
+        Map<String, Integer> initialCheckmatePieces = initialStats.getCheckmatePieces();
 
         initialCheckmatePieces.forEach((piece, checkmates) -> assertEquals(0, checkmates));
 
@@ -232,25 +236,33 @@ class CheckmateDetectorTest {
         checkmateDetector.detectCheckmate(board);
 
         // then stats are updated
-        DetectorStatistics currentStats = statisticsService.getStatistics();
+        DetectorStatisticsResponse currentStats = this.getStats();
 
-        Map<Color, Integer> currentWinners = currentStats.getWinners();
+        Map<String, Integer> currentWinners = currentStats.getWinners();
 
-        assertEquals(1, currentWinners.get(Color.WHITE));
+        assertEquals(1, currentWinners.get(Color.WHITE.name().toLowerCase()));
 
         initialWinners
                 .entrySet()
                 .stream()
-                .filter(winner -> winner.getKey() != Color.WHITE)
+                .filter(winner -> !winner.getKey().equals(Color.WHITE.name().toLowerCase()))
                 .forEach((winner) -> assertEquals(0, winner.getValue()));
 
-        Map<Type, Integer> currentCheckmatePieces = currentStats.getCheckmatePieces();
+        Map<String, Integer> currentCheckmatePieces = currentStats.getCheckmatePieces();
 
-        assertEquals(1, currentCheckmatePieces.get(Type.ROOK));
+        assertEquals(1, currentCheckmatePieces.get(Type.ROOK.name().toLowerCase()));
 
         currentCheckmatePieces.entrySet()
                 .stream()
-                .filter(winner -> !winner.getKey().equals(Type.ROOK))
+                .filter(winner -> !winner.getKey().equals(Type.ROOK.name().toLowerCase()))
                 .forEach((winner) -> assertEquals(0, winner.getValue()));
+    }
+
+    private DetectorStatisticsResponse getStats() {
+        ResponseEntity<DetectorStatisticsResponse> statsResponse = statisticsController.stats();
+
+        assertEquals(HttpStatus.OK, statsResponse.getStatusCode());
+
+        return statsResponse.getBody();
     }
 }
