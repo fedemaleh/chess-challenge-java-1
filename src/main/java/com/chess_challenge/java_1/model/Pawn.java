@@ -47,6 +47,11 @@ public class Pawn implements MovementStrategy {
         return Lists.newArrayList(piece.position(), square);
     }
 
+    @Override
+    public String name() {
+        return "pawn";
+    }
+
     private Optional<Square> nextSquare(Color color, Square position) {
         if (color == Color.WHITE) {
             return position.forwardSquare();

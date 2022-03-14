@@ -21,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -53,6 +54,8 @@ class CheckmateDetectorTest {
         CheckmateDetectorResultResponse result = (CheckmateDetectorResultResponse) response.getBody();
 
         assertEquals(BoardStatusResponse.CHECKMATE, result.getStatus());
+        assertEquals(Color.WHITE.name().toLowerCase(), result.getWinner());
+        assertEquals(Collections.singletonList("rook"), result.getPiece());
     }
 
     @Test
@@ -69,6 +72,8 @@ class CheckmateDetectorTest {
         CheckmateDetectorResultResponse result = (CheckmateDetectorResultResponse) response.getBody();
 
         assertEquals(BoardStatusResponse.NO_CHECKMATE, result.getStatus());
+        assertEquals("no_winner", result.getWinner());
+        assertEquals(Collections.emptyList(), result.getPiece());
     }
 
     @Test

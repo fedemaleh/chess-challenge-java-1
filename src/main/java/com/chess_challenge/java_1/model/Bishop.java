@@ -36,4 +36,9 @@ public class Bishop implements MovementStrategy {
                 .filter(move -> move.sharesDiagonal(square) && move.distanceTo(square) <= piece.position().distanceTo(square))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public String name() {
+        return "bishop";
+    }
 }

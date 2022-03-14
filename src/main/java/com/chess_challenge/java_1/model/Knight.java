@@ -32,6 +32,11 @@ public class Knight implements MovementStrategy {
         return Lists.newArrayList(piece.position(), square);
     }
 
+    @Override
+    public String name() {
+        return "knight";
+    }
+
     private List<Square> verticalMoves(Board board, Piece piece) {
         return this.generateMoves(board, piece, 2, 1);
     }

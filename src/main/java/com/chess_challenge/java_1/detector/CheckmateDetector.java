@@ -46,9 +46,7 @@ public class CheckmateDetector {
 
         BoardStatus status = board.analyse();
 
-        BoardStatusResponse boardStatusResponse = boardStatusConverter.convertBoardStatus(status);
-
-        CheckmateDetectorResultResponse response = new CheckmateDetectorResultResponse(boardStatusResponse);
+        CheckmateDetectorResultResponse response = boardStatusConverter.convertBoardStatus(status);
 
         return ResponseEntity.ok(response);
     }

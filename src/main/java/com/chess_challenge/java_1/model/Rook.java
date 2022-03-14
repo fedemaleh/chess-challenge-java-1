@@ -42,4 +42,9 @@ public class Rook implements MovementStrategy {
                 .filter(move -> move.isAligned(square) && move.distanceTo(square) <= piece.position().distanceTo(square))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public String name() {
+        return "rook";
+    }
 }

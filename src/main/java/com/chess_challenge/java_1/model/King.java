@@ -26,6 +26,11 @@ public class King implements MovementStrategy {
         return Lists.newArrayList(piece.position(), square);
     }
 
+    @Override
+    public String name() {
+        return "king";
+    }
+
     private boolean isSquareThreatenedByRivalPiece(Board board, Piece piece, Square move) {
         return board.isThreatened(move, piece);
     }

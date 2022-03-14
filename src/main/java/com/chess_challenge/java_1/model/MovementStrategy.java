@@ -36,4 +36,10 @@ public interface MovementStrategy {
      * @throws IllegalMovementException when the piece can't move to the desired square.
      */
     List<Square> pathTo(Board board, Piece piece, Square square) throws IllegalMovementException;
+
+    /**
+     * Gets the name of the piece represented by the movement strategy.
+     * @return the piece represented by the movement strategy.
+     */
+    String name();
 }

@@ -30,4 +30,9 @@ public class Queen implements MovementStrategy {
 
         throw new IllegalMovementException(piece, square);
     }
+
+    @Override
+    public String name() {
+        return "queen";
+    }
 }
