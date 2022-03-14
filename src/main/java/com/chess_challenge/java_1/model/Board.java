@@ -2,10 +2,7 @@ package com.chess_challenge.java_1.model;
 
 import com.chess_challenge.java_1.utils.MovementUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Board {
@@ -57,13 +54,15 @@ public class Board {
     }
 
     public BoardStatus analyse() {
-        boolean hasCheckmate = pieces.stream()
-                .anyMatch(piece -> piece.type() instanceof King && this.hasCheckmate(piece));
-
-        return hasCheckmate ? BoardStatus.CHECKMATE : BoardStatus.NO_CHECKMATE;
+        return pieces.stream()
+                .filter(piece -> piece.type() instanceof King)
+                .map(this::kingStatus)
+                .filter(status -> status instanceof Checkmate)
+                .findFirst()
+                .orElse(new NoCheckmate());
     }
 
-    private boolean hasCheckmate(Piece king) {
+    private BoardStatus kingStatus(Piece king) {
         /* Checkmate rules:
             1. There is a piece attacking the king.
             2. The king can't move.
@@ -77,6 +76,14 @@ public class Board {
                 .filter(piece -> piece.attacks(this, king.position()))
                 .collect(Collectors.toList());
 
+        if (this.hasCheckmate(king, piecesThatThreatenKing)) {
+            return new Checkmate(piecesThatThreatenKing);
+        }
+
+        return new NoCheckmate();
+    }
+
+    private boolean hasCheckmate(Piece king, List<Piece> piecesThatThreatenKing) {
         return piecesThatThreatenKing.stream()
                 .anyMatch(piece -> piecesThatThreatenKing.size() > 1 ||
                         (!this.canBeTaken(piece) && !this.canBeIntercepted(king, piece))

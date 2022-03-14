@@ -7,10 +7,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class BoardStatusConverter {
     public BoardStatusResponse convertBoardStatus(BoardStatus boardStatus) {
-        return switch (boardStatus) {
-            case CHECKMATE -> BoardStatusResponse.CHECKMATE;
-            case NO_CHECKMATE -> BoardStatusResponse.NO_CHECKMATE;
-        };
+        return boardStatus.winner()
+                .map(w -> BoardStatusResponse.CHECKMATE)
+                .orElse(BoardStatusResponse.NO_CHECKMATE);
     }
 
 }

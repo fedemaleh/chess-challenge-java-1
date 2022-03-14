@@ -40,7 +40,7 @@ curl -X POST 'localhost:8080/checkmate/detector' -d @path_to_json_file
 4. **Collecting Statistics**. Now that we can use our checkmate detector through a web server we want to be able to collect some statistics of the boards analysed. The metrics to collect are:
    *  **Win Distribution:** We want to know the result distribution of the boards analysed. In short we want to know the number of white checkmates, black checkmates and no checkmate boards.
    *  **Conquering Pieces:** We want to know the number of checkmates made by each type of piece. If a checkmate was made by more than one pieces, we count one to each of the pieces attacking the king.
-   *  **Invalid Boards:** We want to know how many of the boards showed an invalid board. A board is invalid if any piece is in a non-existent square, if one color doesn't have a king or if there are more than one king of the same color. *Bonus: update the checkmate detector to return an error if the board is invalid*.
+   *  **Invalid Boards:** We want to know how many of the boards showed an invalid board. A board is invalid if any piece is in a non-existent square, if one color doesn't have a king or if there are more than one king of the same color. **Bonus:** update the checkmate detector to return an error if the board is invalid.
     1. Implement the statistics using an in-memory store strategy.
     2. Implement the statistics using a Postgress (or other SQL database) store strategy.
     3. Implement the statistics using a Redis store strategy.
