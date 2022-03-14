@@ -6,15 +6,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class PieceDTO {
     private final TypeDTO type;
     private final ColorDTO color;
-    private final SquareDTO square;
+    private final SquareDTO position;
 
     @JsonCreator
     public PieceDTO(@JsonProperty("type") TypeDTO type,
                     @JsonProperty("color") ColorDTO color,
-                    @JsonProperty("position") SquareDTO square) {
+                    @JsonProperty("position") SquareDTO position) {
         this.type = type;
         this.color = color;
-        this.square = square;
+        this.position = position;
     }
 
     public TypeDTO getType() {
@@ -25,7 +25,7 @@ public class PieceDTO {
         return color;
     }
 
-    public SquareDTO getSquare() {
-        return square;
+    public SquareDTO getPosition() {
+        return position;
     }
 }

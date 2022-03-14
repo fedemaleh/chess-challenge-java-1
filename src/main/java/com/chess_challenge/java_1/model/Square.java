@@ -38,7 +38,7 @@ public class Square {
                 .map(valid -> new Square(column, row));
     }
 
-    private static boolean validSquare(char column, int row) {
+    public static boolean validSquare(char column, int row) {
         return column >= MIN_COL && column <= MAX_COL &&
                 row >= MIN_ROW && row <= MAX_ROW;
     }

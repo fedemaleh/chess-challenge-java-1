@@ -3,6 +3,9 @@ package com.chess_challenge.java_1.converters;
 import com.chess_challenge.java_1.dto.BoardDTO;
 import com.chess_challenge.java_1.dto.PieceDTO;
 import com.chess_challenge.java_1.model.*;
+import com.chess_challenge.java_1.validators.BoardValidator;
+import io.vavr.control.Either;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,20 +13,32 @@ import java.util.stream.Collectors;
 
 @Service
 public class BoardConverter {
-    public Board convertBoard(BoardDTO dto) {
-        List<Piece> pieces = dto.getPieces()
-                .stream()
+    private final BoardValidator boardValidator;
+
+    @Autowired
+    public BoardConverter(BoardValidator boardValidator) {
+        this.boardValidator = boardValidator;
+    }
+
+    public Either<Board, List<IllegalBoardException>> convertBoard(BoardDTO dto) {
+        return this.boardValidator.validate(dto)
+                .mapLeft(BoardDTO::getPieces)
+                .mapLeft(this::convertPieces)
+                .mapLeft(Board::new);
+    }
+
+    private List<Piece> convertPieces(List<PieceDTO> pieces) {
+        return pieces.stream()
                 .map(this::convertPiece)
                 .collect(Collectors.toList());
-
-        return new Board(pieces);
     }
 
     private Piece convertPiece(PieceDTO piece) {
         Color color = Color.valueOf(piece.getColor().name());
-        Square square = new Square(piece.getSquare().getColumn(), piece.getSquare().getRow());
+        MovementStrategy type = this.convertMovementStrategy(piece);
+        Square position = new Square(piece.getPosition().getColumn(), piece.getPosition().getRow());
 
-        return new Piece(this.convertMovementStrategy(piece), color, square);
+        return new Piece(type, color, position);
     }
 
     private MovementStrategy convertMovementStrategy(PieceDTO piece) {

@@ -1,0 +1,12 @@
+{
+  "pieces": [
+    {
+      "type": "king",
+      "position": {
+        "column": "a",
+        "row": "8"
+      },
+      "color": "black"
+    }
+  ]
+}

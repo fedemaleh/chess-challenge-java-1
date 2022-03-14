@@ -139,6 +139,5 @@ public class Board {
                 .filter(piece -> piece.type() instanceof King)
                 .filter(piece -> piece.color() != king.color())
                 .noneMatch(piece -> adjacentSquares.contains(piece.position()));
-
     }
 }

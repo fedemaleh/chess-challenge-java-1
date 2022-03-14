@@ -2,7 +2,9 @@ package com.chess_challenge.java_1.model;
 
 import com.chess_challenge.java_1.converters.BoardConverter;
 import com.chess_challenge.java_1.dto.BoardDTO;
+import com.chess_challenge.java_1.validators.BoardValidator;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -17,6 +19,14 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CheckmateTest {
+    private BoardConverter boardConverter;
+
+    @BeforeEach
+    public void setup() {
+        BoardValidator boardValidator = new BoardValidator();
+
+        this.boardConverter = new BoardConverter(boardValidator);
+    }
 
     /*     a   b   c   d   e   f   g   h
        8 |   |   |   |   |   |   |   |   |
@@ -382,9 +392,7 @@ public class CheckmateTest {
 
         BoardDTO boardDTO = new ObjectMapper().readValue(example, BoardDTO.class);
 
-        BoardConverter converter = new BoardConverter();
-
-        Board board = converter.convertBoard(boardDTO);
+        Board board = boardConverter.convertBoard(boardDTO).getLeft();
 
         assertEquals(BoardStatus.NO_CHECKMATE, board.analyse());
     }
@@ -397,9 +405,7 @@ public class CheckmateTest {
 
         BoardDTO boardDTO = new ObjectMapper().readValue(example, BoardDTO.class);
 
-        BoardConverter converter = new BoardConverter();
-
-        Board board = converter.convertBoard(boardDTO);
+        Board board = boardConverter.convertBoard(boardDTO).getLeft();
 
         assertEquals(BoardStatus.CHECKMATE, board.analyse());
     }

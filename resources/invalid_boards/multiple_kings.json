@@ -1,0 +1,36 @@
+{
+  "pieces": [
+    {
+      "type": "king",
+      "position": {
+        "column": "a",
+        "row": "8"
+      },
+      "color": "black"
+    },
+    {
+      "type": "king",
+      "position": {
+        "column": "c",
+        "row": "8"
+      },
+      "color": "white"
+    },
+    {
+      "type": "king",
+      "position": {
+        "column": "f",
+        "row": "8"
+      },
+      "color": "black"
+    },
+    {
+      "type": "king",
+      "position": {
+        "column": "h",
+        "row": "8"
+      },
+      "color": "white"
+    }
+  ]
+}
