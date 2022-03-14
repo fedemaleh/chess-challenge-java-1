@@ -4,13 +4,13 @@ import com.chess_challenge.java_1.converters.BoardConverter;
 import com.chess_challenge.java_1.converters.BoardStatusConverter;
 import com.chess_challenge.java_1.dto.BoardDTO;
 import com.chess_challenge.java_1.dto.ColorDTO;
-import com.chess_challenge.java_1.model.Color;
-import com.chess_challenge.java_1.model.IllegalSquareException;
-import com.chess_challenge.java_1.model.MissingKingException;
-import com.chess_challenge.java_1.model.MultipleKingsException;
+import com.chess_challenge.java_1.model.*;
 import com.chess_challenge.java_1.response.BoardStatusResponse;
 import com.chess_challenge.java_1.response.CheckmateDetectorResultResponse;
 import com.chess_challenge.java_1.response.ErrorResponse;
+import com.chess_challenge.java_1.statistics.repositories.InMemoryStatisticsRepository;
+import com.chess_challenge.java_1.statistics.StatisticsService;
+import com.chess_challenge.java_1.statistics.repositories.StatisticsRepository;
 import com.chess_challenge.java_1.validators.BoardValidator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -30,6 +31,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CheckmateDetectorTest {
     private CheckmateDetector checkmateDetector;
+    private StatisticsService statisticsService;
 
     @BeforeEach
     public void setup() {
@@ -37,7 +39,10 @@ class CheckmateDetectorTest {
         BoardConverter boardConverter = new BoardConverter(boardValidator);
         BoardStatusConverter boardStatusConverter = new BoardStatusConverter();
 
-        this.checkmateDetector = new CheckmateDetector(boardConverter, boardStatusConverter);
+        StatisticsRepository statisticsRepository = new InMemoryStatisticsRepository();
+
+        this.statisticsService = new StatisticsService(statisticsRepository);
+        this.checkmateDetector = new CheckmateDetector(boardConverter, boardStatusConverter, statisticsService);
     }
 
     @Test
@@ -160,5 +165,92 @@ class CheckmateDetectorTest {
                 .collect(Collectors.toList());
 
         assertEquals(expectedErrors, errors.getErrors());
+    }
+
+    @Test
+    @Timeout(value = 5)
+    void no_checkmate_case_should_update_statistics() throws IOException {
+        // Given an empty statistics service
+
+        DetectorStatistics initialStats = statisticsService.getStatistics();
+
+        // verify stats are empty
+        Map<Color, Integer> initialWinners = initialStats.getWinners();
+
+        initialWinners.forEach((color, checkmates) -> assertEquals(0, checkmates));
+
+        Map<Type, Integer> initialCheckmatePieces = initialStats.getCheckmatePieces();
+
+        initialCheckmatePieces.forEach((piece, checkmates) -> assertEquals(0, checkmates));
+
+        // when the board is analysed
+        File example = new File(String.format("resources/check-examples/check_example_%d.json", 1));
+
+        BoardDTO board = new ObjectMapper().readValue(example, BoardDTO.class);
+
+        checkmateDetector.detectCheckmate(board);
+
+        // then stats are updated
+        DetectorStatistics currentStats = statisticsService.getStatistics();
+
+        Map<Color, Integer> currentWinners = currentStats.getWinners();
+
+        assertEquals(1, currentWinners.get(Color.NO_COLOR));
+
+        initialWinners
+                .entrySet()
+                .stream()
+                .filter(winner -> winner.getKey() != Color.NO_COLOR)
+                .forEach((winner) -> assertEquals(0, winner.getValue()));
+
+        Map<Type, Integer> currentCheckmatePieces = currentStats.getCheckmatePieces();
+
+        currentCheckmatePieces.forEach((piece, checkmates) -> assertEquals(0, checkmates));
+    }
+
+    @Test
+    @Timeout(value = 5)
+    void checkmate_case_should_update_statistics() throws IOException {
+        // Given an empty statistics service
+
+        DetectorStatistics initialStats = statisticsService.getStatistics();
+
+        // verify stats are empty
+        Map<Color, Integer> initialWinners = initialStats.getWinners();
+
+        initialWinners.forEach((color, checkmates) -> assertEquals(0, checkmates));
+
+        Map<Type, Integer> initialCheckmatePieces = initialStats.getCheckmatePieces();
+
+        initialCheckmatePieces.forEach((piece, checkmates) -> assertEquals(0, checkmates));
+
+        // when the board is analysed
+        File example = new File(String.format("resources/checkmate-examples/checkmate_example_%d.json", 1));
+
+        BoardDTO board = new ObjectMapper().readValue(example, BoardDTO.class);
+
+        checkmateDetector.detectCheckmate(board);
+
+        // then stats are updated
+        DetectorStatistics currentStats = statisticsService.getStatistics();
+
+        Map<Color, Integer> currentWinners = currentStats.getWinners();
+
+        assertEquals(1, currentWinners.get(Color.WHITE));
+
+        initialWinners
+                .entrySet()
+                .stream()
+                .filter(winner -> winner.getKey() != Color.WHITE)
+                .forEach((winner) -> assertEquals(0, winner.getValue()));
+
+        Map<Type, Integer> currentCheckmatePieces = currentStats.getCheckmatePieces();
+
+        assertEquals(1, currentCheckmatePieces.get(Type.ROOK));
+
+        currentCheckmatePieces.entrySet()
+                .stream()
+                .filter(winner -> !winner.getKey().equals(Type.ROOK))
+                .forEach((winner) -> assertEquals(0, winner.getValue()));
     }
 }

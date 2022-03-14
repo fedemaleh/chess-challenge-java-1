@@ -27,8 +27,8 @@ public class King implements MovementStrategy {
     }
 
     @Override
-    public String name() {
-        return "king";
+    public Type type() {
+        return Type.KING;
     }
 
     private boolean isSquareThreatenedByRivalPiece(Board board, Piece piece, Square move) {

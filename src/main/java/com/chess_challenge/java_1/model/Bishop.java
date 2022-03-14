@@ -38,7 +38,7 @@ public class Bishop implements MovementStrategy {
     }
 
     @Override
-    public String name() {
-        return "bishop";
+    public Type type() {
+        return Type.BISHOP;
     }
 }

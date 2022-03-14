@@ -21,7 +21,7 @@ public class BoardStatusConverter {
                                 boardStatus.checkmatePieces()
                                         .stream()
                                         .map(Piece::type)
-                                        .map(MovementStrategy::name)
+                                        .map(movementStrategy -> movementStrategy.type().name().toLowerCase())
                                         .collect(Collectors.toList())
                         )
                 )

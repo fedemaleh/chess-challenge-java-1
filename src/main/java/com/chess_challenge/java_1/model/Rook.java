@@ -44,7 +44,7 @@ public class Rook implements MovementStrategy {
     }
 
     @Override
-    public String name() {
-        return "rook";
+    public Type type() {
+        return Type.ROOK;
     }
 }

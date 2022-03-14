@@ -48,8 +48,8 @@ public class Pawn implements MovementStrategy {
     }
 
     @Override
-    public String name() {
-        return "pawn";
+    public Type type() {
+        return Type.PAWN;
     }
 
     private Optional<Square> nextSquare(Color color, Square position) {

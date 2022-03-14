@@ -32,7 +32,7 @@ public class Queen implements MovementStrategy {
     }
 
     @Override
-    public String name() {
-        return "queen";
+    public Type type() {
+        return Type.QUEEN;
     }
 }

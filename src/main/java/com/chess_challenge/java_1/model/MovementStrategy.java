@@ -38,8 +38,8 @@ public interface MovementStrategy {
     List<Square> pathTo(Board board, Piece piece, Square square) throws IllegalMovementException;
 
     /**
-     * Gets the name of the piece represented by the movement strategy.
-     * @return the piece represented by the movement strategy.
+     * Gets the piece type represented by the movement strategy.
+     * @return the piece type represented by the movement strategy.
      */
-    String name();
+    Type type();
 }

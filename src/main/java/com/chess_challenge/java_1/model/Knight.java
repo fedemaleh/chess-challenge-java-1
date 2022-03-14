@@ -11,7 +11,6 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class Knight implements MovementStrategy {
-
     @Override
     public List<Square> moves(Board board, Piece piece) {
         List<Square> moves = new ArrayList<>();
@@ -33,8 +32,8 @@ public class Knight implements MovementStrategy {
     }
 
     @Override
-    public String name() {
-        return "knight";
+    public Type type() {
+        return Type.KNIGHT;
     }
 
     private List<Square> verticalMoves(Board board, Piece piece) {
