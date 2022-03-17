@@ -22,7 +22,7 @@ public class StatisticsService {
     }
 
     public void recordResults(BoardStatus status) {
-        Color winner = status.winner().orElse(Color.NO_COLOR);
+        Color winner = status.winner().orElse(Color.NONE);
 
         this.repository.recordWinner(winner);
 

@@ -1,20 +1,21 @@
-package com.chess_challenge.java_1.statistics.repositories;
+package com.chess_challenge.java_1.statistics.repositories.inmemory;
 
 import com.chess_challenge.java_1.model.Color;
 import com.chess_challenge.java_1.model.DetectorStatistics;
 import com.chess_challenge.java_1.model.Type;
+import com.chess_challenge.java_1.statistics.repositories.StatisticsRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class InMemoryStatisticsRepository implements StatisticsRepository {
-    private final DetectorStatistics stats;
+    private final InMemoryStatistics stats;
 
     public InMemoryStatisticsRepository() {
-        this.stats = DetectorStatistics.initialStatistics();
+        this.stats = InMemoryStatistics.initialStatistics();
     }
 
     public DetectorStatistics get() {
-        return stats;
+        return new DetectorStatistics(this.stats.getWinners(), this.stats.getCheckmatePieces());
     }
 
     public void recordWinner(Color color) {

@@ -11,7 +11,7 @@ import com.chess_challenge.java_1.response.CheckmateDetectorResultResponse;
 import com.chess_challenge.java_1.response.DetectorStatisticsResponse;
 import com.chess_challenge.java_1.response.ErrorResponse;
 import com.chess_challenge.java_1.statistics.StatisticsController;
-import com.chess_challenge.java_1.statistics.repositories.InMemoryStatisticsRepository;
+import com.chess_challenge.java_1.statistics.repositories.inmemory.InMemoryStatisticsRepository;
 import com.chess_challenge.java_1.statistics.StatisticsService;
 import com.chess_challenge.java_1.statistics.repositories.StatisticsRepository;
 import com.chess_challenge.java_1.validators.BoardValidator;
@@ -200,12 +200,12 @@ class CheckmateDetectorTest {
 
         Map<String , Integer> currentWinners = currentStats.getWinners();
 
-        assertEquals(1, currentWinners.get(Color.NO_COLOR.name().toLowerCase()));
+        assertEquals(1, currentWinners.get(Color.NONE.name().toLowerCase()));
 
         initialWinners
                 .entrySet()
                 .stream()
-                .filter(winner -> !winner.getKey().equals(Color.NO_COLOR.name().toLowerCase()))
+                .filter(winner -> !winner.getKey().equals(Color.NONE.name().toLowerCase()))
                 .forEach((winner) -> assertEquals(0, winner.getValue()));
 
         Map<String, Integer> currentCheckmatePieces = currentStats.getCheckmatePieces();
