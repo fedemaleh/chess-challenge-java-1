@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+  # psql postgresql://chess_challenge:chess_challenge@localhost:5432/postgres
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: chess_challenge
+      POSTGRES_PASSWORD: chess_challenge
+    ports:
+      - '5432:5432'
+    networks:
+      - pg
+  admin:
+    image: thajeztah/pgadmin4
+    restart: always
+    ports:
+      - '5050:5050'
+    networks:
+      - pg
+
+networks:
+  pg:
+    name: pg
