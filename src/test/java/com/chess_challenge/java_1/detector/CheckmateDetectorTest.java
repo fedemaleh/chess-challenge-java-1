@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -175,7 +176,7 @@ class CheckmateDetectorTest {
 
     @Test
     @Timeout(value = 5)
-    void no_checkmate_case_should_update_statistics() throws IOException {
+    void no_checkmate_case_should_update_statistics() throws IOException, ExecutionException, InterruptedException {
         // Given an empty statistics service
         DetectorStatisticsResponse initialStats = this.getStats();
 
@@ -215,7 +216,7 @@ class CheckmateDetectorTest {
 
     @Test
     @Timeout(value = 5)
-    void checkmate_case_should_update_statistics() throws IOException {
+    void checkmate_case_should_update_statistics() throws IOException, ExecutionException, InterruptedException {
         // Given an empty statistics service
         DetectorStatisticsResponse initialStats = this.getStats();
 
@@ -258,7 +259,7 @@ class CheckmateDetectorTest {
                 .forEach((winner) -> assertEquals(0, winner.getValue()));
     }
 
-    private DetectorStatisticsResponse getStats() {
+    private DetectorStatisticsResponse getStats() throws ExecutionException, InterruptedException {
         ResponseEntity<DetectorStatisticsResponse> statsResponse = statisticsController.stats();
 
         assertEquals(HttpStatus.OK, statsResponse.getStatusCode());

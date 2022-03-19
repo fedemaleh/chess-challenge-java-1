@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+
 @RestController
 public class StatisticsController {
     private final StatisticsService statisticsService;
@@ -22,8 +26,11 @@ public class StatisticsController {
     }
 
     @RequestMapping(path = "/checkmate/stats", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<DetectorStatisticsResponse> stats() {
-        DetectorStatistics stats = this.statisticsService.getStatistics();
+    public ResponseEntity<DetectorStatisticsResponse> stats() throws ExecutionException, InterruptedException {
+        CompletableFuture<DetectorStatistics> futureStats = this.statisticsService.getStatistics();
+
+        DetectorStatistics stats = futureStats.orTimeout(2, TimeUnit.SECONDS)
+                .get();
 
         DetectorStatisticsResponse response = this.statisticsConverter.convert(stats);
 

@@ -8,6 +8,7 @@ import com.chess_challenge.java_1.statistics.repositories.StatisticsRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 public class StatisticsService {
@@ -17,7 +18,7 @@ public class StatisticsService {
         this.repository = repository;
     }
 
-    public DetectorStatistics getStatistics() {
+    public CompletableFuture<DetectorStatistics> getStatistics() {
         return repository.get();
     }
 

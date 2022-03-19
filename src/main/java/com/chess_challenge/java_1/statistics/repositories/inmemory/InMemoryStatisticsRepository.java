@@ -6,6 +6,8 @@ import com.chess_challenge.java_1.model.Type;
 import com.chess_challenge.java_1.statistics.repositories.StatisticsRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.concurrent.CompletableFuture;
+
 @Repository
 public class InMemoryStatisticsRepository implements StatisticsRepository {
     private final InMemoryStatistics stats;
@@ -14,8 +16,10 @@ public class InMemoryStatisticsRepository implements StatisticsRepository {
         this.stats = InMemoryStatistics.initialStatistics();
     }
 
-    public DetectorStatistics get() {
-        return new DetectorStatistics(this.stats.getWinners(), this.stats.getCheckmatePieces());
+    public CompletableFuture<DetectorStatistics> get() {
+        DetectorStatistics currentStats = new DetectorStatistics(this.stats.getWinners(), this.stats.getCheckmatePieces());
+
+        return CompletableFuture.completedFuture(currentStats);
     }
 
     public void recordWinner(Color color) {
