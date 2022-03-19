@@ -1,0 +1,8 @@
+version: "3.9"
+
+services:
+  web:
+    image: java_1-chess-challenge-inmemory
+    restart: always
+    ports:
+      - '8080:8080'
