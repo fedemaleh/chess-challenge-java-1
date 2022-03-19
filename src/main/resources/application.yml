@@ -1,2 +1,19 @@
 stats:
   repository: in-memory
+spring:
+  h2:
+    console:
+      enabled: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: chess_challenge
+    password: chess_challenge
+  jpa:
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
