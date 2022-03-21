@@ -10,16 +10,8 @@ services:
       POSTGRES_PASSWORD: chess_challenge
     ports:
       - '5432:5432'
-    networks:
-      - pg
-  admin:
-    image: thajeztah/pgadmin4
+  web:
+    image: java_1-chess-challenge-inmemory
     restart: always
     ports:
-      - '5050:5050'
-    networks:
-      - pg
-
-networks:
-  pg:
-    name: pg
+      - '8080:8080'
