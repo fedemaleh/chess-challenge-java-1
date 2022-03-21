@@ -1,6 +1,8 @@
 package com.chess_challenge.java_1.statistics.repositories;
 
 import com.chess_challenge.java_1.statistics.InvalidRepositoryException;
+import com.chess_challenge.java_1.statistics.repositories.hibernate.HibernatePiecesRepo;
+import com.chess_challenge.java_1.statistics.repositories.hibernate.HibernateWinnersRepo;
 import com.chess_challenge.java_1.statistics.repositories.hibernate.HibernateRepository;
 import com.chess_challenge.java_1.statistics.repositories.inmemory.InMemoryStatisticsRepository;
 import org.springframework.context.annotation.Bean;
@@ -16,7 +18,9 @@ public class StatisticsRepositoryFactory {
 
     @Bean
     @Primary
-    public StatisticsRepository statisticsRepository(Environment env) throws InvalidRepositoryException {
+    public StatisticsRepository statisticsRepository(Environment env,
+                                                     HibernateWinnersRepo winnersRepo,
+                                                     HibernatePiecesRepo piecesRepo) throws InvalidRepositoryException {
         String repo = env.getProperty(REPOSITORY_PROPERTY_KEY);
 
         if (REPOSITORY_IN_MEMORY.equals(repo)) {
@@ -24,7 +28,7 @@ public class StatisticsRepositoryFactory {
         }
 
         if (REPOSITORY_HIBERNATE.equals(repo)) {
-            return new HibernateRepository();
+            return new HibernateRepository(winnersRepo, piecesRepo);
         }
 
         throw new InvalidRepositoryException();

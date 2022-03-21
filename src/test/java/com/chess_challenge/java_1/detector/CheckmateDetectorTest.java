@@ -260,7 +260,7 @@ class CheckmateDetectorTest {
     }
 
     private DetectorStatisticsResponse getStats() throws ExecutionException, InterruptedException {
-        ResponseEntity<DetectorStatisticsResponse> statsResponse = statisticsController.stats();
+        ResponseEntity<DetectorStatisticsResponse> statsResponse = statisticsController.stats().get();
 
         assertEquals(HttpStatus.OK, statsResponse.getStatusCode());
 

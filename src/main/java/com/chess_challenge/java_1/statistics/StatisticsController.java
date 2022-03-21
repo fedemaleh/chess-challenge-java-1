@@ -26,14 +26,12 @@ public class StatisticsController {
     }
 
     @RequestMapping(path = "/checkmate/stats", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<DetectorStatisticsResponse> stats() throws ExecutionException, InterruptedException {
+    public CompletableFuture<ResponseEntity<DetectorStatisticsResponse>> stats() {
         CompletableFuture<DetectorStatistics> futureStats = this.statisticsService.getStatistics();
 
-        DetectorStatistics stats = futureStats.orTimeout(2, TimeUnit.SECONDS)
-                .get();
-
-        DetectorStatisticsResponse response = this.statisticsConverter.convert(stats);
-
-        return ResponseEntity.ok(response);
+        return futureStats.orTimeout(2, TimeUnit.SECONDS)
+                .thenApply(this.statisticsConverter::convert)
+                .thenApply(ResponseEntity::ok)
+                .exceptionally((t) -> ResponseEntity.internalServerError().build());
     }
 }

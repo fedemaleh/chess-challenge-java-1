@@ -1,5 +1,5 @@
 stats:
-  repository: in-memory
+  repository: hibernate
 spring:
   h2:
     console:
@@ -8,12 +8,11 @@ spring:
     url: jdbc:postgresql://localhost:5432/postgres
     username: chess_challenge
     password: chess_challenge
+    hikari:
+      auto-commit: true
   jpa:
     properties:
       hibernate:
-        jdbc:
-          lob:
-            non_contextual_creation: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
