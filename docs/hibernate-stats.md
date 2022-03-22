@@ -1,12 +1,12 @@
 # Hibernate Statistics Store
-This document explains the strategy to store the statistics requested in the [challenge](../README.md) as an Relational Database. In particular, this store was designed to use with a `ORM` (Hibernate). 
+This document explains the strategy to store the statistics requested in the [challenge](../README.md) as a Relational Database. In particular, this store was designed to use with a `ORM` (Hibernate). 
 ## Store Schema
 The store consists of 2 tables:
 
 - **Winners**: It contains one row for each chess board analysed. It has an `id` and the color that won (or none).  
 - **Pieces**: It contains one row for each piece that made a checkmate. It has an `id` and the piece.
 
-The schema can be seen in the followin diagram:
+The schema can be seen in the following diagram:
 
 ![Hibernate Schema](Hibernate%20Schema.png)
 
