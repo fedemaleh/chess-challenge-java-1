@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '2.6.4'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'nu.studer.jooq' version '4.2'
 }
 
 group 'org.example'
@@ -31,11 +32,68 @@ dependencies {
     implementation 'org.postgresql:postgresql:42.3.3'
 
     testImplementation 'org.mockito:mockito-core:4.4.0'
+
+    implementation 'org.jooq:jooq-codegen:3.9.2'
+    implementation 'org.springframework.boot:spring-boot-starter-jooq:2.3.0.RELEASE'
+
+    jooqRuntime 'org.postgresql:postgresql:42.2.14'
 }
 
 test {
     useJUnitPlatform()
     testLogging {
         events "passed", "skipped", "failed"
+    }
+}
+
+jooq {
+    version = '3.13.3'
+    edition = 'OSS'
+    generateSchemaSourceOnCompilation = true
+    chess_challenge(sourceSets.main) {
+        jdbc {
+            driver = 'org.postgresql.Driver'
+            url = 'jdbc:postgresql://localhost:5432/postgres'
+            user = 'chess_challenge'
+            password = 'chess_challenge'
+            properties {
+            }
+        }
+        generator {
+            name = 'org.jooq.codegen.DefaultGenerator'
+            strategy {
+                name = 'org.jooq.codegen.DefaultGeneratorStrategy'
+                // ...
+            }
+            database {
+                name = 'org.jooq.meta.postgres.PostgresDatabase'
+                inputSchema = 'public'
+                forcedTypes {
+                    forcedType {
+                        name = 'varchar'
+                        expression = '.*'
+                        types = 'JSONB?'
+                    }
+                    forcedType {
+                        name = 'varchar'
+                        expression = '.*'
+                        types = 'INET'
+                    }
+                }
+                // ...
+            }
+            generate {
+                relations = true
+                deprecated = false
+                records = true
+                immutablePojos = true
+                fluentSetters = true
+                // ...
+            }
+            target {
+                packageName = 'com.chess_challenge.java_1.statistics.repositories.jooq.db'
+                directory = 'src/main/java'
+            }
+        }
     }
 }
