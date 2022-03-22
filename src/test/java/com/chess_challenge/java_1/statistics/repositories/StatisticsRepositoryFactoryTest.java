@@ -5,6 +5,8 @@ import com.chess_challenge.java_1.statistics.repositories.hibernate.HibernatePie
 import com.chess_challenge.java_1.statistics.repositories.hibernate.HibernateWinnersRepo;
 import com.chess_challenge.java_1.statistics.repositories.hibernate.HibernateRepository;
 import com.chess_challenge.java_1.statistics.repositories.inmemory.InMemoryStatisticsRepository;
+import com.chess_challenge.java_1.statistics.repositories.jooq.JooqRepository;
+import org.jooq.DSLContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
@@ -19,6 +21,7 @@ class StatisticsRepositoryFactoryTest {
     private MockEnvironment env;
     private HibernateWinnersRepo winnersRepo;
     private HibernatePiecesRepo piecesRepo;
+    private DSLContext db;
 
     @BeforeEach
     public void setup() {
@@ -26,6 +29,7 @@ class StatisticsRepositoryFactoryTest {
         this.env = new MockEnvironment();
         this.winnersRepo = mock(HibernateWinnersRepo.class);
         this.piecesRepo = mock(HibernatePiecesRepo.class);
+        this.db = mock(DSLContext.class);
     }
 
     @Test
@@ -35,7 +39,7 @@ class StatisticsRepositoryFactoryTest {
         env.setProperty(REPOSITORY_PROPERTY_KEY, REPOSITORY_IN_MEMORY);
 
         // when wiring the repo
-        StatisticsRepository repo = factory.statisticsRepository(env, winnersRepo, piecesRepo);
+        StatisticsRepository repo = factory.statisticsRepository(env, winnersRepo, piecesRepo, db);
 
         // then it should wire an in-memory repo
         assertInstanceOf(InMemoryStatisticsRepository.class, repo);
@@ -48,10 +52,23 @@ class StatisticsRepositoryFactoryTest {
         env.setProperty(REPOSITORY_PROPERTY_KEY, REPOSITORY_HIBERNATE);
 
         // when wiring the repo
-        StatisticsRepository repo = factory.statisticsRepository(env, winnersRepo, piecesRepo);
+        StatisticsRepository repo = factory.statisticsRepository(env, winnersRepo, piecesRepo, db);
 
         // then it should wire an in-memory repo
         assertInstanceOf(HibernateRepository.class, repo);
+    }
+
+    @Test
+    @Timeout(value = 5)
+    void jooq_repository_if_config_is_jooq() throws InvalidRepositoryException {
+        // given an environment with an inmemory repo configured
+        env.setProperty(REPOSITORY_PROPERTY_KEY, REPOSITORY_JOOQ);
+
+        // when wiring the repo
+        StatisticsRepository repo = factory.statisticsRepository(env, winnersRepo, piecesRepo, db);
+
+        // then it should wire an in-memory repo
+        assertInstanceOf(JooqRepository.class, repo);
     }
 
     @Test
@@ -61,7 +78,7 @@ class StatisticsRepositoryFactoryTest {
 
         // when wiring the repo
         // then it should throw an exception
-        assertThrows(InvalidRepositoryException.class, () -> factory.statisticsRepository(env, winnersRepo, piecesRepo));
+        assertThrows(InvalidRepositoryException.class, () -> factory.statisticsRepository(env, winnersRepo, piecesRepo, db));
     }
 
     @Test
@@ -72,6 +89,6 @@ class StatisticsRepositoryFactoryTest {
 
         // when wiring the repo
         // then it should throw an exception
-        assertThrows(InvalidRepositoryException.class, () -> factory.statisticsRepository(env, winnersRepo, piecesRepo));
+        assertThrows(InvalidRepositoryException.class, () -> factory.statisticsRepository(env, winnersRepo, piecesRepo, db));
     }
 }

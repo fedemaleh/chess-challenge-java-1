@@ -1,5 +1,5 @@
 stats:
-  repository: hibernate
+  repository: jooq
 spring:
   h2:
     console:

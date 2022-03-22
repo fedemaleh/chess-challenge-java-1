@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS WINNERS_QUERY_BUILDER (
 );
 
 CREATE TABLE IF NOT EXISTS PIECES_QUERY_BUILDER (
-    piece VARCHAR(6) CONSTRAINT pieces_query_builder_pk PRIMARY KEY NOT NULL CHECK (piece IN ('bishop', 'knight', 'pawn', 'queen', 'rook')),
+    piece VARCHAR(6) CONSTRAINT pieces_query_builder_pk PRIMARY KEY NOT NULL CHECK (piece IN ('bishop', 'knight', 'pawn', 'queen', 'rook', 'king')),
     matches INTEGER
 );
 
@@ -22,3 +22,4 @@ INSERT INTO PIECES_QUERY_BUILDER (piece, matches) VALUES ('bishop', 4);
 INSERT INTO PIECES_QUERY_BUILDER (piece, matches) VALUES ('knight', 2);
 INSERT INTO PIECES_QUERY_BUILDER (piece, matches) VALUES ('pawn', 0);
 INSERT INTO PIECES_QUERY_BUILDER (piece, matches) VALUES ('rook', 2);
+INSERT INTO PIECES_QUERY_BUILDER (piece, matches) VALUES ('king', 0);
