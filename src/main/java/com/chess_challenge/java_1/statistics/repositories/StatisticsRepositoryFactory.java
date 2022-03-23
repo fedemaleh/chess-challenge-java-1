@@ -7,6 +7,7 @@ import com.chess_challenge.java_1.statistics.repositories.hibernate.HibernateRep
 import com.chess_challenge.java_1.statistics.repositories.inmemory.InMemoryStatisticsRepository;
 import com.chess_challenge.java_1.statistics.repositories.jooq.JooqRepository;
 import org.jooq.DSLContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -22,9 +23,7 @@ public class StatisticsRepositoryFactory {
     @Bean
     @Primary
     public StatisticsRepository statisticsRepository(Environment env,
-                                                     HibernateWinnersRepo winnersRepo,
-                                                     HibernatePiecesRepo piecesRepo,
-                                                     DSLContext db) throws InvalidRepositoryException {
+                                                     ConfigurableApplicationContext context) throws InvalidRepositoryException {
         String repo = env.getProperty(REPOSITORY_PROPERTY_KEY);
 
         if (REPOSITORY_IN_MEMORY.equals(repo)) {
@@ -32,10 +31,14 @@ public class StatisticsRepositoryFactory {
         }
 
         if (REPOSITORY_HIBERNATE.equals(repo)) {
+            HibernateWinnersRepo winnersRepo = context.getBean(HibernateWinnersRepo.class);
+            HibernatePiecesRepo piecesRepo = context.getBean(HibernatePiecesRepo.class);
+
             return new HibernateRepository(winnersRepo, piecesRepo);
         }
 
         if (REPOSITORY_JOOQ.equals(repo)) {
+            DSLContext db = context.getBean(DSLContext.class);
             return new JooqRepository(db);
         }
 
