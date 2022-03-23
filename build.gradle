@@ -50,7 +50,7 @@ test {
 jooq {
     version = '3.13.3'
     edition = 'OSS'
-    generateSchemaSourceOnCompilation = true
+    generateSchemaSourceOnCompilation = false
     chess_challenge(sourceSets.main) {
         jdbc {
             driver = 'org.postgresql.Driver'
