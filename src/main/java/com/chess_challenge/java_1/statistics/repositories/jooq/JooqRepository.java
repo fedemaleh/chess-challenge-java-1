@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import java.math.BigDecimal;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Repository
@@ -30,7 +31,7 @@ public class JooqRepository implements StatisticsRepository {
         CompletableFuture<Map<Color, Integer>> futureWinners = this.fetchWinners();
         CompletableFuture<Map<Type, Integer>> futurePieces = this.fetchPieces();
 
-        return futureWinners.thenCombine(futurePieces, DetectorStatistics::new);
+        return futureWinners.thenCombine(futurePieces, DetectorStatistics::new).orTimeout(2, TimeUnit.SECONDS);
     }
 
     private CompletableFuture<Map<Color, Integer>> fetchWinners() {
