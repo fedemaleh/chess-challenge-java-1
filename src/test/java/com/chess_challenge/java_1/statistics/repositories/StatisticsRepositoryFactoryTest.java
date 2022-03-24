@@ -4,6 +4,7 @@ import com.chess_challenge.java_1.statistics.InvalidRepositoryException;
 import com.chess_challenge.java_1.statistics.repositories.hibernate.HibernateRepository;
 import com.chess_challenge.java_1.statistics.repositories.inmemory.InMemoryStatisticsRepository;
 import com.chess_challenge.java_1.statistics.repositories.jooq.JooqRepository;
+import com.chess_challenge.java_1.statistics.repositories.redis.RedisHashRepository;
 import com.chess_challenge.java_1.statistics.repositories.redis.RedisRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -77,6 +78,19 @@ class StatisticsRepositoryFactoryTest {
 
         // then it should wire an in-memory repo
         assertInstanceOf(RedisRepository.class, repo);
+    }
+
+    @Test
+    @Timeout(value = 5)
+    void redis_hash_repository_if_config_is_redis_hash() throws InvalidRepositoryException {
+        // given an environment with an inmemory repo configured
+        env.setProperty(REPOSITORY_PROPERTY_KEY, REPOSITORY_REDIS_HASH);
+
+        // when wiring the repo
+        StatisticsRepository repo = factory.statisticsRepository(env, context);
+
+        // then it should wire an in-memory repo
+        assertInstanceOf(RedisHashRepository.class, repo);
     }
 
     @Test

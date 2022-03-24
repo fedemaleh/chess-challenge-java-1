@@ -1,5 +1,5 @@
 stats:
-  repository: redis
+  repository: redis-hash
   redis:
     host: localhost
     port: 6379
