@@ -28,8 +28,7 @@ public class HibernateRepository implements StatisticsRepository {
         CompletableFuture<List<HibernateWinner>> futureWinners = winnersRepo.winners();
         CompletableFuture<List<HibernatePiece>> futurePieces = piecesRepo.pieces();
 
-        return futureWinners.thenCombine(futurePieces, this::mapDbResults)
-                .orTimeout(2, TimeUnit.SECONDS);
+        return futureWinners.thenCombine(futurePieces, this::mapDbResults);
     }
 
     private DetectorStatistics mapDbResults(List<HibernateWinner> winnerRecords, List<HibernatePiece> pieceRecords) {

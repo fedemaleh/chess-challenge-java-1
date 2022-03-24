@@ -1,0 +1,10 @@
+HINCRBY winners black 1
+HINCRBY winners white 1
+HINCRBY winners none 1
+
+HINCRBY pieces knight 1
+HINCRBY pieces queen 1
+HINCRBY pieces queen 2
+
+HGETALL winners
+HGETALL pieces

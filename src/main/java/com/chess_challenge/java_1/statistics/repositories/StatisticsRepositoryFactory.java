@@ -6,6 +6,8 @@ import com.chess_challenge.java_1.statistics.repositories.hibernate.HibernateWin
 import com.chess_challenge.java_1.statistics.repositories.hibernate.HibernateRepository;
 import com.chess_challenge.java_1.statistics.repositories.inmemory.InMemoryStatisticsRepository;
 import com.chess_challenge.java_1.statistics.repositories.jooq.JooqRepository;
+import com.chess_challenge.java_1.statistics.repositories.redis.RedisRepository;
+import io.lettuce.core.api.StatefulRedisConnection;
 import org.jooq.DSLContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +21,7 @@ public class StatisticsRepositoryFactory {
     static final String REPOSITORY_IN_MEMORY = "in-memory";
     static final String REPOSITORY_HIBERNATE = "hibernate";
     static final String REPOSITORY_JOOQ = "jooq";
+    static final String REPOSITORY_REDIS = "redis";
 
     @Bean
     @Primary
@@ -40,6 +43,12 @@ public class StatisticsRepositoryFactory {
         if (REPOSITORY_JOOQ.equals(repo)) {
             DSLContext db = context.getBean(DSLContext.class);
             return new JooqRepository(db);
+        }
+
+        if (REPOSITORY_REDIS.equals(repo)) {
+            StatefulRedisConnection<String, String> redisConnection = context.getBean(StatefulRedisConnection.class);
+
+            return new RedisRepository(redisConnection);
         }
 
         throw new InvalidRepositoryException();

@@ -1,7 +1,7 @@
 version: "3.9"
 
 services:
-  # psql postgresql://chess_challenge:chess_challenge@localhost:5432/postgres
+   psql postgresql://chess_challenge:chess_challenge@localhost:5432/postgres
   db:
     image: postgres
     restart: always

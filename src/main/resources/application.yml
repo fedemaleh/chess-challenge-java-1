@@ -1,5 +1,9 @@
 stats:
-  repository: hibernate
+  repository: redis
+  redis:
+    host: localhost
+    port: 6379
+    password: chess_challenge
 spring:
   h2:
     console:

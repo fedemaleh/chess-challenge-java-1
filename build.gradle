@@ -38,6 +38,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-jooq:2.3.0.RELEASE'
 
     jooqRuntime 'org.postgresql:postgresql:42.2.14'
+
+    implementation 'io.lettuce:lettuce-core:6.1.8.RELEASE'
+
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
 }
 
 test {

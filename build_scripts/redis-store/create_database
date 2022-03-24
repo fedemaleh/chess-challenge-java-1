@@ -1,0 +1,10 @@
+INCR winners:black
+INCR winners:white
+INCR winners:white
+INCR winners:none
+
+INCR pieces:knight
+INCR pieces:queen
+INCR pieces:queen
+
+MGET winners:black winners:white winners:none pieces:knight pieces:queen pieces:king pieces:bishop pieces:pawn pieces:rook

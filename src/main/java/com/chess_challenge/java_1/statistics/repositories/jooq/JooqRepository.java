@@ -31,7 +31,7 @@ public class JooqRepository implements StatisticsRepository {
         CompletableFuture<Map<Color, Integer>> futureWinners = this.fetchWinners();
         CompletableFuture<Map<Type, Integer>> futurePieces = this.fetchPieces();
 
-        return futureWinners.thenCombine(futurePieces, DetectorStatistics::new).orTimeout(2, TimeUnit.SECONDS);
+        return futureWinners.thenCombine(futurePieces, DetectorStatistics::new);
     }
 
     private CompletableFuture<Map<Color, Integer>> fetchWinners() {
